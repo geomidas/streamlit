@@ -8,7 +8,7 @@ st.set_page_config(layout="centered")
 st.markdown("# Perfin")
 
 st.markdown("### Tips")
-tips = """
+st.markdown("""
 - It is easier to update this app at the end of every month.
 - Review your allocation in 
   - [Debt payments](/Debt)
@@ -20,5 +20,4 @@ tips = """
   - [Income](/Income)
   - [Spending](/Spending)
 - You're all done! :tada:
-"""
-st.markdown(tips)
+""")

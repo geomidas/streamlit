@@ -14,7 +14,7 @@ with col1:
     df = pd.DataFrame([
        {"Title": "Bus", "Amount": 12},
        {"Title": "Taxi", "Amount": 25},
-       {"Title": "Car Insurance", "Amount": 0},
+       {"Title": "Car Insurance", "Amount": 3},
        {"Title": "Dublin Bike", "Amount": 3},
    ])
     edited_df = st.data_editor(df, num_rows="dynamic",)
@@ -25,17 +25,18 @@ with col1:
             total += key
         except:
             print("Nothing")
-    st.metric("Estimated monthly transportation costs (€):", total)
+    st.write("Estimated monthly transportation costs:", total, "€")
 
 with col2:
     if total > 0:
         fig1, ax1 = plt.subplots()
         ax1.pie(
             edited_df["Amount"],
-            labels = edited_df["Title"],
-            autopct = '%.0d%%',
-            pctdistance = 0.83,
+            labels=edited_df["Title"],
+            autopct='%.0d%%',
+            pctdistance=0.83,
+            counterclock=False,
+            startangle=90,
             # textprops = {'size': 'medium'},
-            # radius=1,
         )
         st.pyplot(fig1)

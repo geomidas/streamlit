@@ -28,17 +28,18 @@ with col1:
             total += key
         except:
             print("Nothing")
-    st.metric("Monthly bills (€):", total)
+    st.write("Monthly bills:", total, "€")
 
 with col2:
     if total > 0:
         fig1, ax1 = plt.subplots()
         ax1.pie(
             edited_df["Amount"],
-            labels = edited_df["Title"],
-            autopct = '%.0d%%',
-            pctdistance = 0.83,
+            labels=edited_df["Title"],
+            autopct='%.0d%%',
+            pctdistance=0.83,
+            counterclock=False,
+            startangle=90,
             # textprops = {'size': 'medium'},
-            # radius=1,
         )
         st.pyplot(fig1)
