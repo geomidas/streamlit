@@ -1,12 +1,9 @@
-import pandas as pd 
-import streamlit as st 
-import yfinance as yf
-from datetime import date
+import streamlit as st
 
-st.set_page_config(layout="centered")
+
+# st.set_page_config(layout="centered")
 
 st.markdown("# Perfin")
-
 st.markdown("### Tips")
 st.markdown("""
 - It is easier to update this app at the end of every month.
@@ -19,5 +16,5 @@ st.markdown("""
 - Add this month's
   - [Income](/Income)
   - [Spending](/Spending)
-- You're all done! :tada:
+- Done! :tada:
 """)

@@ -127,18 +127,3 @@ st.markdown("---")
 st.markdown("### Net Worth")
 assets_total = cash_sum + eq_sum + crypto_sum
 st.write("Net Worth:", assets_total, curr_symbol)
-
-col1, col2 = st.columns([3, 3], gap="small")
-
-with col2:
-    if assets_total > 0:
-        fig1, ax1 = plt.subplots()
-        ax1.pie(
-            [cash_sum, eq_sum, crypto_sum],
-            autopct='%.0d%%',
-            pctdistance=0.83,
-            counterclock=False,
-            startangle=90,
-            # textprops = {'size': 'medium'},
-        )
-        st.pyplot(fig1)
