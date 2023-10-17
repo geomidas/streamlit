@@ -35,5 +35,12 @@ with col1:
 with col2:
     if total > 0:
         fig1, ax1 = plt.subplots()
-        ax1.pie(edited_df["Amount"], labels=edited_df["Title"])
+        ax1.pie(
+            edited_df["Amount"],
+            labels = edited_df["Title"],
+            autopct = '%.0d%%',
+            pctdistance = 0.83,
+            # textprops = {'size': 'medium'},
+            # radius=1,
+        )
         st.pyplot(fig1)
