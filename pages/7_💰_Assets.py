@@ -8,60 +8,59 @@ st.set_page_config(layout="centered")
 st.markdown("# Perfin")
 
 # Settings
-col1, col2 = st.columns([1, 1], gap="small")
-with col2:
-    st.markdown("### Settings")
+st.markdown("### Settings")
+selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
+if selected_currency is "EUR":
+    curr_symbol = "€"
+elif selected_currency is "GBP":
+    curr_symbol = "£"
+elif selected_currency is "GBP":
+    curr_symbol = "$"
+else:
+    curr_symbol = selected_currency
 
-    cgt_base=st.slider(
-        "Capital Gains Tax (%):",
-        min_value = 0,
-        max_value = 100,
-        value = 33,
-        format = "%d",
-    )
-    cgt = cgt_base/100
+price_update_method = st.selectbox(
+    "Price update method:",
+    help="Choose which price you would like to fetch for assets.",
+    options=(
+        "lastPrice",
+        "previousClose",
+        "fiftyDayAverage",
+        "twoHundredDayAverage",
+        "yearLow"
+    ),
+)
 
-    selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
-    if selected_currency is "EUR":
-        curr_symbol = "€"
-    elif selected_currency is "GBP":
-        curr_symbol = "£"
-    elif selected_currency is "GBP":
-        curr_symbol = "$"
-    else:
-        curr_symbol = selected_currency
-    price_update_method = st.selectbox(
-        "Price update method:",
-        help="Choose which price you would like to fetch for assets.",
-        options=(
-            "lastPrice",
-            "previousClose",
-            "fiftyDayAverage",
-            "twoHundredDayAverage",
-            "yearLow"
-        ),
-    )
+cgt_base=st.slider(
+    "Capital Gains Tax (%):",
+    min_value = 0,
+    max_value = 100,
+    value = 33,
+    format = "%d",
+)
+cgt = cgt_base/100
+st.markdown("---")
 
-with col1:
-    st.markdown("### Assets")
-    st.markdown("#### Cash")
-    st.markdown("Cash and cash equivalent")
-    df_cash = pd.DataFrame([
-       {"Cash": "Mattress", "Net": 100},
-       {"Cash": "Savings", "Net": 1000},
-   ])
-    edited_df_cash = st.data_editor(
-        df_cash,
-        num_rows="dynamic"
-    )
-    cash_sum = 0
-    for key in edited_df_cash["Net"]:
-        try: 
-            cash_sum += key
-        except:
-            print("Assets: No cash")
-    st.write('Cash Sum:', cash_sum, curr_symbol)
-    # st.markdown("---")
+st.markdown("### Assets")
+st.markdown("#### Cash")
+st.markdown("Cash and cash equivalent")
+df_cash = pd.DataFrame([
+    {"Cash": "Under the mattress", "Net": 100},
+    {"Cash": "Savings", "Net": 1000},
+])
+edited_df_cash = st.data_editor(
+    df_cash,
+    width=360,
+    num_rows="dynamic",
+)
+cash_sum = 0
+for key in edited_df_cash["Net"]:
+    try: 
+        cash_sum += key
+    except:
+        print("Assets: No cash")
+st.write('Cash Sum:', cash_sum, curr_symbol)
+st.markdown("---")
 
 st.markdown("#### Shares")
 st.markdown("Shares in public companies")
@@ -73,6 +72,7 @@ df_equity = pd.DataFrame(
 )
 edited_df_equity = st.data_editor(
     df_equity,
+    width=720,
     num_rows="dynamic",
     # disabled=["Net", "Gross", "Tax", "Price", "Cost"],
 )
@@ -95,6 +95,7 @@ df_crypto = pd.DataFrame(
 )
 edited_df_crypto = st.data_editor(
     df_crypto,
+    width=720,
     num_rows="dynamic",
 )
 
@@ -114,7 +115,7 @@ df_crypto_value = pd.DataFrame(
     ]
 )
 st.write("Value")
-st.dataframe(df_crypto_value, hide_index=True)
+st.dataframe(df_crypto_value, hide_index=True, width=720)
 crypto_sum = 0
 for key in df_crypto_value["Net"]:
     try: 

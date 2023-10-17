@@ -6,7 +6,7 @@ st.set_page_config(layout="centered")
 st.markdown("# Perfin")
 st.markdown("### Net Worth")
 
-col1, col2 = st.columns([2, 3], gap="small")
+col1, col2 = st.columns([3, 5], gap="medium")
 
 with col1:
     df_net_worth = pd.DataFrame([

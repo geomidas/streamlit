@@ -8,7 +8,7 @@ st.markdown("# Perfin")
 st.markdown("### Monthly Debt Payments")
 st.markdown("💡 Low interest payments are ok. Try to eliminate higher interest debt.")
 
-col1, col2 = st.columns([1, 1], gap="small")
+col1, col2 = st.columns([1, 1], gap="medium")
 
 with col1:
     df = pd.DataFrame([
@@ -22,6 +22,7 @@ with col1:
         column_config={"Amount": st.column_config.NumberColumn(min_value=0, step=1, format="%d",),},
         hide_index=True,   
         num_rows="dynamic",
+        width=400,
     )
 
     total = 0

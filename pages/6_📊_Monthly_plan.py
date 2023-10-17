@@ -11,7 +11,7 @@ st.markdown("### Monthly Plan")
 income = 2500
 st.write("Income:", 2500)
 
-col1, col2 = st.columns([1, 1], gap="small")
+col1, col2 = st.columns([1, 1], gap="medium")
 
 with col1:
     df = pd.DataFrame([
@@ -25,7 +25,7 @@ with col1:
        {"Purpose": "Shopping", "Amount": 250, "Necessary": False},
        {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
    ])
-    edited_df = st.data_editor(df, num_rows="dynamic", hide_index=True)
+    edited_df = st.data_editor(df, num_rows="dynamic", width=400,)
 
     total = 0
     for key in edited_df["Amount"]:

@@ -8,7 +8,7 @@ st.markdown("# Perfin")
 st.markdown("### Monthly Bill Payments")
 st.markdown("💡 Tip: Estimations are fine 🔮")
 
-col1, col2 = st.columns([1, 1], gap="small")
+col1, col2 = st.columns([1, 1], gap="medium")
 
 with col1:
     df = pd.DataFrame([
@@ -20,7 +20,7 @@ with col1:
        {"Title": "Netflix", "Amount": 6},
        {"Title": "Bins", "Amount": 10},
    ])
-    edited_df = st.data_editor(df, num_rows="dynamic",)
+    edited_df = st.data_editor(df, num_rows="dynamic", width=400,)
 
     total = 0
     for key in edited_df["Amount"]:
