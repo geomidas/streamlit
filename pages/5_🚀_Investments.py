@@ -11,9 +11,9 @@ st.markdown("💡 Automate funding your accounts.")
 col1, col2 = st.columns([1, 1], gap="small")
 with col1:
     df_investments = pd.DataFrame([
-        {"Title": "Pension", "Amount": 200, "Platform": "Irish Life"},
-        {"Title": "Shares", "Amount": 100, "Platform": "Trading212"},
-        {"Title": "Crypto", "Amount": 20, "Platform": "Revolut"},
+        {"Title": "Pension", "Amount": 200,},
+        {"Title": "Shares", "Amount": 100,},
+        {"Title": "Crypto", "Amount": 20,},
     ])
     edited_df = st.data_editor(df_investments, num_rows="dynamic")
     total = 0
