@@ -8,12 +8,12 @@ st.set_page_config(layout="centered")
 st.markdown("# Perfin")
 st.markdown("### Monthly Plan")
 
-income = 2500
-st.write("Income:", 2500)
-
 col1, col2 = st.columns([1, 1], gap="medium")
 
 with col1:
+    income = 2500
+    st.write("Income:", 2500)
+
     df = pd.DataFrame([
        {"Purpose": "Rent", "Amount": 1000, "Necessary": True},
        {"Purpose": "Bills", "Amount": 100, "Necessary": True},
