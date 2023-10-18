@@ -5,6 +5,7 @@ st.set_page_config(layout="centered")
 
 st.markdown("# Perfin")
 st.markdown("### Income")
+st.markdown("Track your actual monthly income.")
 
 df = pd.DataFrame(
     [
