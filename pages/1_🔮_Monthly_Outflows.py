@@ -7,7 +7,7 @@ st.set_page_config(layout="centered")
 st.markdown("# Perfin")
 st.markdown("### Monthly Outflows 🔮")
 
-tab1, tab2, tab3, tab4 = st.tabs(["Debt", "Bills", "transportation", "Investment"])
+tab1, tab2, tab3, tab4 = st.tabs(["🏦 __Debt__", "⚡ __Bills__", "🚌 __Transportation__", "🚀 __Investments__"])
 
 with tab1:
     st.markdown("### Monthly Debt Payments")

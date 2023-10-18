@@ -5,8 +5,9 @@ import pandas as pd
 # st.set_page_config(layout="centered")
 
 st.markdown("# Perfin")
+st.markdown("### Dashboard")
 
-tab1, tab2 = st.tabs(["⚙️ Settings", "💡 Tips"])
+tab1, tab2 = st.tabs(["⚙️ __Settings__", "💡 __Tips__"])
 
 with tab1:
   st.markdown("### Settings")
