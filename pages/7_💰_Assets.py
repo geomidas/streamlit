@@ -7,39 +7,11 @@ st.set_page_config(layout="centered")
 
 st.markdown("# Perfin")
 
-# Settings
-st.markdown("### Settings")
-selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
-if selected_currency is "EUR":
-    curr_symbol = "€"
-elif selected_currency is "GBP":
-    curr_symbol = "£"
-elif selected_currency is "GBP":
-    curr_symbol = "$"
-else:
-    curr_symbol = selected_currency
-
-price_update_method = st.selectbox(
-    "Price update method:",
-    help="Choose which price you would like to fetch for assets.",
-    options=(
-        "lastPrice",
-        "previousClose",
-        "fiftyDayAverage",
-        "twoHundredDayAverage",
-        "yearLow"
-    ),
-)
-
-cgt_base=st.slider(
-    "Capital Gains Tax (%):",
-    min_value = 0,
-    max_value = 100,
-    value = 33,
-    format = "%d",
-)
-cgt = cgt_base/100
-st.markdown("---")
+# Load Settings
+selected_currency = st.session_state["selected_currency"]
+curr_symbol = st.session_state["curr_symbol"]
+price_update_method = st.session_state["price_update_method"]
+cgt = st.session_state["cgt"]
 
 st.markdown("### Assets")
 st.markdown("#### Cash")
