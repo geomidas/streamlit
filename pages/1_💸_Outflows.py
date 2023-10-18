@@ -93,11 +93,12 @@ with col2:
 "---"
 
 st.markdown("### Monthly Transportation Costs")
-st.markdown("💡 You can split any annual expenses in montly payments")
 
 col1, col2 = st.columns([1, 1], gap="medium")
 
 with col1:
+    st.markdown("💡 You can split any annual expenses in montly payments")
+
     df = pd.DataFrame([
        {"Title": "Bus", "Amount": 12},
        {"Title": "Taxi", "Amount": 25},
@@ -131,11 +132,12 @@ with col2:
 "---"
 
 st.markdown("### Monthly Investments")
-st.markdown("💡 Automate funding your accounts.")
 
 col1, col2 = st.columns([1, 1], gap="medium")
 
 with col1:
+    st.markdown("💡 Automate funding your accounts.")
+
     df_investments = pd.DataFrame([
         {"Title": "Pension", "Amount": 200,},
         {"Title": "Shares", "Amount": 100,},
