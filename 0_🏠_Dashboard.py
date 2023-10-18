@@ -11,6 +11,7 @@ tab1, tab2 = st.tabs(["⚙️ Settings", "💡 Tips"])
 with tab1:
   st.markdown("### Settings")
   col1, col2 = st.columns([1, 1], gap="medium")
+
   with col1:
     st.markdown("#### Global")
     selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
@@ -27,7 +28,8 @@ with tab1:
     st.write("Symbol:", curr_symbol)
     if "curr_symbol" not in st.session_state:
         st.session_state["curr_symbol"] = curr_symbol
-  
+    # st.markdown("---")
+
   with col2:
     st.markdown("#### Assets")
     price_update_method = st.selectbox(
@@ -54,6 +56,7 @@ with tab1:
     cgt = cgt_base/100
     if "cgt" not in st.session_state:
       st.session_state["cgt"] = cgt
+    # st.markdown("---")
 
 with tab2:
   col1, col2 = st.columns([1, 1], gap="medium")
