@@ -6,10 +6,10 @@ import pandas as pd
 
 st.markdown("# Perfin")
 
-tab1, tab2 = st.tabs(["Settings", "Tips"])
+tab1, tab2 = st.tabs(["⚙️ Settings", "💡 Tips"])
 
 with tab1:
-  st.markdown("### Settings ⚙️")
+  st.markdown("### Settings")
   col1, col2 = st.columns([1, 1], gap="medium")
   with col1:
     st.markdown("#### Global")
@@ -59,7 +59,7 @@ with tab2:
   col1, col2 = st.columns([1, 1], gap="medium")
 
   with col1:
-    st.markdown("### Tips 💡")
+    st.markdown("### Tips")
     st.markdown("""
     - Update this app at the end of every month :sparkles:
     - Review your allocation in 
