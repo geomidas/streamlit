@@ -67,10 +67,10 @@ with tab2:
     st.markdown("""
     - Update this app at the end of every month :sparkles:
     - Review your allocation in 
-      - [Debt payments](/Debt)
-      - [Bills](/Bills)
-      - [Tansportation](/Transportation)
-      - [Investments](/Investments)
+      - [Debt payments](/Monthly_Outflows)
+      - [Bills](/Monthly_Outflows)
+      - [Tansportation](/Monthly_Outflows)
+      - [Investments](/Monthly_Outflows)
       - [Savings](/Monthly_plan) (in the Monthly Plan)
     - Add this month's
       - [Income](/Income)
