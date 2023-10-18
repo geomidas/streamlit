@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 st.set_page_config(layout="centered")
 
 st.markdown("# Perfin")
+st.markdown("### Monthly Outflows 🔮")
 
 tab1, tab2, tab3, tab4 = st.tabs(["Debt", "Bills", "transportation", "Investment"])
 
 with tab1:
     st.markdown("### Monthly Debt Payments")
-
     col1, col2 = st.columns([1, 1], gap="medium")
 
     with col1:

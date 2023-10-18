@@ -4,8 +4,8 @@ import pandas as pd
 st.set_page_config(layout="centered")
 
 st.markdown("# Perfin")
-st.markdown("### Income")
-st.markdown("Track your actual monthly income. This acts as a guide for setting more accurate values in Outflow.")
+st.markdown("### Income 💰")
+st.markdown("Track your actual monthly income. This acts as a guide for setting more accurate values in Monthly Outflows.")
 
 df = pd.DataFrame(
     [

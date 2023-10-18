@@ -13,7 +13,7 @@ curr_symbol = st.session_state["curr_symbol"]
 price_update_method = st.session_state["price_update_method"]
 cgt = st.session_state["cgt"]
 
-st.markdown("### Assets")
+st.markdown("### Assets 💎")
 
 tab1, tab2, tab3, tab4 = st.tabs(["Cash", "Shares", "Cryptocurrency", "Net Worth"])
 

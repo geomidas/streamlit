@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 st.set_page_config(layout="centered")
 
 st.markdown("# Perfin")
-st.markdown("### Monthly Plan")
+st.markdown("### Monthly Plan 🎯")
 
 col1, col2 = st.columns([1, 1], gap="medium")
 
