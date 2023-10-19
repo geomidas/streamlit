@@ -46,21 +46,25 @@ with tab1:
 
 with tab2:
     st.markdown("#### Shares")
-    st.markdown("Shares in public companies")
+    st.markdown("Add shares in public companies in your portfolio:")
     df_shares = pd.DataFrame(
+        [
+           {"Title": "Tesla", "Ticker": "TSLA", "Count": 2, "Avg Cost": 200,},
+           {"Title": "Apple", "Ticker": "AAPL", "Count": 2, "Avg Cost": 200,},
+       ]
+    )
+    edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
+
+    st.write("##### Value")
+    df_shares_value = pd.DataFrame(
         [
            {"Stock": "TSLA", "Net": 10, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("TSLA").basic_info[price_update_method], "Avg Cost": 200, "Cost": 0},
            {"Stock": "AAPL", "Net": 20, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("AAPL").basic_info[price_update_method], "Avg Cost": 100, "Cost": 0},
        ]
     )
-    edited_df_shares = st.data_editor(
-        df_shares,
-        width=720,
-        num_rows="dynamic",
-        # disabled=["Net", "Gross", "Tax", "Price", "Cost"],
-    )
+    st.dataframe(df_shares_value, width=720, hide_index=True)
     assets_shares_net = 0
-    for key in edited_df_shares["Net"]:
+    for key in df_shares_value["Net"]:
         try: 
             assets_shares_net += key
         except:
@@ -72,7 +76,7 @@ with tab2:
 with tab3:
     ticker_btc = "BTC-" + selected_currency
     st.markdown("#### Cryptocurrency")
-    st.markdown("Add your holdings:")
+    st.markdown("Add your holdings here:")
     df_crypto = pd.DataFrame(
         [
            {"Title": "Bitcoin", "Ticker": "BTC", "Count": 2, "Avg Cost": 200,},
@@ -106,7 +110,7 @@ with tab3:
         try: 
             assets_crypto_net += key
         except:
-            print("Assets: No equity")
+            print("Assets > Crypto > Value calc error")
     st.write("Crypto Net Sum:", curr_symbol, assets_crypto_net)
     if "assets_crypto_net" not in st.session_state:
         st.session_state["assets_crypto_net"] = assets_crypto_net
