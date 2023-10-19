@@ -5,6 +5,7 @@ st.set_page_config(layout="centered")
 # Load variables
 cgt = st.session_state["cgt"]
 curr_symbol = st.session_state["curr_symbol"]
+assets_cash = st.session_state["assets_cash"]
 
 st.markdown("# Perfin")
 st.markdown("### Financial Independence 🌴")
@@ -18,7 +19,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 with tab1:
     st.write("##### Emergency fund")
-    st.write("Cash sum: ")
+    st.write("Cash sum:", curr_symbol, assets_cash)
     st.write("Months of all necessary expenses covered: ")
 
 with tab2:
@@ -28,7 +29,7 @@ with tab2:
     st.number_input("Expected CGT in retirement (%):", min_value=0)
     st.number_input('Desired monthly "income":', min_value=0)
     st.number_input('Desired yearly "income":', min_value=0)
-    st.write("Retirement milestone:", curr_symbol, 1000000)
+    st.write("You can retire when your Net investments reach", curr_symbol, 1000000)
     st.write("Years untill retirement:", curr_symbol, 100)
     st.divider()
     st.write("If you retired now:")
