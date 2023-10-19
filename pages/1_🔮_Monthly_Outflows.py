@@ -1,13 +1,17 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from numpy import isnan
 
 st.set_page_config(layout="centered")
+
+# Load variables
+curr_symbol = st.session_state["curr_symbol"]
 
 st.markdown("# Perfin")
 st.markdown("### Monthly Outflows 🔮")
 
-tab1, tab2, tab3, tab4 = st.tabs(["⚡ __Bills__", "🚌 __Transportation__", "🏦 __Debt__", "🚀 __Investments__"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["⚡ __Bills__", "🚌 __Transportation__", "🏦 __Debt__", "🐷 __Savings__", "🚀 __Investments__"])
 
 with tab1:
     st.markdown("### Monthly Bill Payments")
@@ -26,16 +30,16 @@ with tab1:
        ])
         edited_df = st.data_editor(df, num_rows="dynamic", width=400,)
 
-        total = 0
+        monthly_bills = 0
         for key in edited_df["Amount"]:
-            try: 
-                total += key
-            except:
-                print("Nothing")
-        st.write("Monthly bills:", total, "€")
+            if not isnan(key):
+                monthly_bills += int(key)
+        st.write("Monthly bills: €", monthly_bills)
+        if "monthly_bills" not in st.session_state:
+            st.session_state["monthly_bills"] = monthly_bills
 
     with col2:
-        if total > 0:
+        if len(edited_df["Amount"]) > 1 and monthly_bills > 0 and edited_df["Amount"].isnull().values.any() == False:
             fig1, ax1 = plt.subplots()
             ax1.pie(
                 edited_df["Amount"],
@@ -64,16 +68,16 @@ with tab2:
        ])
         edited_df = st.data_editor(df, num_rows="dynamic", width=400,)
 
-        total = 0
+        monthly_transportation = 0
         for key in edited_df["Amount"]:
-            try: 
-                total += key
-            except:
-                print("Nothing")
-        st.write("Estimated monthly transportation costs:", total, "€")
+            if not isnan(key):
+                monthly_transportation += key
+        st.write("Estimated monthly transportation costs:", curr_symbol, monthly_transportation)
+        if "monthly_transportation" not in st.session_state:
+            st.session_state["monthly_transportation"] = monthly_transportation
 
     with col2:
-        if total > 0:
+        if len(edited_df["Amount"]) > 1 and monthly_transportation > 0 and edited_df["Amount"].isnull().values.any() == False:
             fig1, ax1 = plt.subplots()
             ax1.pie(
                 edited_df["Amount"],
@@ -102,22 +106,27 @@ with tab3:
        ])
         edited_df = st.data_editor(
             df,
-            column_config={"Amount": st.column_config.NumberColumn(min_value=0, step=1, format="%d",),},
+            width=400,
             hide_index=True,   
             num_rows="dynamic",
-            width=400,
+            column_config={
+                "Amount": st.column_config.NumberColumn(
+                    format=curr_symbol + "%d",
+                    min_value=0,
+                ),
+            }
         )
 
-        total = 0
+        monthly_debt = 0
         for key in edited_df["Amount"]:
-            try: 
-                total += key
-            except:
-                print("Nothing")
-        st.write("Monthly debt payments total:", total, "€")
+            if not isnan(key):
+                monthly_debt += key
+        st.write("Monthly debt payments total:", curr_symbol, monthly_debt)
+        if "monthly_debt" not in st.session_state:
+            st.session_state["monthly_debt"] = monthly_debt
 
     with col2:
-        if total > 0:
+        if len(edited_df["Amount"]) > 1 and monthly_debt > 0 and edited_df["Amount"].isnull().values.any() == False:
             fig1, ax1 = plt.subplots()
             ax1.pie(
                 edited_df["Amount"],
@@ -131,6 +140,42 @@ with tab3:
             st.pyplot(fig1)
 
 with tab4:
+    st.markdown("### Monthly Savings")
+
+    col1, col2 = st.columns([1, 1], gap="medium")
+
+    with col1:
+        st.markdown("💡 Savings for any specific purpose.")
+
+        df_investments = pd.DataFrame([
+            {"Title": "Emergency Fund", "Amount": 0,},
+            {"Title": "House Deposit", "Amount": 100,},
+            {"Title": "Car", "Amount": 20,},
+        ])
+        edited_df = st.data_editor(df_investments, num_rows="dynamic", width=400)
+        monthly_savings = 0
+        for key in edited_df["Amount"]:
+            if not isnan(key):
+                monthly_savings += key
+        st.write("Monthly savings:", curr_symbol, monthly_savings)
+        if "monthly_savings" not in st.session_state:
+            st.session_state["monthly_savings"] = monthly_savings
+
+    with col2:
+        if len(edited_df["Amount"]) > 1 and monthly_savings > 0 and edited_df["Amount"].isnull().values.any() == False:
+            fig1, ax1 = plt.subplots()
+            ax1.pie(
+                edited_df["Amount"],
+                labels=edited_df["Title"],
+                autopct='%.0d%%',
+                pctdistance=0.83,
+                counterclock=False,
+                startangle=90,
+                # textprops = {'size': 'medium'},
+            )
+            st.pyplot(fig1)
+
+with tab5:
     st.markdown("### Monthly Investments")
 
     col1, col2 = st.columns([1, 1], gap="medium")
@@ -144,16 +189,16 @@ with tab4:
             {"Title": "Crypto", "Amount": 20,},
         ])
         edited_df = st.data_editor(df_investments, num_rows="dynamic", width=400)
-        total = 0
+        monthly_investments = 0
         for key in edited_df["Amount"]:
-            try: 
-                total += key
-            except:
-                print("Nothing")
-        st.write("Monthly investments:", total, "€")
+            if not isnan(key):
+                monthly_investments += key
+        st.write("Monthly investments:", curr_symbol, monthly_investments)
+        if "monthly_investments" not in st.session_state:
+            st.session_state["monthly_investments"] = monthly_investments
 
     with col2:
-        if total > 0:
+        if len(edited_df["Amount"]) > 1 and monthly_investments > 0 and edited_df["Amount"].isnull().values.any() == False:
             fig1, ax1 = plt.subplots()
             ax1.pie(
                 edited_df["Amount"],

@@ -5,6 +5,13 @@ import matplotlib.pyplot as plt
 # st.set_page_config(layout="wide")
 st.set_page_config(layout="centered")
 
+# Load variables
+monthly_bills = st.session_state["monthly_bills"]
+monthly_transportation = st.session_state["monthly_transportation"]
+monthly_debt = st.session_state["monthly_debt"]
+monthly_savings = st.session_state["monthly_savings"]
+monthly_investments = st.session_state["monthly_investments"]
+
 st.markdown("# Perfin")
 st.markdown("### Monthly Plan 🎯")
 
@@ -16,11 +23,11 @@ with col1:
 
     df = pd.DataFrame([
        {"Purpose": "Rent", "Amount": 1000, "Necessary": True},
-       {"Purpose": "Bills", "Amount": 100, "Necessary": True},
-       {"Purpose": "Transportation", "Amount": 50, "Necessary": True},
-       {"Purpose": "Debt", "Amount": 20, "Necessary": True},
-       {"Purpose": "Savings", "Amount": 250, "Necessary": False},
-       {"Purpose": "Investments", "Amount": 100, "Necessary": False},
+       {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
+       {"Purpose": "Transportation", "Amount": monthly_transportation, "Necessary": True},
+       {"Purpose": "Debt", "Amount": monthly_debt, "Necessary": True},
+       {"Purpose": "Savings", "Amount": monthly_savings, "Necessary": False},
+       {"Purpose": "Investments", "Amount": monthly_investments, "Necessary": False},
        {"Purpose": "Food & fun", "Amount": 500, "Necessary": True},
        {"Purpose": "Shopping", "Amount": 250, "Necessary": False},
        {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
@@ -45,7 +52,7 @@ with col1:
     st.write('Sum of necessary expenses:', total_necessary, "€")
 
 with col2:
-    if total > 0:
+    if len(edited_df["Amount"]) > 1:
         fig1, ax1 = plt.subplots()
         ax1.pie(
             edited_df["Amount"],
