@@ -11,7 +11,7 @@ curr_symbol = st.session_state["curr_symbol"]
 st.markdown("# Perfin")
 st.markdown("### Monthly Outflows 🔮")
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["⚡ __Bills__", "🚌 __Transportation__", "🏦 __Debt__", "🐷 __Savings__", "🚀 __Investments__"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["__⚡ Bills &nbsp;__", "__🚌 Transportation__", "__🏦 Debt &nbsp;__", "__🐷 Savings__", "__🚀 Investments__"])
 
 with tab1:
     st.markdown("### Monthly Bill Payments")
