@@ -15,14 +15,12 @@ cgt = st.session_state["cgt"]
 
 st.markdown("### Assets 💎")
 
-tab1, tab2, tab3, tab4 = st.tabs(
-    [
-        "__💵 Cash &nbsp; &nbsp;__",
-        "__🏛️ Shares &nbsp;__",
-        "__🪙 Cryptocurrency__",
-        "__🏵️ Net Worth__"
-    ]
-)
+tab1, tab2, tab3, tab4 = st.tabs([
+    "__💵 Cash &nbsp; &nbsp;__",
+    "__🏛️ Shares &nbsp;__",
+    "__🪙 Cryptocurrency__",
+    "__🏵️ Net Worth__"
+    ])
 
 with tab1:
     st.markdown("#### Cash")
