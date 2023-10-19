@@ -31,39 +31,42 @@ with tab1:
     ])
     edited_df_cash = st.data_editor(
         df_cash,
-        width=360,
         num_rows="dynamic",
     )
-    cash_sum = 0
+    assets_cash = 0
     for key in edited_df_cash["Net"]:
         try: 
-            cash_sum += key
+            assets_cash += key
         except:
             print("Assets: No cash")
-    st.write('Cash Sum:', cash_sum, curr_symbol)
+    st.write('Cash Sum:', curr_symbol, assets_cash)
+    if "assets_cash" not in st.session_state:
+        st.session_state["assets_cash"] = assets_cash
 
 with tab2:
     st.markdown("#### Shares")
     st.markdown("Shares in public companies")
-    df_equity = pd.DataFrame(
+    df_shares = pd.DataFrame(
         [
            {"Stock": "TSLA", "Net": 10, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("TSLA").basic_info[price_update_method], "Avg Cost": 200, "Cost": 0},
            {"Stock": "AAPL", "Net": 20, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("AAPL").basic_info[price_update_method], "Avg Cost": 100, "Cost": 0},
        ]
     )
-    edited_df_equity = st.data_editor(
-        df_equity,
+    edited_df_shares = st.data_editor(
+        df_shares,
         width=720,
         num_rows="dynamic",
         # disabled=["Net", "Gross", "Tax", "Price", "Cost"],
     )
-    eq_sum = 0
-    for key in edited_df_equity["Net"]:
+    assets_shares_net = 0
+    for key in edited_df_shares["Net"]:
         try: 
-            eq_sum += key
+            assets_shares_net += key
         except:
             print("Assets: No shares")
-    st.write('Shares Net Sum:', eq_sum, curr_symbol)
+    st.write('Shares Net Sum:', curr_symbol, assets_shares_net)
+    if "assets_shares_net" not in st.session_state:
+        st.session_state["assets_shares_net"] = assets_shares_net
 
 with tab3:
     ticker_btc = "BTC-" + selected_currency
@@ -96,18 +99,20 @@ with tab3:
     )
     st.write("Value")
     st.dataframe(df_crypto_value, hide_index=True, width=720)
-    crypto_sum = 0
+    assets_crypto_net = 0
     for key in df_crypto_value["Net"]:
         try: 
-            crypto_sum += key
+            assets_crypto_net += key
         except:
             print("Assets: No equity")
-    st.write("Crypto Net Sum:", crypto_sum, curr_symbol)
+    st.write("Crypto Net Sum:", curr_symbol, assets_crypto_net)
+    if "assets_crypto_net" not in st.session_state:
+        st.session_state["assets_crypto_net"] = assets_crypto_net
 
 with tab4:
     st.markdown("### Net Worth")
-    assets_total = cash_sum + eq_sum + crypto_sum
-    st.write("Net Worth:", assets_total, curr_symbol)
+    assets_total = assets_cash + assets_shares_net + assets_crypto_net
+    st.write("Net Worth:", curr_symbol, assets_total)
 
     st.markdown("### Net Worth")
     col1, col2 = st.columns([3, 5], gap="medium")
