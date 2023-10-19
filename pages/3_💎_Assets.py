@@ -31,6 +31,7 @@ with tab1:
     ])
     edited_df_cash = st.data_editor(
         df_cash,
+        width=380,
         num_rows="dynamic",
     )
     assets_cash = 0
@@ -71,6 +72,7 @@ with tab2:
 with tab3:
     ticker_btc = "BTC-" + selected_currency
     st.markdown("#### Cryptocurrency")
+    st.markdown("Add your holdings:")
     df_crypto = pd.DataFrame(
         [
            {"Title": "Bitcoin", "Ticker": "BTC", "Count": 2, "Avg Cost": 200,},
@@ -97,7 +99,7 @@ with tab3:
             {"Title": title_btc, "Net": net_btc, "Price": price_btc, "Avg Cost": avg_cost_btc, "Cost": cost_btc},
         ]
     )
-    st.write("Value")
+    st.write("##### Value")
     st.dataframe(df_crypto_value, hide_index=True, width=720)
     assets_crypto_net = 0
     for key in df_crypto_value["Net"]:
