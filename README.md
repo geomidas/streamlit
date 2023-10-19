@@ -1,3 +1,3 @@
 # streamlit
 
-URL: perfin.streamlit.app
+App: https://perfin.streamlit.app
