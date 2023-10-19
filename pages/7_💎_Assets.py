@@ -62,7 +62,7 @@ with tab2:
            {"Stock": "AAPL", "Net": 20, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("AAPL").basic_info[price_update_method], "Avg Cost": 100, "Cost": 0},
        ]
     )
-    st.dataframe(df_shares_value, width=720, hide_index=True)
+    st.table(df_shares_value)
     assets_shares_net = 0
     for key in df_shares_value["Net"]:
         try: 
@@ -104,7 +104,7 @@ with tab3:
         ]
     )
     st.write("##### Value")
-    st.dataframe(df_crypto_value, hide_index=True, width=720)
+    st.table(df_crypto_value)
     assets_crypto_net = 0
     for key in df_crypto_value["Net"]:
         try: 

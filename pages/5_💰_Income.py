@@ -9,11 +9,9 @@ st.markdown("Track your actual monthly income. This acts as a guide for setting 
 
 df = pd.DataFrame(
     [
-       {"Month":"2023-01", "Gross":40000, "Tax":1000, "Health Ins.":100, "Net":2500, "Pension":100, "Bonus":0},
+       {"Month":"2023-10", "Gross":40000, "Tax":1000, "Health Ins.":100, "Net":2500, "Pension":100, "Bonus":0},
+       {"Month":"2023-09", "Gross":40000, "Tax":1000, "Health Ins.":100, "Net":2500, "Pension":100, "Bonus":0},
+       {"Month":"2023-08", "Gross":40000, "Tax":1000, "Health Ins.":100, "Net":2500, "Pension":100, "Bonus":0},
    ]
 )
-edited_df = st.data_editor(
-    df,
-    hide_index=True,   
-    num_rows="dynamic",
-)
+st.table(df)
