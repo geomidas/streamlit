@@ -4,6 +4,7 @@ import pandas as pd
 
 # st.set_page_config(layout="centered")
 
+
 st.markdown("# Perfin")
 st.markdown("### Dashboard")
 
@@ -31,7 +32,6 @@ with tab1:
         st.session_state["curr_symbol"] = curr_symbol
     # st.markdown("---")
 
-  with col2:
     st.markdown("#### Assets")
     price_update_method = st.selectbox(
         "Price update method:",

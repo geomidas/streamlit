@@ -117,8 +117,10 @@ with tab3:
 
 with tab4:
     st.markdown("### Net Worth")
-    assets_total = assets_cash + assets_shares_net + assets_crypto_net
-    st.write("Net Worth:", curr_symbol, assets_total)
+    assets_net_worth = assets_cash + assets_shares_net + assets_crypto_net
+    if "assets_net_worth" not in st.session_state:
+        st.session_state["assets_net_worth"] = assets_net_worth
+    st.write("Net Worth:", curr_symbol, assets_net_worth)
 
     st.markdown("### Net Worth")
     col1, col2 = st.columns([3, 5], gap="medium")

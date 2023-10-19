@@ -6,21 +6,24 @@ st.set_page_config(layout="centered")
 cgt = st.session_state["cgt"]
 curr_symbol = st.session_state["curr_symbol"]
 assets_cash = st.session_state["assets_cash"]
+assets_shares_net = st.session_state["assets_shares_net"]
+assets_net_worth = st.session_state["assets_net_worth"]
 
 st.markdown("# Perfin")
 st.markdown("### Financial Independence 🌴")
 
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "__📦 Emergency Fund__",
     "__🏖️ Retirement__",
     "__👑 Financial Status__",
-    "__🏵️ Other__"
+    "__🏵️ Evaluation__",
+    "__🏵️ Other data__",
     ])
 
 with tab1:
     st.write("##### Emergency fund")
     st.write("Cash sum:", curr_symbol, assets_cash)
-    st.write("Months of all necessary expenses covered: ")
+    st.write("Months of all necessary expenses covered:", 2)
 
 with tab2:
     st.write("##### Retirement")
@@ -37,10 +40,11 @@ with tab2:
     st.write('Yearly "salary":', curr_symbol, 1200)
 
 with tab3:
-    st.write("Net Worth:")
-    st.write("Net Investments:")
-    st.write("Yearly added investments:")
-    st.write("Expected return rate (from all types of investments):")
+    st.write("##### Financial status")
+    st.write("Net Worth:", curr_symbol, assets_net_worth)
+    st.write("Net Investments:", assets_shares_net)
+    st.write("Yearly added investments:", 0)
+    st.number_input("Expected return rate (from all types of investments) (%):", min_value=0)
     st.divider()
     st.write("Financial Status:", [
         "Financial Dependence",
@@ -58,10 +62,12 @@ with tab3:
     st.write("Projected Net Worth of Investments. Chart.")
 
 with tab4:
-    st.write("##### Other")
-    st.write("Investments as years of expenses: ")
-    st.write("Current investment profit: ")
-    st.write("Money made by working: ")
-    st.divider()
     st.write("##### Evaluate your plan")
     st.link_button("Rich, broke or dead?", "https://engaging-data.com/will-money-last-retire-early")
+    st.write("##### Other resources")
+
+with tab5:
+    st.write("##### Other")
+    st.write("Investments as years of all necessary expenses covered:", 2)
+    st.write("Current investment profit:", curr_symbol, 100)
+    st.write("Money made by working:", curr_symbol, 10000)
