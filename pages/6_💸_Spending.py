@@ -92,7 +92,7 @@ with new_income:
         st.number_input("Shopping", min_value=0, step=1, key="input_spend_shop")
     with df_form_columns[7]:
         st.number_input("Travel", min_value=0, step=1, key="input_spend_travel")
-    
+
     submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
     if submitted:
        st.toast("Updated Spending 💸", icon="🎉")

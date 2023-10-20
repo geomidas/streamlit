@@ -56,11 +56,9 @@ with st.expander("ℹ️ Track your actual monthly income."):
         })
         st.dataframe(income_averages, hide_index=True, width=720)
 
-
 new_income = st.form(key="new_income", clear_on_submit=False)
 with new_income:
     st.write("#### Add income data")
-
     df_form_columns = st.columns(5)
     with df_form_columns[0]:
         st.date_input("Date", format="YYYY-MM-DD", key="input_incume_date")
@@ -72,7 +70,7 @@ with new_income:
         st.number_input("Pension", min_value=0, step=1, key="input_income_pension")
     with df_form_columns[4]:
         st.number_input("Bonus", min_value=0, step=1, key="input_income_bonus")
-    
+
     submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
     if submitted:
        st.toast("Updated Income table 💰", icon="🎉")
