@@ -124,7 +124,7 @@ with tab4:
         st.session_state["assets_net_worth"] = assets_net_worth
     st.write("Current Net Worth:", curr_symbol, assets_net_worth)
 
-    st.markdown("### NW historical data")
+    st.markdown("### Net Worth over time")
     col1, col2 = st.columns([3, 5], gap="medium")
     with col1:
         df_net_worth = pd.DataFrame([
