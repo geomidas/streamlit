@@ -47,23 +47,19 @@ with tab1:
 with tab2:
     st.markdown("#### Shares")
     st.markdown("Add shares in public companies in your portfolio:")
-    df_shares = pd.DataFrame(
-        [
-           {"Title": "Tesla", "Ticker": "TSLA", "Count": 2, "Avg Cost": 200,},
-           {"Title": "Apple", "Ticker": "AAPL", "Count": 2, "Avg Cost": 200,},
-       ]
-    )
+    df_shares = pd.DataFrame([
+        {"Title": "Tesla", "Ticker": "TSLA", "Count": 2, "Avg Cost": 200},
+        {"Title": "Apple", "Ticker": "AAPL", "Count": 2, "Avg Cost": 200},
+    ])
     edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
 
     st.write("Fix processing each row and updating the table below")
 
     st.write("##### Value")
-    df_shares_value = pd.DataFrame(
-        [
-           {"Stock": "TSLA", "Net": 10, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("TSLA").basic_info[price_update_method], "Avg Cost": 200, "Cost": 0},
-           {"Stock": "AAPL", "Net": 20, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("AAPL").basic_info[price_update_method], "Avg Cost": 100, "Cost": 0},
-       ]
-    )
+    df_shares_value = pd.DataFrame([
+        {"Stock": "TSLA", "Net": 10, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("TSLA").basic_info[price_update_method], "Avg Cost": 200, "Cost": 0},
+        {"Stock": "AAPL", "Net": 20, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("AAPL").basic_info[price_update_method], "Avg Cost": 100, "Cost": 0},
+    ])
     st.dataframe(df_shares_value, hide_index=True, width=720)
     assets_shares_net = 0
     for key in df_shares_value["Net"]:
@@ -79,11 +75,9 @@ with tab3:
     ticker_btc = "BTC-" + selected_currency
     st.markdown("#### Cryptocurrency")
     st.markdown("Add your holdings here:")
-    df_crypto = pd.DataFrame(
-        [
-           {"Title": "Bitcoin", "Ticker": "BTC", "Count": 2, "Avg Cost": 200,},
-       ]
-    )
+    df_crypto = pd.DataFrame([
+        {"Title": "Bitcoin", "Ticker": "BTC", "Count": 2, "Avg Cost": 200},
+    ])
     edited_df_crypto = st.data_editor(
         df_crypto,
         width=720,
@@ -100,11 +94,9 @@ with tab3:
     profit_btc = gross_btc - cost_btc
     cgt_btc = profit_btc * cgt
     net_btc = int(gross_btc - cgt_btc)
-    df_crypto_value = pd.DataFrame(
-        [
-            {"Title": title_btc, "Net": net_btc, "Price": price_btc, "Avg Cost": avg_cost_btc, "Cost": cost_btc},
-        ]
-    )
+    df_crypto_value = pd.DataFrame([
+        {"Title": title_btc, "Net": net_btc, "Price": price_btc, "Avg Cost": avg_cost_btc, "Cost": cost_btc},
+    ])
     st.write("##### Value")
     st.dataframe(df_crypto_value, hide_index=True, width=720)
     assets_crypto_net = 0
@@ -128,18 +120,18 @@ with tab4:
     col1, col2 = st.columns([3, 5], gap="medium")
     with col1:
         df_net_worth = pd.DataFrame([
-            {"Month": "2023-01", "Net Worth": 100,},
-            {"Month": "2023-02", "Net Worth": 150,},
-            {"Month": "2023-03", "Net Worth": 200,},
-            {"Month": "2023-04", "Net Worth": 200,},
-            {"Month": "2023-05", "Net Worth": 250,},
-            {"Month": "2023-06", "Net Worth": 400,},
-            {"Month": "2023-07", "Net Worth": 350,},
-            {"Month": "2023-08", "Net Worth": 500,},
-            {"Month": "2023-09", "Net Worth": 500,},
-            {"Month": "2023-10", "Net Worth": 600,},
-            {"Month": "2023-11", "Net Worth": 500,},
-            {"Month": "2023-12", "Net Worth": 700,},
+            {"Month": "2023-01", "Net Worth": 100},
+            {"Month": "2023-02", "Net Worth": 150},
+            {"Month": "2023-03", "Net Worth": 200},
+            {"Month": "2023-04", "Net Worth": 200},
+            {"Month": "2023-05", "Net Worth": 250},
+            {"Month": "2023-06", "Net Worth": 400},
+            {"Month": "2023-07", "Net Worth": 350},
+            {"Month": "2023-08", "Net Worth": 500},
+            {"Month": "2023-09", "Net Worth": 500},
+            {"Month": "2023-10", "Net Worth": 600},
+            {"Month": "2023-11", "Net Worth": 500},
+            {"Month": "2023-12", "Net Worth": 700},
         ])
         edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
     with col2:
