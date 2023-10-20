@@ -14,13 +14,12 @@ price_update_method = st.session_state["price_update_method"]
 cgt = st.session_state["cgt"]
 
 st.markdown("### Assets 💎")
-
 tab1, tab2, tab3, tab4 = st.tabs([
     "__💵 Cash &nbsp; &nbsp;__",
     "__🏛️ Shares &nbsp;__",
     "__🪙 Cryptocurrency__",
     "__🏵️ Net Worth__"
-    ])
+])
 
 with tab1:
     st.markdown("#### Cash")
@@ -29,14 +28,10 @@ with tab1:
         {"Cash": "Under the mattress", "Net": 100},
         {"Cash": "Savings", "Net": 1000},
     ])
-    edited_df_cash = st.data_editor(
-        df_cash,
-        width=380,
-        num_rows="dynamic",
-    )
+    edited_df_cash = st.data_editor(df_cash, width=380, num_rows="dynamic")
     assets_cash = 0
     for key in edited_df_cash["Net"]:
-        try: 
+        try:
             assets_cash += key
         except:
             print("Assets: No cash")
@@ -63,7 +58,7 @@ with tab2:
     st.dataframe(df_shares_value, hide_index=True, width=720)
     assets_shares_net = 0
     for key in df_shares_value["Net"]:
-        try: 
+        try:
             assets_shares_net += key
         except:
             print("Assets: No shares")
@@ -101,7 +96,7 @@ with tab3:
     st.dataframe(df_crypto_value, hide_index=True, width=720)
     assets_crypto_net = 0
     for key in df_crypto_value["Net"]:
-        try: 
+        try:
             assets_crypto_net += key
         except:
             print("Assets > Crypto > Value calc error")
