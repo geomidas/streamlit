@@ -8,7 +8,7 @@ st.set_page_config(layout="centered")
 # Load variables
 curr_symbol = st.session_state["curr_symbol"]
 
-st.markdown("# Perfin")
+st.markdown("# PerFin")
 st.markdown("### Monthly Outflows 🔮")
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["__⚡ Bills &nbsp;__", "__🚌 Transportation__", "__🏦 Debt &nbsp;__", "__🐷 Savings__", "__🚀 Investments__"])

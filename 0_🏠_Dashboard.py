@@ -5,7 +5,7 @@ import pandas as pd
 # st.set_page_config(layout="centered")
 st.set_page_config("PerFin", page_icon="💎")
 
-st.markdown("# Perfin")
+st.markdown("# PerFin")
 st.markdown("### Dashboard")
 
 tab1, tab2 = st.tabs(["⚙️ __Settings__", "💡 __Tips__"])

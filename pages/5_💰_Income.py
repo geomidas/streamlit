@@ -6,7 +6,7 @@ st.set_page_config(layout="centered")
 
 curr_symbol = st.session_state["curr_symbol"]
 
-st.write("# Perfin")
+st.write("# PerFin")
 st.write("### Income 💰")
 with st.expander("ℹ️ Track your actual monthly income."):
     st.write("This acts as a guide for setting more accurate values in Monthly Outflows.")

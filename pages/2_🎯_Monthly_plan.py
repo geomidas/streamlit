@@ -12,7 +12,7 @@ monthly_debt = st.session_state["monthly_debt"]
 monthly_savings = st.session_state["monthly_savings"]
 monthly_investments = st.session_state["monthly_investments"]
 
-st.markdown("# Perfin")
+st.markdown("# PerFin")
 st.markdown("### Monthly Plan 🎯")
 
 col1, col2 = st.columns([1, 1], gap="medium")

@@ -5,7 +5,7 @@ import yfinance as yf
 
 st.set_page_config(layout="centered")
 
-st.markdown("# Perfin")
+st.markdown("# PerFin")
 
 # Load Settings
 selected_currency = st.session_state["selected_currency"]

@@ -9,7 +9,7 @@ assets_cash = st.session_state["assets_cash"]
 assets_shares_net = st.session_state["assets_shares_net"]
 assets_net_worth = st.session_state["assets_net_worth"]
 
-st.markdown("# Perfin")
+st.markdown("# PerFin")
 st.markdown("### Financial Independence 🌴")
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
