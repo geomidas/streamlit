@@ -3,7 +3,7 @@ import pandas as pd
 
 
 # st.set_page_config(layout="centered")
-
+st.set_page_config("PerFin", page_icon="💎")
 
 st.markdown("# Perfin")
 st.markdown("### Dashboard")

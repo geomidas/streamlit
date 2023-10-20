@@ -55,6 +55,8 @@ with tab2:
     )
     edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
 
+    st.write("Fix processing each row and updating the table below")
+
     st.write("##### Value")
     df_shares_value = pd.DataFrame(
         [
