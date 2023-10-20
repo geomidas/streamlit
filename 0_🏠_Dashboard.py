@@ -5,10 +5,9 @@ import pandas as pd
 # st.set_page_config(layout="centered")
 st.set_page_config("PerFin", page_icon="💎")
 
-st.markdown("# PerFin")
+st.markdown("### PerFin")
 
 tab1, tab2 = st.tabs(["⚙️ __Settings__", "💡 __Tips__"])
-
 with tab1:
     col1, col2, col3 = st.columns([1,1,1], gap="medium")
     with col1:

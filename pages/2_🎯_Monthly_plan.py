@@ -13,13 +13,11 @@ monthly_savings = st.session_state["monthly_savings"]
 monthly_investments = st.session_state["monthly_investments"]
 
 st.markdown("### Monthly Plan 🎯")
+income = 2500
+st.write("Income:", 2500)
 
 col1, col2 = st.columns([1, 1], gap="medium")
-
 with col1:
-    income = 2500
-    st.write("Income:", 2500)
-
     df = pd.DataFrame([
        {"Purpose": "Rent", "Amount": 1000, "Necessary": True},
        {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
