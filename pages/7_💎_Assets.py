@@ -5,8 +5,6 @@ import yfinance as yf
 
 st.set_page_config(layout="centered")
 
-st.markdown("# PerFin")
-
 # Load Settings
 selected_currency = st.session_state["selected_currency"]
 curr_symbol = st.session_state["curr_symbol"]
@@ -22,7 +20,6 @@ tab1, tab2, tab3, tab4 = st.tabs([
 ])
 
 with tab1:
-    st.markdown("#### Cash")
     st.markdown("Cash and cash equivalent:")
     df_cash = pd.DataFrame([
         {"Cash": "Under the mattress", "Net": 100},
@@ -40,7 +37,6 @@ with tab1:
         st.session_state["assets_cash"] = assets_cash
 
 with tab2:
-    st.markdown("#### Shares")
     st.markdown("Add shares in public companies in your portfolio:")
     df_shares = pd.DataFrame([
         {"Title": "Tesla", "Ticker": "TSLA", "Count": 2, "Avg Cost": 200},
@@ -49,6 +45,7 @@ with tab2:
     edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
 
     st.write("Fix processing each row and updating the table below")
+    
 
     st.write("##### Value")
     df_shares_value = pd.DataFrame([
@@ -68,7 +65,6 @@ with tab2:
 
 with tab3:
     ticker_btc = "BTC-" + selected_currency
-    st.markdown("#### Cryptocurrency")
     st.markdown("Add your holdings here:")
     df_crypto = pd.DataFrame([
         {"Title": "Bitcoin", "Ticker": "BTC", "Count": 2, "Avg Cost": 200},
@@ -105,13 +101,12 @@ with tab3:
         st.session_state["assets_crypto_net"] = assets_crypto_net
 
 with tab4:
-    st.markdown("### Net Worth")
     assets_net_worth = assets_cash + assets_shares_net + assets_crypto_net
     if "assets_net_worth" not in st.session_state:
         st.session_state["assets_net_worth"] = assets_net_worth
     st.write("Current Net Worth:", curr_symbol, assets_net_worth)
 
-    st.markdown("### Net Worth over time")
+    st.markdown("##### Net Worth over time")
     col1, col2 = st.columns([3, 5], gap="medium")
     with col1:
         df_net_worth = pd.DataFrame([

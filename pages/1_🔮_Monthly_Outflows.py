@@ -8,17 +8,16 @@ st.set_page_config(layout="centered")
 # Load variables
 curr_symbol = st.session_state["curr_symbol"]
 
-st.markdown("# PerFin")
 st.markdown("### Monthly Outflows 🔮")
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["__⚡ Bills &nbsp;__", "__🚌 Transportation__", "__🏦 Debt &nbsp;__", "__🐷 Savings__", "__🚀 Investments__"])
 
 with tab1:
-    st.markdown("### Monthly Bill Payments")
-    col1, col2 = st.columns([1, 1], gap="medium")
+    with st.expander("ℹ️ Monthly Bill Payments"):
+        st.markdown("💡 Tip: Estimations are fine.")
 
+    col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
-        st.markdown("💡 Tip: Estimations are fine 🔮")
         df_bills = pd.DataFrame([
            {"Title": "Mobile Phone", "Amount": 20},
            {"Title": "Internet", "Amount": 30},
@@ -53,13 +52,11 @@ with tab1:
             st.pyplot(fig1)
 
 with tab2:
-    st.markdown("### Monthly Transportation Costs")
-
-    col1, col2 = st.columns([1, 1], gap="medium")
-
-    with col1:
+    with st.expander("ℹ️ Monthly Transportation Costs"):
         st.markdown("💡 You can split any annual expenses in montly payments")
 
+    col1, col2 = st.columns([1, 1], gap="medium")
+    with col1:
         df_transp = pd.DataFrame([
            {"Title": "Bus", "Amount": 12},
            {"Title": "Taxi", "Amount": 25},
@@ -91,13 +88,12 @@ with tab2:
             st.pyplot(fig1)
 
 with tab3:
-    st.markdown("### Monthly Debt Payments")
-    col1, col2 = st.columns([1, 1], gap="medium")
-
-    with col1:
+    with st.expander("ℹ️ Monthly Debt Payments"):
         st.markdown("💡 Low interest payments are ok.")
         st.markdown("💡 Try to eliminate higher interest debt.")
 
+    col1, col2 = st.columns([1, 1], gap="medium")
+    with col1:
         df_debt = pd.DataFrame([
            {"Title": "Mortgage", "Amount": 2},
            {"Title": "Car loan", "Amount": 1},
@@ -139,13 +135,11 @@ with tab3:
             st.pyplot(fig1)
 
 with tab4:
-    st.markdown("### Monthly Savings")
-
-    col1, col2 = st.columns([1, 1], gap="medium")
-
-    with col1:
+    with st.expander("ℹ️ Monthly Savings"):
         st.markdown("💡 Savings for any specific purpose.")
 
+    col1, col2 = st.columns([1, 1], gap="medium")
+    with col1:
         df_savings = pd.DataFrame([
             {"Title": "Emergency Fund", "Amount": 0,},
             {"Title": "House Deposit", "Amount": 100,},
@@ -175,13 +169,11 @@ with tab4:
             st.pyplot(fig1)
 
 with tab5:
-    st.markdown("### Monthly Investments")
-
-    col1, col2 = st.columns([1, 1], gap="medium")
-
-    with col1:
+    with st.expander("ℹ️ Monthly Investments (DCA)"):
         st.markdown("💡 Automate funding your accounts.")
 
+    col1, col2 = st.columns([1, 1], gap="medium")
+    with col1:
         df_invest = pd.DataFrame([
             {"Title": "Pension", "Amount": 200,},
             {"Title": "Shares", "Amount": 100,},

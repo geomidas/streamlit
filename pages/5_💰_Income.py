@@ -4,7 +4,6 @@ import pandas as pd
 
 # curr_symbol = st.session_state["curr_symbol"]
 
-st.write("# PerFin")
 st.write("### Income 💰")
 
 if 'income_data' not in st.session_state:

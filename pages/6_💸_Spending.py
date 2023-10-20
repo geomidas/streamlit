@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 
 
-st.write("# PerFin")
 st.write("### Spending 💰")
 
 if 'spend_data' not in st.session_state:
