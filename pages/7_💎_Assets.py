@@ -24,7 +24,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 with tab1:
     st.markdown("#### Cash")
-    st.markdown("Cash and cash equivalent")
+    st.markdown("Cash and cash equivalent:")
     df_cash = pd.DataFrame([
         {"Cash": "Under the mattress", "Net": 100},
         {"Cash": "Savings", "Net": 1000},
@@ -120,9 +120,9 @@ with tab4:
     assets_net_worth = assets_cash + assets_shares_net + assets_crypto_net
     if "assets_net_worth" not in st.session_state:
         st.session_state["assets_net_worth"] = assets_net_worth
-    st.write("Net Worth:", curr_symbol, assets_net_worth)
+    st.write("Current Net Worth:", curr_symbol, assets_net_worth)
 
-    st.markdown("### Net Worth")
+    st.markdown("### NW historical data")
     col1, col2 = st.columns([3, 5], gap="medium")
     with col1:
         df_net_worth = pd.DataFrame([
