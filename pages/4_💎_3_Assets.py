@@ -36,6 +36,9 @@ with tab2:
     if "assets_cash" not in st.session_state:
         st.session_state["assets_cash"] = assets_cash
 
+    st.write("#### Emergency Fund")
+    st.write("Months of all necessary expenses covered:", 2)
+
 with tab3:
     st.markdown("Add shares in public companies in your portfolio:")
     df_shares = pd.DataFrame([
@@ -126,8 +129,4 @@ with tab1:
         edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
     with col2:
         st.line_chart(edited_df, x="Month", y="Net Worth")
-
-    st.divider()
-
-    st.write("Investments as years of all necessary expenses covered:", 2)
     

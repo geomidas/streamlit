@@ -7,16 +7,16 @@ st.set_page_config("PerFin", page_icon="💎")
 
 st.markdown("### PerFin")
 
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3 = st.tabs([
     "__⚙️ Settings__",
-    "__💵 Tips__",
     "__💰 Income__",
     "__💸 Spending__",
 ])
 
 with tab1:
-    col1, col2, col3 = st.columns([1,1,1], gap="medium")
+    col1, col2 = st.columns([1,2], gap="large")
     with col1:
+        st.write("##### Settings")
         selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
         if "selected_currency" not in st.session_state:
             st.session_state["selected_currency"] = selected_currency
@@ -56,22 +56,23 @@ with tab1:
         if "price_update_method" not in st.session_state:
             st.session_state["price_update_method"] = price_update_method
 
-with tab2:  
-    st.markdown("""
-    - Update this app at the end of every month :sparkles:
-    - Review your allocation in 
-        - [Debt payments](/Monthly_Outflows)
-        - [Bills](/Monthly_Outflows)
-        - [Tansportation](/Monthly_Outflows)
-        - [Investments](/Monthly_Outflows)
-        - [Savings](/Monthly_plan) (in the Monthly Plan)
-    - Add this month's
-        - [Income](/Income)
-        - [Spending](/Spending)
-    - Done! :tada:
-    """)
+    with col2:
+        st.write("##### Tips")
+        st.markdown("""
+        - Update this app at the end of every month :sparkles:
+        - Review your allocation in 
+            - [Debt payments](/Monthly_Outflows)
+            - [Bills](/Monthly_Outflows)
+            - [Tansportation](/Monthly_Outflows)
+            - [Investments](/Monthly_Outflows)
+            - [Savings](/Monthly_plan) (in the Monthly Plan)
+        - Add this month's
+            - [Income](/Income)
+            - [Spending](/Spending)
+        - Done! :tada:
+        """)
 
-with tab3:
+with tab2:
     if 'income_data' not in st.session_state:
         income_data=pd.DataFrame({
             "Date": [],
@@ -143,7 +144,7 @@ with tab3:
     st.write("##### All data")
     st.dataframe(st.session_state.income_data, hide_index=True, width=720)
 
-with tab4:
+with tab3:
     if 'spend_data' not in st.session_state:
         spend_data=pd.DataFrame({
             "Date": [],

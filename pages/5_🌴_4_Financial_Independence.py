@@ -10,15 +10,10 @@ assets_net_worth = st.session_state["assets_net_worth"]
 
 st.markdown("### Financial Independence 🌴")
 
-tab1, tab2, tab3 = st.tabs([
-    "__📦 Emergency Fund__",
+tab2, tab3 = st.tabs([
     "__🏖️ Retirement__",
     "__👑 Financial Status__",
     ])
-
-with tab1:
-    st.write("Cash sum:", curr_symbol, assets_cash)
-    st.write("Months of all necessary expenses covered:", 2)
 
 with tab2:
     st.write("Set the following variables:")
@@ -32,6 +27,7 @@ with tab2:
     st.divider()
     st.write("You can retire when your Net investments reach", curr_symbol, 1000000)
     st.write("Years untill retirement:", 40)
+    st.write("Investments as years of all necessary expenses covered:", 2)
     st.write("If you retired now:")
     st.write('- Monthly "salary":', curr_symbol, 100)
     st.write('- Yearly "salary":', curr_symbol, 1200)
