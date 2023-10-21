@@ -8,7 +8,6 @@ st.set_page_config(layout="centered")
 # Load Settings
 selected_currency = st.session_state["selected_currency"]
 curr_symbol = st.session_state["curr_symbol"]
-price_update_method = st.session_state["price_update_method"]
 cgt = st.session_state["cgt"]
 
 st.markdown("### Assets 💎")
@@ -52,8 +51,8 @@ with tab3:
 
     st.write("##### Value")
     df_shares_value = pd.DataFrame([
-        {"Stock": "TSLA", "Net": 10, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("TSLA").basic_info[price_update_method], "Avg Cost": 200, "Cost": 0},
-        {"Stock": "AAPL", "Net": 20, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("AAPL").basic_info[price_update_method], "Avg Cost": 100, "Cost": 0},
+        {"Stock": "TSLA", "Net": 10, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("TSLA").basic_info["lastPrice"], "Avg Cost": 200, "Cost": 0},
+        {"Stock": "AAPL", "Net": 20, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("AAPL").basic_info["lastPrice"], "Avg Cost": 100, "Cost": 0},
     ])
     st.dataframe(df_shares_value, hide_index=True, width=720)
     assets_shares_net = 0
@@ -83,7 +82,7 @@ with tab4:
     count_btc = df_crypto["Count"][0]
     avg_cost_btc = df_crypto["Avg Cost"][0]
     cost_btc = count_btc * avg_cost_btc
-    price_btc = yf.Ticker(ticker_btc + "-" + selected_currency).basic_info[price_update_method]
+    price_btc = yf.Ticker(ticker_btc + "-" + selected_currency).basic_info["lastPrice"]
     gross_btc = count_btc * price_btc
     profit_btc = gross_btc - cost_btc
     cgt_btc = profit_btc * cgt

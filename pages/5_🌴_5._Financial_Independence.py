@@ -16,15 +16,16 @@ tab2, tab3 = st.tabs([
     ])
 
 with tab2:
-    st.write("Set the following variables:")
-    col1, col2 = st.columns([1,1], gap="medium")
+    col1, col2, col3, col4 = st.columns([1,1,1,1], gap="medium")
     with col1:
-        retire_rr = st.number_input("Expected return rate (from all types of investments) (%):", min_value=0)
-        retire_monthly_sal = st.number_input('Desired monthly "income":', min_value=1000)
+        retire_rr = st.number_input("Expected return rate (%)", min_value=0)
     with col2:
-        retire_wr = st.number_input("Withrawal rate (%):", min_value=0)
-        retire_cgt = st.number_input("Expected CGT in retirement (%):", min_value=0)
-    st.divider()
+        retire_monthly_sal = st.number_input('Monthly "income"', min_value=1000)
+    with col3:
+        retire_wr = st.number_input("Withrawal rate (%)", min_value=0)
+    with col4:
+        retire_cgt = st.number_input("CGT in retirement (%)", min_value=0)
+    st.write("\n\n\n\n")
     st.write("You can retire when your Net investments reach", curr_symbol, 1000000)
     st.write("Years untill retirement:", 40)
     st.write("Investments as years of all necessary expenses covered:", 2)

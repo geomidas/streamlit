@@ -2,77 +2,15 @@ import streamlit as st
 import pandas as pd
 
 
-# st.set_page_config(layout="centered")
 st.set_page_config("PerFin", page_icon="💎")
+st.markdown("### Monthly Data 💰")
 
-st.markdown("### PerFin")
-
-tab1, tab2, tab3 = st.tabs([
-    "__⚙️ Settings__",
+tab1, tab2 = st.tabs([
     "__💰 Income__",
     "__💸 Spending__",
 ])
 
 with tab1:
-    col1, col2 = st.columns([1,2], gap="large")
-    with col1:
-        st.write("##### Settings")
-        selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
-        if "selected_currency" not in st.session_state:
-            st.session_state["selected_currency"] = selected_currency
-        if selected_currency == "EUR":
-            curr_symbol = "€"
-        elif selected_currency == "GBP":
-            curr_symbol = "£"
-        elif selected_currency == "GBP":
-            curr_symbol = "$"
-        else:
-            curr_symbol = selected_currency
-        if "curr_symbol" not in st.session_state:
-            st.session_state["curr_symbol"] = curr_symbol
-
-        cgt_base=st.number_input(
-            "Capital Gains Tax (%):",
-            min_value = 0,
-            max_value = 100,
-            value = 33,
-            format = "%d",
-        )
-        cgt = cgt_base/100
-        if "cgt" not in st.session_state:
-            st.session_state["cgt"] = cgt
-
-        price_update_method = st.selectbox(
-            "Price update method:",
-            help="Choose which price you would like to fetch for assets.",
-            options=(
-                "lastPrice",
-                "previousClose",
-                "fiftyDayAverage",
-                "twoHundredDayAverage",
-                "yearLow"
-            ),
-        )
-        if "price_update_method" not in st.session_state:
-            st.session_state["price_update_method"] = price_update_method
-
-    with col2:
-        st.write("##### Tips")
-        st.markdown("""
-        - Update this app at the end of every month :sparkles:
-        - Review your allocation in 
-            - [Debt payments](/Monthly_Outflows)
-            - [Bills](/Monthly_Outflows)
-            - [Tansportation](/Monthly_Outflows)
-            - [Investments](/Monthly_Outflows)
-            - [Savings](/Monthly_plan) (in the Monthly Plan)
-        - Add this month's
-            - [Income](/Income)
-            - [Spending](/Spending)
-        - Done! :tada:
-        """)
-
-with tab2:
     if 'income_data' not in st.session_state:
         income_data=pd.DataFrame({
             "Date": [],
@@ -144,7 +82,7 @@ with tab2:
     st.write("##### All data")
     st.dataframe(st.session_state.income_data, hide_index=True, width=720)
 
-with tab3:
+with tab2:
     if 'spend_data' not in st.session_state:
         spend_data=pd.DataFrame({
             "Date": [],
