@@ -101,34 +101,6 @@ with tab4:
         st.session_state["assets_crypto_net"] = assets_crypto_net
 
 with tab1:
-    col1, col2 = st.columns([1, 1], gap="medium")
-    with col1:
-        cgt_base=st.number_input(
-            "Capital Gains Tax (%):",
-            min_value = 0,
-            max_value = 100,
-            value = 33,
-            format = "%d",
-        )
-        cgt = cgt_base/100
-        if "cgt" not in st.session_state:
-            st.session_state["cgt"] = cgt
-    with col2:
-        price_update_method = st.selectbox(
-            "Price update method:",
-            help="Choose which price you would like to fetch for assets.",
-            options=(
-                "lastPrice",
-                "previousClose",
-                "fiftyDayAverage",
-                "twoHundredDayAverage",
-                "yearLow"
-            ),
-        )
-        if "price_update_method" not in st.session_state:
-            st.session_state["price_update_method"] = price_update_method
-    st.divider()
-
     assets_net_worth = assets_cash + assets_shares_net + assets_crypto_net
     if "assets_net_worth" not in st.session_state:
         st.session_state["assets_net_worth"] = assets_net_worth
@@ -154,3 +126,8 @@ with tab1:
         edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
     with col2:
         st.line_chart(edited_df, x="Month", y="Net Worth")
+
+    st.divider()
+
+    st.write("Investments as years of all necessary expenses covered:", 2)
+    

@@ -10,12 +10,10 @@ assets_net_worth = st.session_state["assets_net_worth"]
 
 st.markdown("### Financial Independence 🌴")
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3 = st.tabs([
     "__📦 Emergency Fund__",
     "__🏖️ Retirement__",
     "__👑 Financial Status__",
-    "__🏵️ Evaluation__",
-    "__🏵️ Other data__",
     ])
 
 with tab1:
@@ -37,6 +35,7 @@ with tab2:
     st.write("If you retired now:")
     st.write('- Monthly "salary":', curr_symbol, 100)
     st.write('- Yearly "salary":', curr_symbol, 1200)
+    st.write("Evaluate your plan:\n", "- Rich, broke or dead?\n", "https://engaging-data.com/will-money-last-retire-early")
 
 with tab3:
     st.write("Net Worth:", curr_symbol, assets_net_worth)
@@ -58,12 +57,3 @@ with tab3:
     ])
 
     st.write("Projected Net Worth of Investments. Chart.")
-
-with tab4:
-    st.write("Evaluate your plan:")
-    st.link_button("Rich, broke or dead?", "https://engaging-data.com/will-money-last-retire-early")
-
-with tab5:
-    st.write("Investments as years of all necessary expenses covered:", 2)
-    st.write("Current investment profit:", curr_symbol, 100)
-    st.write("Money made by working:", curr_symbol, 10000)
