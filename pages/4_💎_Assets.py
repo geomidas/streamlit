@@ -13,13 +13,13 @@ cgt = st.session_state["cgt"]
 
 st.markdown("### Assets 💎")
 tab1, tab2, tab3, tab4 = st.tabs([
+    "__⚙️ Dashboard__",
     "__💵 Cash &nbsp; &nbsp;__",
     "__🏛️ Shares &nbsp;__",
     "__🪙 Cryptocurrency__",
-    "__🏵️ Net Worth__"
 ])
 
-with tab1:
+with tab2:
     st.markdown("Cash and cash equivalent:")
     df_cash = pd.DataFrame([
         {"Cash": "Under the mattress", "Net": 100},
@@ -36,7 +36,7 @@ with tab1:
     if "assets_cash" not in st.session_state:
         st.session_state["assets_cash"] = assets_cash
 
-with tab2:
+with tab3:
     st.markdown("Add shares in public companies in your portfolio:")
     df_shares = pd.DataFrame([
         {"Title": "Tesla", "Ticker": "TSLA", "Count": 2, "Avg Cost": 200},
@@ -63,7 +63,7 @@ with tab2:
     if "assets_shares_net" not in st.session_state:
         st.session_state["assets_shares_net"] = assets_shares_net
 
-with tab3:
+with tab4:
     ticker_btc = "BTC-" + selected_currency
     st.markdown("Add your holdings here:")
     df_crypto = pd.DataFrame([
@@ -100,7 +100,35 @@ with tab3:
     if "assets_crypto_net" not in st.session_state:
         st.session_state["assets_crypto_net"] = assets_crypto_net
 
-with tab4:
+with tab1:
+    col1, col2 = st.columns([1, 1], gap="medium")
+    with col1:
+        cgt_base=st.number_input(
+            "Capital Gains Tax (%):",
+            min_value = 0,
+            max_value = 100,
+            value = 33,
+            format = "%d",
+        )
+        cgt = cgt_base/100
+        if "cgt" not in st.session_state:
+            st.session_state["cgt"] = cgt
+    with col2:
+        price_update_method = st.selectbox(
+            "Price update method:",
+            help="Choose which price you would like to fetch for assets.",
+            options=(
+                "lastPrice",
+                "previousClose",
+                "fiftyDayAverage",
+                "twoHundredDayAverage",
+                "yearLow"
+            ),
+        )
+        if "price_update_method" not in st.session_state:
+            st.session_state["price_update_method"] = price_update_method
+    st.divider()
+
     assets_net_worth = assets_cash + assets_shares_net + assets_crypto_net
     if "assets_net_worth" not in st.session_state:
         st.session_state["assets_net_worth"] = assets_net_worth
