@@ -2,11 +2,9 @@ import streamlit as st
 import pandas as pd
 
 
-# st.set_page_config(layout="centered")
 st.set_page_config("PerFin", page_icon="💎")
 
 st.markdown("### Settings ⚙️")
-
 
 col1, col2 = st.columns([1,2], gap="medium")
 with col1:
