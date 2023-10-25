@@ -49,13 +49,12 @@ with tab3:
     ])
     edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
 
-    st.write("##### Value")
+    st.write("##### Status")
     df_shares_value = pd.DataFrame({
         "Title": [],
         "Net": [],
         "Gross": [], 
         "Tax": [],
-        "Count": [],
         "Price": [],
         "Total Cost": [],
     })
@@ -74,7 +73,6 @@ with tab3:
             "Net": [net],
             "Gross": [gross], 
             "Tax": [tax],
-            "Count": [count],
             "Price": [price],
             "Total Cost": [cost],
         })
