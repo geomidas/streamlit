@@ -13,7 +13,7 @@ selected_currency = st.session_state["selected_currency"]
 curr_symbol = st.session_state["curr_symbol"]
 cgt = st.session_state["cgt"]
 
-st.markdown("### Assets 💎")
+st.markdown("### Assets")
 tab1, tab2, tab3, tab4 = st.tabs([
     "__⚙️ Dashboard__",
     "__💵 Cash &nbsp; &nbsp;__",
@@ -127,7 +127,7 @@ with tab4:
         st.session_state["assets_crypto_net"] = assets_crypto_net
 
 with tab1:
-    assets_net_worth = assets_cash + assets_shares_net + assets_crypto_net
+    assets_net_worth = int(assets_cash + assets_shares_net + assets_crypto_net)
     if "assets_net_worth" not in st.session_state:
         st.session_state["assets_net_worth"] = assets_net_worth
     st.write("Current Net Worth:", curr_symbol, assets_net_worth)
@@ -152,4 +152,8 @@ with tab1:
         edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
     with col2:
         st.line_chart(edited_df, x="Month", y="Net Worth")
+    st.divider()
+
+    st.markdown("##### Allocation")
+    st.write("Add pie")
     

@@ -3,7 +3,7 @@ import pandas as pd
 
 
 st.set_page_config("PerFin", page_icon="💎")
-st.markdown("### Monthly Data 💰")
+st.markdown("### Monthly Data")
 
 tab1, tab2 = st.tabs([
     "__💰 Income__",

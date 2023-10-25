@@ -1,0 +1,35 @@
+---
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - python3
+      - python3-pip
+    state: present
+    cache_valid_time: 3600
+    update_cache: yes
+    autoremove: yes
+    autoclean: yes
+
+- name: Install python packages
+  ansible.builtin.pip:
+    name:
+      - cmake
+      - pyarrow
+      - streamlit
+      - pandas
+      - numpy
+      - matplotlib
+      - yfinance
+
+- name: Copy files
+  ansible.builtin.copy:
+    src: /Users/georgioskeramidas/repos/streamlit
+    dest: streamlit
+    mode: 01777
+
+- name: Start the app in the background
+  shell: streamlit run streamlit/1_⚙<fe0f>_1._Settings.py >/dev/null 2>&1 &
+  register: debug
+
+- debug: msg="{{ debug.stdout }}"
