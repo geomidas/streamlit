@@ -57,7 +57,7 @@ with tab3:
         "Tax": [],
         "Count": [],
         "Price": [],
-        "Cost Basis": [],
+        "Total Cost": [],
     })
     for row in range(len(edited_df_shares)):
         title = edited_df_shares.T[row]["Title"]
@@ -76,7 +76,7 @@ with tab3:
             "Tax": [tax],
             "Count": [count],
             "Price": [price],
-            "Cost Basis": [cost],
+            "Total Cost": [cost],
         })
         df_shares_value = pd.concat([df_shares_value, new_row])
 
