@@ -42,52 +42,51 @@ with tab2:
     st.write("Months of all necessary expenses covered:", 2)
 
 with tab3:
+    assets_shares_net = 0
+
     st.markdown("Add shares in public companies in your portfolio:")
-    df_shares = pd.DataFrame([
-        {"Title": "Tesla", "Ticker": "TSLA", "Count": 2, "Avg Cost": 200},
-        {"Title": "Apple", "Ticker": "AAPL", "Count": 2, "Avg Cost": 200},
-    ])
+    df_shares = pd.DataFrame({"Title": ["Apple"], "Ticker": ["AAPL"], "Count": [0], "Avg Cost": [0]})
     edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
 
-    st.write("##### Status")
-    df_shares_value = pd.DataFrame({
-        "Title": [],
-        "Net": [],
-        "Gross": [], 
-        "Tax": [],
-        "Price": [],
-        "Total Cost": [],
-    })
-    for row in range(len(edited_df_shares)):
-        title = edited_df_shares.T[row]["Title"]
-        ticker = edited_df_shares.T[row]["Ticker"]
-        count = edited_df_shares.T[row]["Count"]
-        avg_cost = edited_df_shares.T[row]["Avg Cost"]
-        cost = count * avg_cost
-        price = get_price(ticker)
-        gross = int(count * price)
-        tax = int(gross * cgt)
-        net = int(gross - tax)
-        new_row = pd.DataFrame({
-            "Title": [title],
-            "Net": [net],
-            "Gross": [gross], 
-            "Tax": [tax],
-            "Price": [price],
-            "Total Cost": [cost],
+    if sum(edited_df_shares["Count"]) > 0 and not edited_df_shares.isnull().values.any():
+        st.write("##### Status")
+        df_shares_value = pd.DataFrame({
+            "Title": [],
+            "Net": [],
+            "Gross": [], 
+            "Tax": [],
+            "Price": [],
+            "Total Cost": [],
         })
-        df_shares_value = pd.concat([df_shares_value, new_row])
+        for row in range(len(edited_df_shares)):
+            title = edited_df_shares.T[row]["Title"]
+            ticker = edited_df_shares.T[row]["Ticker"]
+            count = edited_df_shares.T[row]["Count"]
+            avg_cost = edited_df_shares.T[row]["Avg Cost"]
+            cost = count * avg_cost
+            price = get_price(ticker)
+            gross = int(count * price)
+            tax = int(gross * cgt)
+            net = int(gross - tax)
+            new_row = pd.DataFrame({
+                "Title": [title],
+                "Net": [net],
+                "Gross": [gross], 
+                "Tax": [tax],
+                "Price": [price],
+                "Total Cost": [cost],
+            })
+            df_shares_value = pd.concat([df_shares_value, new_row])
 
-    st.dataframe(df_shares_value, hide_index=True, width=720)
-    assets_shares_net = 0
-    for key in df_shares_value["Net"]:
-        try:
-            assets_shares_net += key
-        except:
-            print("Assets: No shares")
-    st.write('Shares Net Sum:', curr_symbol, assets_shares_net)
-    if "assets_shares_net" not in st.session_state:
-        st.session_state["assets_shares_net"] = assets_shares_net
+        st.dataframe(df_shares_value, hide_index=True, width=720)
+        for key in df_shares_value["Net"]:
+            try:
+                assets_shares_net += key
+            except:
+                print("Assets: No shares")
+        st.write('Shares Net Sum:', curr_symbol, assets_shares_net)
+        if "assets_shares_net" not in st.session_state:
+            st.session_state["assets_shares_net"] = assets_shares_net
 
 with tab4:
     ticker_btc = "BTC-" + selected_currency
