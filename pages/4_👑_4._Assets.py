@@ -3,10 +3,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import yfinance as yf
 
-st.set_page_config(layout="centered")
 
-def get_price(ticker):
+def get_share_price(ticker):
     return yf.Ticker(ticker).basic_info["lastPrice"]
+
+def get_crypto_price(ticker, selected_currency):
+    return yf.Ticker(ticker + "-" + selected_currency).basic_info["lastPrice"]
+
 
 # Load Settings
 selected_currency = st.session_state["selected_currency"]
@@ -43,32 +46,33 @@ with tab2:
     st.write("Months of all necessary expenses covered:", int(assets_cash / necessary_expenses))
 
 with tab3:
-    assets_shares_net = 0
-
-    st.markdown("Add shares in public companies in your portfolio:")
-    df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [0], "Avg Cost": [0]})
+    st.markdown("Add any shares you own:")
+    df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [0.0], "Avg Cost": [0.0]})
     edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
-
+    
+    assets_shares_net = 0
     if sum(edited_df_shares["Count"]) > 0 and not edited_df_shares.isnull().values.any():
-        st.write("##### Status")
+        st.write("##### Value")
         df_shares_value = pd.DataFrame({"Title": [], "Net": [], "Gross": [], "Tax": [], "Price": [], "Total Cost": []})
         for row in range(len(edited_df_shares)):
-            title = edited_df_shares.T[row]["Title"]
-            ticker = edited_df_shares.T[row]["Ticker"]
-            count = edited_df_shares.T[row]["Count"]
-            avg_cost = edited_df_shares.T[row]["Avg Cost"]
-            cost = count * avg_cost
-            price = get_price(ticker)
-            gross = int(count * price)
-            tax = int(gross * cgt)
-            net = int(gross - tax)
+            row_title = edited_df_shares.T[row]["Title"]
+            row_ticker = edited_df_shares.T[row]["Ticker"]
+            row_count = edited_df_shares.T[row]["Count"]
+            row_avg_cost = edited_df_shares.T[row]["Avg Cost"]
+            row_cost = row_count * row_avg_cost
+            row_price = get_share_price(row_ticker)
+            row_gross = int(row_count * row_price)
+            row_profit = int(row_gross - row_cost)
+            row_tax = int(row_gross * cgt)
+            row_net = int(row_gross - row_tax)
+
             new_row = pd.DataFrame({
-                "Title": [title],
-                "Net": [net],
-                "Gross": [gross], 
-                "Tax": [tax],
-                "Price": [price],
-                "Total Cost": [cost],
+                "Title": [row_title],
+                "Net": [row_net],
+                "Gross": [row_gross],
+                "Tax": [row_tax],
+                "Price": [row_price],
+                "Total Cost": [row_cost],
             })
             df_shares_value = pd.concat([df_shares_value, new_row])
 
@@ -79,39 +83,50 @@ with tab3:
             except:
                 print("Assets: No shares")
         st.write('Shares Net Sum:', curr_symbol, assets_shares_net)
-        if "assets_shares_net" not in st.session_state:
-            st.session_state["assets_shares_net"] = assets_shares_net
+
+    if "assets_shares_net" not in st.session_state:
+        st.session_state["assets_shares_net"] = assets_shares_net
 
 with tab4:
     ticker_btc = "BTC-" + selected_currency
-    st.markdown("Add your holdings here:")
-    df_crypto = pd.DataFrame({"Title": ["Bitcoin"], "Ticker": ["BTC"], "Count": [0], "Avg Cost": [0]})
-    edited_df_crypto = st.data_editor(
-        df_crypto,
-        width=720,
-        num_rows="dynamic",
-    )
+    st.markdown("Crypto you hodl:")
+    df_crypto = pd.DataFrame({"Title": ["Bitcoin"], "Ticker": ["BTC"], "Count": [0.0], "Avg Cost": [0.0]})
+    edited_df_crypto = st.data_editor(df_crypto, width=720, num_rows="dynamic")
 
-    title_btc = df_crypto["Title"][0]
-    ticker_btc = df_crypto["Ticker"][0]
-    count_btc = df_crypto["Count"][0]
-    avg_cost_btc = df_crypto["Avg Cost"][0]
-    cost_btc = count_btc * avg_cost_btc
-    price_btc = yf.Ticker(ticker_btc + "-" + selected_currency).basic_info["lastPrice"]
-    gross_btc = count_btc * price_btc
-    profit_btc = gross_btc - cost_btc
-    cgt_btc = profit_btc * cgt
-    net_btc = int(gross_btc - cgt_btc)
-    df_crypto_value = pd.DataFrame([{"Title": title_btc, "Net": net_btc, "Price": price_btc, "Avg Cost": avg_cost_btc, "Cost": cost_btc}])
-    st.write("##### Value")
-    st.dataframe(df_crypto_value, hide_index=True, width=720)
     assets_crypto_net = 0
-    for key in df_crypto_value["Net"]:
-        try:
-            assets_crypto_net += key
-        except:
-            print("Assets > Crypto > Value calc error")
-    st.write("Crypto Net Sum:", curr_symbol, assets_crypto_net)
+    if sum(edited_df_crypto["Count"]) > 0 and not edited_df_crypto.isnull().values.any():
+        st.write("##### Value")
+        df_crypto_value = pd.DataFrame({"Title": [], "Net": [], "Gross": [], "Tax": [], "Price": [], "Total Cost": []})
+        for row in range(len(edited_df_crypto)):
+            row_title = edited_df_crypto.T[row]["Title"]
+            row_ticker = edited_df_crypto.T[row]["Ticker"]
+            row_count = edited_df_crypto.T[row]["Count"]
+            row_avg_cost = edited_df_crypto.T[row]["Avg Cost"]
+            row_cost = row_count * row_avg_cost
+            row_price = get_crypto_price(row_ticker, selected_currency)
+            row_gross = int(row_count * row_price)
+            row_profit = int(row_gross - row_cost)
+            row_tax = int(row_profit * cgt)
+            row_net = int(row_gross - row_tax)
+
+            new_row = pd.DataFrame({
+                "Title": [row_title],
+                "Net": [row_net],
+                "Gross": [row_gross],
+                "Tax": [row_tax],
+                "Price": [row_price],
+                "Total Cost": [row_cost],
+            })
+            df_crypto_value = pd.concat([df_crypto_value, new_row])
+
+        st.dataframe(df_crypto_value, hide_index=True, width=720)
+        for key in df_crypto_value["Net"]:
+            try:
+                assets_crypto_net += key
+            except:
+                print("Assets > Crypto > Value calc error")
+        st.write("Crypto Net Sum:", curr_symbol, assets_crypto_net)
+
     if "assets_crypto_net" not in st.session_state:
         st.session_state["assets_crypto_net"] = assets_crypto_net
 

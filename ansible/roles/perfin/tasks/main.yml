@@ -5,6 +5,7 @@
     pkg:
       - python3
       - python3-pip
+      - cmake
     state: present
     cache_valid_time: 3600
     update_cache: yes
@@ -14,7 +15,6 @@
 - name: Install python packages
   ansible.builtin.pip:
     name:
-      - cmake
       - pyarrow
       - streamlit
       - pandas
@@ -30,6 +30,6 @@
 
 - name: Start the app in the background
   shell: streamlit run streamlit/1_⚙<fe0f>_1._Settings.py >/dev/null 2>&1 &
-  register: debug
+  register: streamlit
 
-- debug: msg="{{ debug.stdout }}"
+- debug: msg="{{ streamlit.stdout }}"
