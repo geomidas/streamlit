@@ -241,6 +241,7 @@ with tab1:
             if edited_df.iloc[item]["Necessary"]:
                 total_necessary += edited_df.iloc[item]["Amount"]
         st.write('Necessary:', total_necessary, "€")
+        st.session_state["necessary_expenses"] = total_necessary
 
         total = 0
         for key in edited_df["Amount"]:

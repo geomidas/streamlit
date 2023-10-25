@@ -12,6 +12,7 @@ def get_price(ticker):
 selected_currency = st.session_state["selected_currency"]
 curr_symbol = st.session_state["curr_symbol"]
 cgt = st.session_state["cgt"]
+necessary_expenses = st.session_state["necessary_expenses"]
 
 st.markdown("### Assets")
 tab1, tab2, tab3, tab4 = st.tabs([
@@ -24,8 +25,8 @@ tab1, tab2, tab3, tab4 = st.tabs([
 with tab2:
     st.markdown("Cash and cash equivalent:")
     df_cash = pd.DataFrame([
-        {"Cash": "Under the mattress", "Net": 100},
-        {"Cash": "Savings", "Net": 1000},
+        {"Cash": "Under the mattress", "Net": 0},
+        {"Cash": "Savings", "Net": 0},
     ])
     edited_df_cash = st.data_editor(df_cash, width=380, num_rows="dynamic")
     assets_cash = 0
@@ -39,25 +40,18 @@ with tab2:
         st.session_state["assets_cash"] = assets_cash
 
     st.write("#### Emergency Fund")
-    st.write("Months of all necessary expenses covered:", 2)
+    st.write("Months of all necessary expenses covered:", int(assets_cash / necessary_expenses))
 
 with tab3:
     assets_shares_net = 0
 
     st.markdown("Add shares in public companies in your portfolio:")
-    df_shares = pd.DataFrame({"Title": ["Apple"], "Ticker": ["AAPL"], "Count": [0], "Avg Cost": [0]})
+    df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [0], "Avg Cost": [0]})
     edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
 
     if sum(edited_df_shares["Count"]) > 0 and not edited_df_shares.isnull().values.any():
         st.write("##### Status")
-        df_shares_value = pd.DataFrame({
-            "Title": [],
-            "Net": [],
-            "Gross": [], 
-            "Tax": [],
-            "Price": [],
-            "Total Cost": [],
-        })
+        df_shares_value = pd.DataFrame({"Title": [], "Net": [], "Gross": [], "Tax": [], "Price": [], "Total Cost": []})
         for row in range(len(edited_df_shares)):
             title = edited_df_shares.T[row]["Title"]
             ticker = edited_df_shares.T[row]["Ticker"]
@@ -91,9 +85,7 @@ with tab3:
 with tab4:
     ticker_btc = "BTC-" + selected_currency
     st.markdown("Add your holdings here:")
-    df_crypto = pd.DataFrame([
-        {"Title": "Bitcoin", "Ticker": "BTC", "Count": 2, "Avg Cost": 200},
-    ])
+    df_crypto = pd.DataFrame({"Title": ["Bitcoin"], "Ticker": ["BTC"], "Count": [0], "Avg Cost": [0]})
     edited_df_crypto = st.data_editor(
         df_crypto,
         width=720,
@@ -110,9 +102,7 @@ with tab4:
     profit_btc = gross_btc - cost_btc
     cgt_btc = profit_btc * cgt
     net_btc = int(gross_btc - cgt_btc)
-    df_crypto_value = pd.DataFrame([
-        {"Title": title_btc, "Net": net_btc, "Price": price_btc, "Avg Cost": avg_cost_btc, "Cost": cost_btc},
-    ])
+    df_crypto_value = pd.DataFrame([{"Title": title_btc, "Net": net_btc, "Price": price_btc, "Avg Cost": avg_cost_btc, "Cost": cost_btc}])
     st.write("##### Value")
     st.dataframe(df_crypto_value, hide_index=True, width=720)
     assets_crypto_net = 0
