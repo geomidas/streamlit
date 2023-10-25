@@ -109,7 +109,7 @@ with tab1:
     st.write("Current Net Worth:", curr_symbol, assets_net_worth)
 
     st.markdown("##### Net Worth over time")
-    col1, col2 = st.columns([3, 5], gap="medium")
+    col1, col2 = st.columns([1, 2], gap="medium")
     with col1:
         df_net_worth = pd.DataFrame([
             {"Month": "2023-01", "Net Worth": 100},

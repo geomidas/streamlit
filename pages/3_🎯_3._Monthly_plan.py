@@ -234,23 +234,23 @@ with tab1:
         {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
     ])
         edited_df = st.data_editor(df, num_rows="dynamic", width=400,)
-    
+        
+        total_necessary = 0
+        account_funding = {}
+        for item in range(len(edited_df)):
+            if edited_df.iloc[item]["Necessary"]:
+                total_necessary += edited_df.iloc[item]["Amount"]
+        st.write('Necessary:', total_necessary, "€")
+
         total = 0
         for key in edited_df["Amount"]:
             try: 
                 total += key
             except:
                 print("Nothing")
-        st.write('Sum:', total, "€")
+        st.write('All outflows:', total, "€")
         if total > income:
             st.write("⚠️ Your expenses are higher than your income.")
-    
-        total_necessary = 0
-        account_funding = {}
-        for item in range(len(edited_df)):
-            if edited_df.iloc[item]["Necessary"]:
-                total_necessary += edited_df.iloc[item]["Amount"]
-        st.write('Sum of necessary expenses:', total_necessary, "€")
     
     with col2:
         if len(edited_df["Amount"]) > 1:
