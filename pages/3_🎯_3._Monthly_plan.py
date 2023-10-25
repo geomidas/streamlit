@@ -223,16 +223,16 @@ with tab1:
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
         df = pd.DataFrame([
-        {"Purpose": "Rent", "Amount": 1000, "Necessary": True},
-        {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
-        {"Purpose": "Transportation", "Amount": monthly_transportation, "Necessary": True},
-        {"Purpose": "Debt", "Amount": monthly_debt, "Necessary": True},
-        {"Purpose": "Savings", "Amount": monthly_savings, "Necessary": False},
-        {"Purpose": "Investments", "Amount": monthly_investments, "Necessary": False},
-        {"Purpose": "Food & fun", "Amount": 500, "Necessary": True},
-        {"Purpose": "Shopping", "Amount": 250, "Necessary": False},
-        {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
-    ])
+            {"Purpose": "Rent", "Amount": 1000, "Necessary": True},
+            {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
+            {"Purpose": "Transportation", "Amount": monthly_transportation, "Necessary": True},
+            {"Purpose": "Debt", "Amount": monthly_debt, "Necessary": True},
+            {"Purpose": "Savings", "Amount": monthly_savings, "Necessary": False},
+            {"Purpose": "Investments", "Amount": monthly_investments, "Necessary": False},
+            {"Purpose": "Food & fun", "Amount": 500, "Necessary": True},
+            {"Purpose": "Shopping", "Amount": 250, "Necessary": False},
+            {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
+        ])
         edited_df = st.data_editor(df, num_rows="dynamic", width=400,)
         
         total_necessary = 0

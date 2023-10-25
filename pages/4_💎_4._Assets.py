@@ -5,6 +5,9 @@ import yfinance as yf
 
 st.set_page_config(layout="centered")
 
+def get_price(ticker):
+    return yf.Ticker(ticker).basic_info["lastPrice"]
+
 # Load Settings
 selected_currency = st.session_state["selected_currency"]
 curr_symbol = st.session_state["curr_symbol"]
@@ -46,14 +49,37 @@ with tab3:
     ])
     edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
 
-    st.write("Fix processing each row and updating the table below")
-    
-
     st.write("##### Value")
-    df_shares_value = pd.DataFrame([
-        {"Stock": "TSLA", "Net": 10, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("TSLA").basic_info["lastPrice"], "Avg Cost": 200, "Cost": 0},
-        {"Stock": "AAPL", "Net": 20, "Gross": 0, "Tax": 0, "Count": 0, "Price": yf.Ticker("AAPL").basic_info["lastPrice"], "Avg Cost": 100, "Cost": 0},
-    ])
+    df_shares_value = pd.DataFrame({
+        "Title": [],
+        "Net": [],
+        "Gross": [], 
+        "Tax": [],
+        "Count": [],
+        "Price": [],
+        "Cost Basis": [],
+    })
+    for row in range(len(edited_df_shares)):
+        title = edited_df_shares.T[row]["Title"]
+        ticker = edited_df_shares.T[row]["Ticker"]
+        count = edited_df_shares.T[row]["Count"]
+        avg_cost = edited_df_shares.T[row]["Avg Cost"]
+        cost = count * avg_cost
+        price = get_price(ticker)
+        gross = int(count * price)
+        tax = int(gross * cgt)
+        net = int(gross - tax)
+        new_row = pd.DataFrame({
+            "Title": [title],
+            "Net": [net],
+            "Gross": [gross], 
+            "Tax": [tax],
+            "Count": [count],
+            "Price": [price],
+            "Cost Basis": [cost],
+        })
+        df_shares_value = pd.concat([df_shares_value, new_row])
+
     st.dataframe(df_shares_value, hide_index=True, width=720)
     assets_shares_net = 0
     for key in df_shares_value["Net"]:
