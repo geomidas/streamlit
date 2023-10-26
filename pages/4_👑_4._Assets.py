@@ -48,7 +48,7 @@ with tab2:
 with tab3:
     st.markdown("Add any shares you own:")
     df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [0.0], "Avg Cost": [0.0]})
-    edited_df_shares = st.data_editor(df_shares, width=720, num_rows="dynamic")
+    edited_df_shares = st.data_editor(df_shares, use_container_width=True, num_rows="dynamic")
     
     assets_shares_net = 0
     if sum(edited_df_shares["Count"]) > 0 and not edited_df_shares.isnull().values.any():
@@ -76,7 +76,7 @@ with tab3:
             })
             df_shares_value = pd.concat([df_shares_value, new_row])
 
-        st.dataframe(df_shares_value, hide_index=True, width=720)
+        st.dataframe(df_shares_value, hide_index=True, use_container_width=True)
         for key in df_shares_value["Net"]:
             try:
                 assets_shares_net += key
@@ -91,7 +91,7 @@ with tab4:
     ticker_btc = "BTC-" + selected_currency
     st.markdown("Crypto you hodl:")
     df_crypto = pd.DataFrame({"Title": ["Bitcoin"], "Ticker": ["BTC"], "Count": [0.0], "Avg Cost": [0.0]})
-    edited_df_crypto = st.data_editor(df_crypto, width=720, num_rows="dynamic")
+    edited_df_crypto = st.data_editor(df_crypto, use_container_width=True, num_rows="dynamic")
 
     assets_crypto_net = 0
     if sum(edited_df_crypto["Count"]) > 0 and not edited_df_crypto.isnull().values.any():
@@ -119,7 +119,7 @@ with tab4:
             })
             df_crypto_value = pd.concat([df_crypto_value, new_row])
 
-        st.dataframe(df_crypto_value, hide_index=True, width=720)
+        st.dataframe(df_crypto_value, hide_index=True, use_container_width=True)
         for key in df_crypto_value["Net"]:
             try:
                 assets_crypto_net += key
@@ -131,6 +131,30 @@ with tab4:
         st.session_state["assets_crypto_net"] = assets_crypto_net
 
 with tab1:
+    if assets_cash != 0 and assets_shares_net != 0:
+        col1, col2 = st.columns([1, 1], gap="medium")
+        with col1:
+            st.markdown("##### Allocation")
+            st.dataframe(
+                {
+                    "Cash": [assets_cash], "Shares": [assets_shares_net], "Crypto": [assets_crypto_net]
+                },
+                use_container_width=True
+            )
+        with col2:
+            fig1, ax1 = plt.subplots()
+            ax1.pie(
+                [assets_cash, assets_shares_net, assets_crypto_net],
+                labels=["Cash", "Shares", "Crypto"],
+                autopct='%.0d%%',
+                pctdistance=0.83,
+                counterclock=False,
+                startangle=90,
+            )
+            st.pyplot(fig1)
+        # st.divider()
+
+    st.write("##### Net Worth")
     assets_net_worth = int(assets_cash + assets_shares_net + assets_crypto_net)
     if "assets_net_worth" not in st.session_state:
         st.session_state["assets_net_worth"] = assets_net_worth
@@ -155,9 +179,4 @@ with tab1:
         ])
         edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
     with col2:
-        st.line_chart(edited_df, x="Month", y="Net Worth")
-    st.divider()
-
-    st.markdown("##### Allocation")
-    st.write("Add pie")
-    
+        st.line_chart(edited_df, x="Month", y="Net Worth", height=420)

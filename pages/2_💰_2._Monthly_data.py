@@ -58,7 +58,7 @@ with tab1:
                 'Pension': [avg_income_pension],
                 'Bonus': [avg_income_bonus],
             })
-            st.dataframe(income_averages, hide_index=True, width=720)
+            st.dataframe(income_averages, hide_index=True, use_container_width=True)
 
     new_income = st.form(key="new_income", clear_on_submit=False)
     with new_income:
@@ -80,7 +80,7 @@ with tab1:
            st.toast("Updated Income table 💰", icon="🎉")
 
     st.write("##### All data")
-    st.dataframe(st.session_state.income_data, hide_index=True, width=720)
+    st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
 
 with tab2:
     if 'spend_data' not in st.session_state:
@@ -148,7 +148,7 @@ with tab2:
                 "Shopping": [avg_spend_shop],
                 "Travel": [avg_spend_travel],
             })
-            st.dataframe(spend_averages, hide_index=True, width=720)
+            st.dataframe(spend_averages, hide_index=True, use_container_width=True)
 
     new_spend = st.form(key="new_spend", clear_on_submit=False)
     with new_spend:
