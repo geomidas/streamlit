@@ -124,8 +124,7 @@ with tab4:
             if not isnan(key):
                 monthly_debt += key
         st.write("Monthly debt payments total:", curr_symbol, monthly_debt)
-        if "monthly_debt" not in st.session_state:
-            st.session_state["monthly_debt"] = monthly_debt
+        st.session_state["monthly_debt"] = monthly_debt
 
     with col2:
         if len(edited_df_debt["Amount"]) > 1 and monthly_debt > 0 and edited_df_debt["Amount"].isnull().values.any() == False:
