@@ -8,10 +8,10 @@ st.set_page_config(layout="centered")
 # Load variables
 curr_symbol = st.session_state["curr_symbol"]
 
-st.markdown("### Monthly Plan")
+st.markdown("### Monthly budget")
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    "__🎯 Monthly Plan__",
+    "__🎯 Monthly budget__",
     "__⚡ Bills &nbsp;__",
     "__🚌 Transportation__",
     "__🏦 Debt &nbsp;__",
@@ -21,7 +21,7 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 
 with tab2:
     with st.expander("ℹ️ Monthly Bill Payments"):
-        st.markdown("💡 Tip: Estimations are fine.")
+        st.info("Tip: Estimations are fine.", icon="💡")
 
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
@@ -60,7 +60,7 @@ with tab2:
 
 with tab3:
     with st.expander("ℹ️ Monthly Transportation Costs"):
-        st.markdown("💡 You can split any annual expenses in montly payments")
+        st.info("Tip: You can split any annual expenses in montly payments.", icon="💡")
 
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
@@ -96,8 +96,8 @@ with tab3:
 
 with tab4:
     with st.expander("ℹ️ Monthly Debt Payments"):
-        st.markdown("💡 Low interest payments are ok.")
-        st.markdown("💡 Try to eliminate higher interest debt.")
+        st.info("Tip: Low interest payments are ok.", icon="💡")
+        st.info("Tip:  Try to eliminate higher interest debt.", icon="💡")
 
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
@@ -143,7 +143,7 @@ with tab4:
 
 with tab5:
     with st.expander("ℹ️ Monthly Savings"):
-        st.markdown("💡 Savings for any specific purpose.")
+        st.info("Tip:  Add savings for any purpose not covered by the monthly budget.\n\nCan be for medium or long-term saving goals.", icon="💡")
 
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
@@ -177,7 +177,7 @@ with tab5:
 
 with tab6:
     with st.expander("ℹ️ Monthly Investments (DCA)"):
-        st.markdown("💡 Automate funding your accounts.")
+        st.info("Tip:  Automate funding your accounts.", icon="💡")
 
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
@@ -251,7 +251,7 @@ with tab1:
                 print("Nothing")
         st.write('All outflows:', total, "€")
         if total > income:
-            st.write("⚠️ Your expenses are higher than your income.")
+            st.error(body="Your expenses are higher than your income.", icon="⚠️")
     
     with col2:
         if len(edited_df["Amount"]) > 1:

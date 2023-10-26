@@ -29,7 +29,7 @@ with tab2:
     st.markdown("Cash and cash equivalent:")
     df_cash = pd.DataFrame([
         {"Cash": "Under the mattress", "Net": 0},
-        {"Cash": "Savings", "Net": 0},
+        {"Cash": "Savings", "Net": 1000},
     ])
     edited_df_cash = st.data_editor(df_cash, width=380, num_rows="dynamic")
     assets_cash = 0
@@ -156,9 +156,8 @@ with tab1:
 
     st.write("##### Net Worth")
     assets_net_worth = int(assets_cash + assets_shares_net + assets_crypto_net)
-    if "assets_net_worth" not in st.session_state:
-        st.session_state["assets_net_worth"] = assets_net_worth
     st.write("Current Net Worth:", curr_symbol, assets_net_worth)
+    st.session_state["assets_net_worth"] = assets_net_worth
 
     st.markdown("##### Net Worth over time")
     col1, col2 = st.columns([1, 2], gap="medium")
