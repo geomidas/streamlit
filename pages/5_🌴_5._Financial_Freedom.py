@@ -44,10 +44,10 @@ with tab1:
         future_nw = pd.DataFrame({
                 "Year": ["2024", "2025", "2026", "2027"],
                 "Projected Net Investments": [
-                    net_investments + (net_investments * retire_rr),
-                    net_investments + (net_investments * retire_rr),
-                    net_investments + (net_investments * retire_rr),
-                    net_investments + (net_investments * retire_rr),
+                    curr_fmt(net_investments + (net_investments * retire_rr)),
+                    curr_fmt(net_investments + (net_investments * retire_rr)),
+                    curr_fmt(net_investments + (net_investments * retire_rr)),
+                    curr_fmt(net_investments + (net_investments * retire_rr)),
                 ]
             })
         st.dataframe(future_nw, hide_index=True)
