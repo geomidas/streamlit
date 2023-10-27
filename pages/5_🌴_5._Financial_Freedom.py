@@ -42,11 +42,15 @@ with tab1:
         retire_rr = retire_rr_perc / 100
     with col2:
         future_nw = pd.DataFrame({
-                "Year": ["2024"],
-                "Investments Net Worth": [0],
+                "Year": ["2024", "2025", "2026", "2027"],
+                "Investments Net Worth": [
+                    net_investments + (net_investments * retire_rr),
+                    net_investments + (net_investments * retire_rr),
+                    net_investments + (net_investments * retire_rr),
+                    net_investments + (net_investments * retire_rr),
+                ]
             })
-        st.dataframe(future_nw, hide_index=True, use_container_width=True)
-
+        st.dataframe(future_nw, hide_index=True)
 
     st.info("Years untill retirement: __" + "1234" + "__")
     # st.info("Υears of necessary expenses covered: __" + "1234" + "__")
