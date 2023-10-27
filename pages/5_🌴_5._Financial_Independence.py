@@ -1,7 +1,7 @@
 import streamlit as st
 import locale
 
-locale.setlocale( locale.LC_ALL, '' )
+locale.setlocale( locale.LC_ALL, 'en_IE.UTF-8' )
 def curr_fmt(val):
     return locale.currency(val, symbol=False, grouping=True)
 
