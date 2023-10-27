@@ -8,6 +8,8 @@ locale.setlocale( locale.LC_ALL, 'en_US' )
 def curr_fmt(val):
     return locale.currency(val, symbol=False, grouping=True)
 
+st.set_page_config("PerFin", page_icon="💎")
+
 # Load variables
 curr_symbol = st.session_state["curr_symbol"]
 if "last_net_income" in st.session_state:

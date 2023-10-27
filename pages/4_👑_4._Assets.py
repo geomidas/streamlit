@@ -14,6 +14,7 @@ def get_share_price(ticker):
 def get_crypto_price(ticker, selected_currency):
     return yf.Ticker(ticker + "-" + selected_currency).basic_info["lastPrice"]
 
+st.set_page_config("PerFin", page_icon="💎")
 
 # Load Settings
 selected_currency = st.session_state["selected_currency"]
