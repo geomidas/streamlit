@@ -38,7 +38,11 @@ with tab2:
            {"Title": "Netflix", "Amount": 6},
            {"Title": "Bins", "Amount": 10},
        ])
-        edited_df_bills = st.data_editor(df_bills, num_rows="dynamic", use_container_width=True)
+        edited_df_bills = st.data_editor(
+            df_bills,
+            num_rows="dynamic",
+            use_container_width=True,
+        )
 
         monthly_bills = 0
         for key in edited_df_bills["Amount"]:
@@ -208,7 +212,12 @@ with tab1:
             {"Purpose": "Shopping", "Amount": 250, "Necessary": False},
             {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
         ])
-        edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
+        edited_df = st.data_editor(
+            df,
+            num_rows="dynamic",
+            use_container_width=True,
+            disabled=["Bills"],
+        )
         
         total_necessary = 0
         account_funding = {}
