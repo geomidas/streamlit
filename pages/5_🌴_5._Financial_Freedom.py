@@ -17,7 +17,7 @@ necessary_expenses = st.session_state["necessary_expenses"]
 monthly_debt = st.session_state["monthly_debt"]
 net_investments = assets_shares_net + assets_crypto_net
 
-st.markdown("### Financial Independence")
+st.markdown("### Financial Freedom")
 
 tab1, = st.tabs([
     "__🏖️ Retirement__",
