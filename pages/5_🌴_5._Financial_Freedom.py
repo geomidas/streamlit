@@ -43,7 +43,7 @@ with tab1:
     with col2:
         future_nw = pd.DataFrame({
                 "Year": ["2024", "2025", "2026", "2027"],
-                "Investments Net Worth": [
+                "Projected Net Investments": [
                     net_investments + (net_investments * retire_rr),
                     net_investments + (net_investments * retire_rr),
                     net_investments + (net_investments * retire_rr),
