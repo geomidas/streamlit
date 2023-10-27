@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import locale
 
 locale.setlocale( locale.LC_ALL, 'en_US' )
@@ -24,7 +25,7 @@ tab1, = st.tabs([
     ])
 
 with tab1:
-    col1, col2, col3 = st.columns([1,1,1], gap="medium")
+    col1, col2 = st.columns([1,1], gap="medium")
     with col1:
         retire_monthly_sal = st.number_input("Monthly budget (in " + curr_symbol + ")", min_value=0, value=1000)
     with col2:
@@ -35,12 +36,17 @@ with tab1:
     # st.info("Your budget if you retired now:\n\n > Yearly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr) + "__\n\n > Monthly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr/12) + "__")
 
     st.write("#### Projected Net Worth of Investments")
-    col1, col2, col3 = st.columns([1,1,1], gap="medium")
+    col1, col2 = st.columns([1,1], gap="medium")
     with col1:
         retire_rr_perc = st.number_input("Expected return rate", min_value=0.0, value=8.0)
         retire_rr = retire_rr_perc / 100
     with col2:
-        st.write("projection table here")
+        future_nw = pd.DataFrame({
+                "Year": ["2024"],
+                "Investments Net Worth": [0],
+            })
+        st.dataframe(future_nw, hide_index=True, use_container_width=True)
+
 
     st.info("Years untill retirement: __" + "1234" + "__")
     # st.info("Υears of necessary expenses covered: __" + "1234" + "__")
