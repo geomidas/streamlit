@@ -1,12 +1,16 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import locale
 from numpy import isnan
 
-st.set_page_config(layout="centered")
+locale.setlocale( locale.LC_ALL, '' )
+def curr_fmt(val):
+    return locale.currency(val, grouping=True)
 
 # Load variables
 curr_symbol = st.session_state["curr_symbol"]
+last_net_income = st.session_state.last_net_income
 
 st.markdown("### Monthly budget")
 
@@ -40,7 +44,8 @@ with tab2:
         for key in edited_df_bills["Amount"]:
             if not isnan(key):
                 monthly_bills += int(key)
-        st.write("Monthly bills: €", monthly_bills)
+        st.write("Monthly bills:", "__" + str(curr_fmt(monthly_bills)) + "__")
+
         if "monthly_bills" not in st.session_state:
             st.session_state["monthly_bills"] = monthly_bills
 
@@ -54,7 +59,6 @@ with tab2:
                 pctdistance=0.83,
                 counterclock=False,
                 startangle=90,
-                # textprops = {'size': 'medium'},
             )
             st.pyplot(fig1)
 
@@ -76,7 +80,8 @@ with tab3:
         for key in edited_df_transp["Amount"]:
             if not isnan(key):
                 monthly_transportation += key
-        st.write("Estimated monthly transportation costs:", curr_symbol, monthly_transportation)
+        st.write("Estimated monthly transportation costs:", "__" + str(curr_fmt(monthly_transportation)) + "__")
+
         if "monthly_transportation" not in st.session_state:
             st.session_state["monthly_transportation"] = monthly_transportation
 
@@ -90,7 +95,6 @@ with tab3:
                 pctdistance=0.83,
                 counterclock=False,
                 startangle=90,
-                # textprops = {'size': 'medium'},
             )
             st.pyplot(fig1)
 
@@ -123,7 +127,7 @@ with tab4:
         for key in edited_df_debt["Amount"]:
             if not isnan(key):
                 monthly_debt += key
-        st.write("Monthly debt payments total:", curr_symbol, monthly_debt)
+        st.write("Monthly debt payments total:", "__" + str(curr_fmt(monthly_debt)) + "__")
         st.session_state["monthly_debt"] = monthly_debt
 
     with col2:
@@ -136,7 +140,6 @@ with tab4:
                 pctdistance=0.83,
                 counterclock=False,
                 startangle=90,
-                # textprops = {'size': 'medium'},
             )
             st.pyplot(fig1)
 
@@ -156,9 +159,8 @@ with tab5:
         for key in edited_df_savings["Amount"]:
             if not isnan(key):
                 monthly_savings += key
-        st.write("Monthly savings:", curr_symbol, monthly_savings)
-        if "monthly_savings" not in st.session_state:
-            st.session_state["monthly_savings"] = monthly_savings
+        st.write("Monthly savings:", "__" + str(curr_fmt(monthly_savings)) + "__")
+        st.session_state["monthly_savings"] = monthly_savings
 
     with col2:
         if len(edited_df_savings["Amount"]) > 1 and monthly_savings > 0 and edited_df_savings["Amount"].isnull().values.any() == False:
@@ -170,7 +172,6 @@ with tab5:
                 pctdistance=0.83,
                 counterclock=False,
                 startangle=90,
-                # textprops = {'size': 'medium'},
             )
             st.pyplot(fig1)
 
@@ -190,10 +191,8 @@ with tab6:
         for key in edited_df_invest["Amount"]:
             if not isnan(key):
                 monthly_investments += key
-        st.write("Monthly investments:", curr_symbol, monthly_investments)
-        if "monthly_investments" not in st.session_state:
-            st.session_state["monthly_investments"] = monthly_investments
-
+        st.write("Monthly investments:", "__" + str(curr_fmt(monthly_investments)) + "__")
+        st.session_state["monthly_investments"] = monthly_investments
     with col2:
         if len(edited_df_invest["Amount"]) > 1 and monthly_investments > 0 and edited_df_invest["Amount"].isnull().values.any() == False:
             fig1, ax1 = plt.subplots()
@@ -204,21 +203,12 @@ with tab6:
                 pctdistance=0.83,
                 counterclock=False,
                 startangle=90,
-                # textprops = {'size': 'medium'},
             )
             st.pyplot(fig1)
 
 with tab1:
-    # Load variables
-    # monthly_bills = st.session_state["monthly_bills"]
-    # monthly_transportation = st.session_state["monthly_transportation"]
-    # monthly_debt = st.session_state["monthly_debt"]
-    # monthly_savings = st.session_state["monthly_savings"]
-    # monthly_investments = st.session_state["monthly_investments"]
-    
-    income = 2500
-    st.write("Income:", 2500)
-    
+    st.write("Income:", "__" + str(curr_fmt(last_net_income)) + "__")
+
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
         df = pd.DataFrame([
@@ -239,7 +229,7 @@ with tab1:
         for item in range(len(edited_df)):
             if edited_df.iloc[item]["Necessary"]:
                 total_necessary += edited_df.iloc[item]["Amount"]
-        st.write('Necessary:', total_necessary, "€")
+        st.write("Necessary:", "__" + str(curr_fmt(total_necessary)) + "__")
         st.session_state["necessary_expenses"] = total_necessary
 
         total = 0
@@ -248,9 +238,9 @@ with tab1:
                 total += key
             except:
                 print("Nothing")
-        st.write('All outflows:', total, "€")
-        if total > income:
-            st.error(body="Your expenses are higher than your income.", icon="⚠️")
+        st.write("All outflows:", "__" + str(curr_fmt(total)) + "__")
+        if total > last_net_income:
+            st.warning(body="Your expenses are higher than your income.", icon="⚠️")
     
     with col2:
         if len(edited_df["Amount"]) > 1:
@@ -262,6 +252,5 @@ with tab1:
                 pctdistance=0.83,
                 counterclock=False,
                 startangle=90,
-                # textprops = {'size': 'medium'},
             )
             st.pyplot(fig1)

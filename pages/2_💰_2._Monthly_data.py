@@ -82,6 +82,10 @@ with tab1:
     st.write("##### All data")
     st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
 
+    if st.session_state.income_data.tail(1)["Net income"].any():
+        last_net_income = int(st.session_state.income_data.tail(1)["Net income"].item())
+        st.session_state.last_net_income = last_net_income
+
 with tab2:
     if 'spend_data' not in st.session_state:
         spend_data=pd.DataFrame({

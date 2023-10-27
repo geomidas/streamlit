@@ -35,10 +35,10 @@ with tab1:
         st.write('Monthly budget:', curr_symbol, int(assets_net_worth*retire_wr/12))
 
     st.write("#### Projected Net Worth of Investments")
-    st.write("charty chart")
+    st.write("__`charty chart`__")
 
-    st.write("Years untill retirement:", 1234)
-    st.write("Investments as years of all necessary expenses covered:", 1234)
+    st.write("Years untill retirement:", "__1234__")
+    st.write("Υears of necessary expenses covered:", "__1234__")
 
     st.write("#### Current status")
     st.write("Net Worth:", curr_symbol, assets_net_worth)
