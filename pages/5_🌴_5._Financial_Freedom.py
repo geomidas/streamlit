@@ -65,7 +65,10 @@ with tab1:
                     target_hit_date = str(year_counter)
         st.dataframe(future_nw, hide_index=True)
 
-    st.info("Year of retirement: __" + target_hit_date + "__")
+    with col1:
+        st.write("Results:")
+        st.info("Year of retirement: __" + target_hit_date + "__")
+        st.info("Years until retirement: __" + str(int(target_hit_date) - year) + "__")
 
     st.write("#### Current Financial Status")
 
