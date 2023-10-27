@@ -29,7 +29,7 @@ with tab1:
     with col1:
         retire_monthly_sal = st.number_input("Monthly budget (in " + curr_symbol + ")", min_value=0, value=1000)
     with col2:
-        retire_wr_perc = st.number_input("Withrawal rate %", min_value=0.0, value=3.5)
+        retire_wr_perc = st.number_input("Withrawal rate (%)", min_value=0.0, value=3.5)
         retire_wr = retire_wr_perc / 100
     retire_yearly_income = retire_monthly_sal * 12
     st.info("You can retire when your Net investments reach __" + curr_symbol + curr_fmt(retire_yearly_income*(1/retire_wr)) + "__")
@@ -38,7 +38,7 @@ with tab1:
     st.write("#### Projected Net Worth of Investments")
     col1, col2 = st.columns([1,1], gap="medium")
     with col1:
-        retire_rr_perc = st.number_input("Expected return rate", min_value=0.0, value=8.0)
+        retire_rr_perc = st.number_input("Expected return rate (%)", min_value=0.0, value=8.0)
         retire_rr = retire_rr_perc / 100
     with col2:
         future_nw = pd.DataFrame({
