@@ -3,13 +3,17 @@ import streamlit as st
 
 st.set_page_config("PerFin", page_icon="💎")
 
-st.markdown("### Settings")
+st.markdown("### PerFin")
 
-tab1, = st.tabs([
-    "__⚙️ Global__",
+tab1, tab2 = st.tabs([
+    "__🏠 Home__",
+    "__⚙️ Settings__",
 ])
 
 with tab1:
+    st.image("https://media.licdn.com/dms/image/C5612AQHHjQNDyUaDTA/article-cover_image-shrink_423_752/0/1630367683012?e=1703721600&v=beta&t=EOBW6AvScDGG2WEdgCa5tQ1CA4oxOznvRd24yG2rJM0")
+
+with tab2:
     col1, col2 = st.columns([1,2], gap="medium")
     with col1:
         selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
