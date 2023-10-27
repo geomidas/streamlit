@@ -40,6 +40,7 @@ with tab1:
     with col1:
         retire_rr_perc = st.number_input("Expected return rate (%)", min_value=0.0, value=8.0)
         retire_rr = retire_rr_perc / 100
+        years_to_project = st.number_input("Years ahead to project", min_value=0, value=30)
     with col2:
         future_nw = pd.DataFrame({
                 "Year": ["2024", "2025", "2026", "2027"],
