@@ -10,7 +10,10 @@ def curr_fmt(val):
 
 # Load variables
 curr_symbol = st.session_state["curr_symbol"]
-last_net_income = st.session_state.last_net_income
+if "last_net_income" in st.session_state:
+    last_net_income = st.session_state.last_net_income
+else:
+    last_net_income = 0
 
 st.markdown("### Monthly budget")
 
@@ -74,7 +77,7 @@ with tab3:
         for key in edited_df_transp["Amount"]:
             if not isnan(key):
                 monthly_transportation += key
-        st.info("Estimated monthly transportation costs: __" + curr_symbol + curr_fmt(monthly_transportation) + "__")
+        st.info("Monthly transportation costs: __" + curr_symbol + curr_fmt(monthly_transportation) + "__")
 
         if "monthly_transportation" not in st.session_state:
             st.session_state["monthly_transportation"] = monthly_transportation
@@ -117,7 +120,7 @@ with tab4:
         for key in edited_df_debt["Amount"]:
             if not isnan(key):
                 monthly_debt += key
-        st.info("Monthly debt payments total: __" + curr_symbol + curr_fmt(monthly_debt) + "__")
+        st.info("Monthly debt payments: __" + curr_symbol + curr_fmt(monthly_debt) + "__")
         st.session_state["monthly_debt"] = monthly_debt
 
     with col2:
@@ -194,7 +197,6 @@ with tab6:
 with tab1:
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
-        st.info("Income: __" + curr_symbol + curr_fmt(last_net_income) + "__")
         df = pd.DataFrame([
             {"Purpose": "Rent", "Amount": 1000, "Necessary": True},
             {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
@@ -213,7 +215,7 @@ with tab1:
         for item in range(len(edited_df)):
             if edited_df.iloc[item]["Necessary"]:
                 total_necessary += edited_df.iloc[item]["Amount"]
-        st.info("Necessary: __" + curr_symbol + str(curr_fmt(total_necessary)) + "__")
+        st.info("Necessary outflows: __" + curr_symbol + str(curr_fmt(total_necessary)) + "__")
         st.session_state["necessary_expenses"] = total_necessary
 
         total = 0
@@ -238,4 +240,4 @@ with tab1:
             st.pyplot(fig1)
 
     if total > last_net_income:
-        st.warning(body="Your expenses are higher than your income.", icon="⚠️")
+        st.warning(body="Your outflows are higher than your income.\n\nLast income: __" + curr_symbol + curr_fmt(last_net_income) + "__", icon="⚠️")
