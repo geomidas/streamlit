@@ -34,7 +34,8 @@ with tab1:
         retire_wr_perc = st.number_input("Withrawal rate (%)", min_value=0.0, value=3.5)
         retire_wr = retire_wr_perc / 100
     retire_yearly_income = retire_monthly_sal * 12
-    st.info("You can retire when your Net investments reach __" + curr_symbol + curr_fmt(retire_yearly_income*(1/retire_wr)) + "__")
+    retire_target = retire_yearly_income*(1/retire_wr)
+    st.info("You can retire when your Net investments reach __" + curr_symbol + curr_fmt(retire_target) + "__")
     # st.info("Your budget if you retired now:\n\n > Yearly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr) + "__\n\n > Monthly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr/12) + "__")
 
     st.write("#### Projected Net Worth of Investments")
@@ -42,7 +43,7 @@ with tab1:
     with col1:
         retire_rr_perc = st.number_input("Expected return rate (%)", min_value=0.0, value=8.0)
         retire_rr = retire_rr_perc / 100
-        years_to_project = st.number_input("Years ahead to project", min_value=0, value=30)
+        years_to_project = st.number_input("Years ahead to project", min_value=0, value=60)
     with col2:
         today = datetime.date.today()
         year = int(today.year)
@@ -53,14 +54,20 @@ with tab1:
         )
         year_counter = year
         net_investments_compounder = net_investments
+        target_hit_date = ""
         for row in range(len(future_nw)):
             year_counter += 1
             future_nw.T[row]["Year"] = str(year_counter)
             net_investments_compounder = net_investments_compounder * (1.0 + retire_rr)
             future_nw.T[row]["Projected Net Investments"] = curr_fmt(net_investments_compounder)
+            if target_hit_date:
+                if net_investments_compounder >= retire_target:
+                    target_hit_date = str(year_counter)
+                else:
+                    target_hit_date = "never"
         st.dataframe(future_nw, hide_index=True)
 
-    st.info("Years untill retirement: __" + "1234" + "__")
+    st.info("Years untill retirement: __" + target_hit_date + "__")
     # st.info("Υears of necessary expenses covered: __" + "1234" + "__")
 
     st.write("#### Current Financial Status")
