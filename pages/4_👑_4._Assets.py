@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import yfinance as yf
 import locale
 
-locale.setlocale( locale.LC_ALL, 'en_IE.UTF-8' )
+locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
 def curr_fmt(val):
     return locale.currency(val, symbol=False, grouping=True)
 

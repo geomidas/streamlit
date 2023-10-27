@@ -11,7 +11,10 @@ tab1, tab2 = st.tabs([
 ])
 
 with tab1:
-    st.image("https://www.theglobeandmail.com/files/dev/www/cache-long/arc-site-team/for-you-package/banner-desktop-900.png", caption="Personal Finance")
+    st.image(
+        "https://www.theglobeandmail.com/files/dev/www/cache-long/arc-site-team/for-you-package/banner-desktop-900.png",
+        caption="Personal Finance",
+    )
 
 with tab2:
     col1, col2 = st.columns([1,2], gap="medium")
