@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
+import datetime
 import locale
+
 
 locale.setlocale( locale.LC_ALL, 'en_US' )
 def curr_fmt(val):
@@ -42,15 +44,20 @@ with tab1:
         retire_rr = retire_rr_perc / 100
         years_to_project = st.number_input("Years ahead to project", min_value=0, value=30)
     with col2:
-        future_nw = pd.DataFrame({
-                "Year": ["2024", "2025", "2026", "2027"],
-                "Projected Net Investments": [
-                    curr_fmt(net_investments + (net_investments * retire_rr)),
-                    curr_fmt(net_investments + (net_investments * retire_rr)),
-                    curr_fmt(net_investments + (net_investments * retire_rr)),
-                    curr_fmt(net_investments + (net_investments * retire_rr)),
-                ]
-            })
+        today = datetime.date.today()
+        year = int(today.year)
+
+        future_nw = pd.DataFrame(
+            index=range(years_to_project),
+            columns=["Year", "Projected Net Investments"]
+        )
+        year_counter = year
+        net_investments_compounder = net_investments
+        for row in range(len(future_nw)):
+            year_counter += 1
+            future_nw.T[row]["Year"] = str(year_counter)
+            net_investments_compounder += net_investments_compounder
+            future_nw.T[row]["Projected Net Investments"] = curr_fmt(net_investments_compounder)
         st.dataframe(future_nw, hide_index=True)
 
     st.info("Years untill retirement: __" + "1234" + "__")
