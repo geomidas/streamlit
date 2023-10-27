@@ -31,7 +31,33 @@ with tab1:
         })
         st.session_state.income_data = pd.concat([st.session_state.income_data, row])
 
-    with st.expander("ℹ️ Track your monthly income."):
+    new_income = st.form(key="new_income", clear_on_submit=False)
+    with new_income:
+        st.write("#### Add income data")
+        df_form_columns = st.columns(5)
+        with df_form_columns[0]:
+            st.date_input("Date", format="YYYY-MM-DD", key="input_incume_date")
+        with df_form_columns[1]:
+            st.number_input("Net income", min_value=0, step=1, key="input_income_net")
+        with df_form_columns[2]:
+            st.number_input("Health insurance", min_value=0, step=1, key="input_income_health")
+        with df_form_columns[3]:
+            st.number_input("Pension", min_value=0, step=1, key="input_income_pension")
+        with df_form_columns[4]:
+            st.number_input("Bonus", min_value=0, step=1, key="input_income_bonus")
+
+        submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
+        if submitted:
+           st.toast("Updated Income table 💰", icon="🎉")
+
+    with st.expander("All data"):
+        st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
+
+    if st.session_state.income_data.tail(1)["Net income"].any():
+        last_net_income = int(st.session_state.income_data.tail(1)["Net income"].item())
+        st.session_state.last_net_income = last_net_income
+
+    with st.expander("Monthly Average"):
         st.write("This acts as a guide for setting more accurate values in Monthly Outflows.")
         if len(st.session_state.income_data) > 1:
             st.write("##### Average")
@@ -60,32 +86,6 @@ with tab1:
             })
             st.dataframe(income_averages, hide_index=True, use_container_width=True)
 
-    new_income = st.form(key="new_income", clear_on_submit=False)
-    with new_income:
-        st.write("#### Add income data")
-        df_form_columns = st.columns(5)
-        with df_form_columns[0]:
-            st.date_input("Date", format="YYYY-MM-DD", key="input_incume_date")
-        with df_form_columns[1]:
-            st.number_input("Net income", min_value=0, step=1, key="input_income_net")
-        with df_form_columns[2]:
-            st.number_input("Health insurance", min_value=0, step=1, key="input_income_health")
-        with df_form_columns[3]:
-            st.number_input("Pension", min_value=0, step=1, key="input_income_pension")
-        with df_form_columns[4]:
-            st.number_input("Bonus", min_value=0, step=1, key="input_income_bonus")
-
-        submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
-        if submitted:
-           st.toast("Updated Income table 💰", icon="🎉")
-
-    st.write("##### All data")
-    st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
-
-    if st.session_state.income_data.tail(1)["Net income"].any():
-        last_net_income = int(st.session_state.income_data.tail(1)["Net income"].item())
-        st.session_state.last_net_income = last_net_income
-
 with tab2:
     if 'spend_data' not in st.session_state:
         spend_data=pd.DataFrame({
@@ -113,10 +113,36 @@ with tab2:
         })
         st.session_state.spend_data = pd.concat([st.session_state.spend_data, row])
 
-    with st.expander("ℹ️ Track your monthly spending."):
-        st.write("This acts as a guide for setting more accurate values in Monthly Outflows.")
+    new_spend = st.form(key="new_spend", clear_on_submit=False)
+    with new_spend:
+        st.write("#### Add spending data")
+        df_form_columns = st.columns(8)
+        with df_form_columns[0]:
+            st.date_input("Date", format="YYYY-MM-DD", key="input_spend_date")
+        with df_form_columns[1]:
+            st.number_input("Rent + Bills", min_value=0, step=1, key="input_spend_rent")
+        with df_form_columns[2]:
+            st.number_input("Pension", min_value=0, step=1, key="input_spend_pension")
+        with df_form_columns[3]:
+            st.number_input("Transport", min_value=0, step=1, key="input_spend_transp")
+        with df_form_columns[4]:
+            st.number_input("Food + Fun", min_value=0, step=1, key="input_spend_food")
+        with df_form_columns[5]:
+            st.number_input("Invested", min_value=0, step=1, key="input_spend_invest")
+        with df_form_columns[6]:
+            st.number_input("Shopping", min_value=0, step=1, key="input_spend_shop")
+        with df_form_columns[7]:
+            st.number_input("Travel", min_value=0, step=1, key="input_spend_travel")
+
+        submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
+        if submitted:
+           st.toast("Updated Spending 💸", icon="🎉")
+
+    with st.expander("All data"):
+        st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
+
+    with st.expander("Monthly Average"):
         if len(st.session_state.spend_data) > 1:
-            st.write("##### Average")
             for key in st.session_state.spend_data:
                 if key in "Date":
                     pass
@@ -153,31 +179,3 @@ with tab2:
                 "Travel": [avg_spend_travel],
             })
             st.dataframe(spend_averages, hide_index=True, use_container_width=True)
-
-    new_spend = st.form(key="new_spend", clear_on_submit=False)
-    with new_spend:
-        st.write("#### Add spending data")
-        df_form_columns = st.columns(8)
-        with df_form_columns[0]:
-            st.date_input("Date", format="YYYY-MM-DD", key="input_spend_date")
-        with df_form_columns[1]:
-            st.number_input("Rent + Bills", min_value=0, step=1, key="input_spend_rent")
-        with df_form_columns[2]:
-            st.number_input("Pension", min_value=0, step=1, key="input_spend_pension")
-        with df_form_columns[3]:
-            st.number_input("Transport", min_value=0, step=1, key="input_spend_transp")
-        with df_form_columns[4]:
-            st.number_input("Food + Fun", min_value=0, step=1, key="input_spend_food")
-        with df_form_columns[5]:
-            st.number_input("Invested", min_value=0, step=1, key="input_spend_invest")
-        with df_form_columns[6]:
-            st.number_input("Shopping", min_value=0, step=1, key="input_spend_shop")
-        with df_form_columns[7]:
-            st.number_input("Travel", min_value=0, step=1, key="input_spend_travel")
-
-        submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
-        if submitted:
-           st.toast("Updated Spending 💸", icon="🎉")
-
-    st.write("##### All data")
-    st.dataframe(st.session_state.spend_data, hide_index=True, width=720)

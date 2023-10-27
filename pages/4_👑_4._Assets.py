@@ -2,7 +2,11 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import yfinance as yf
+import locale
 
+locale.setlocale( locale.LC_ALL, '' )
+def curr_fmt(val):
+    return locale.currency(val, symbol=False, grouping=True)
 
 def get_share_price(ticker):
     return yf.Ticker(ticker).basic_info["lastPrice"]
@@ -38,16 +42,15 @@ with tab2:
             assets_cash += key
         except:
             print("Assets: No cash")
-    st.write('Cash Sum:', curr_symbol, assets_cash)
-    if "assets_cash" not in st.session_state:
-        st.session_state["assets_cash"] = assets_cash
+    st.info('Cash Sum: __' + curr_symbol + curr_fmt(assets_cash) + "__")
+    st.session_state["assets_cash"] = assets_cash
 
     st.write("#### Emergency Fund")
-    st.write("Months of all necessary expenses covered:", int(assets_cash / necessary_expenses))
+    st.info("Months of all necessary expenses covered: __" + str(int(assets_cash / necessary_expenses)) + "__")
 
 with tab3:
     st.markdown("Add any shares you own:")
-    df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [0.0], "Avg Cost": [0.0]})
+    df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [10.0], "Avg Cost": [200.0]})
     edited_df_shares = st.data_editor(df_shares, use_container_width=True, num_rows="dynamic")
     
     assets_shares_net = 0
@@ -82,15 +85,14 @@ with tab3:
                 assets_shares_net += key
             except:
                 print("Assets: No shares")
-        st.write('Shares Net Sum:', curr_symbol, assets_shares_net)
+        st.info('Shares Net Sum: __' + curr_symbol + curr_fmt(assets_shares_net) + "__")
 
-    if "assets_shares_net" not in st.session_state:
-        st.session_state["assets_shares_net"] = assets_shares_net
+    st.session_state["assets_shares_net"] = assets_shares_net
 
 with tab4:
     ticker_btc = "BTC-" + selected_currency
     st.markdown("Crypto you hodl:")
-    df_crypto = pd.DataFrame({"Title": ["Bitcoin"], "Ticker": ["BTC"], "Count": [0.0], "Avg Cost": [0.0]})
+    df_crypto = pd.DataFrame({"Title": ["Bitcoin"], "Ticker": ["BTC"], "Count": [0.1], "Avg Cost": [1000.0]})
     edited_df_crypto = st.data_editor(df_crypto, use_container_width=True, num_rows="dynamic")
 
     assets_crypto_net = 0
@@ -125,10 +127,9 @@ with tab4:
                 assets_crypto_net += key
             except:
                 print("Assets > Crypto > Value calc error")
-        st.write("Crypto Net Sum:", curr_symbol, assets_crypto_net)
+        st.info("Crypto Net Sum: __" + curr_symbol + curr_fmt(assets_crypto_net) + "__")
 
-    if "assets_crypto_net" not in st.session_state:
-        st.session_state["assets_crypto_net"] = assets_crypto_net
+    st.session_state["assets_crypto_net"] = assets_crypto_net
 
 with tab1:
     if assets_cash != 0 and assets_shares_net != 0:
@@ -152,11 +153,10 @@ with tab1:
                 startangle=90,
             )
             st.pyplot(fig1)
-        # st.divider()
 
     st.write("##### Net Worth")
     assets_net_worth = int(assets_cash + assets_shares_net + assets_crypto_net)
-    st.write("Current Net Worth:", curr_symbol, assets_net_worth)
+    st.info("Current Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__")
     st.session_state["assets_net_worth"] = assets_net_worth
 
     st.markdown("##### Net Worth over time")

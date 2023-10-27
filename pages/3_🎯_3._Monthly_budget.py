@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import locale
 from numpy import isnan
+import locale
 
 locale.setlocale( locale.LC_ALL, '' )
 def curr_fmt(val):
-    return locale.currency(val, grouping=True)
+    return locale.currency(val, symbol=False, grouping=True)
 
 # Load variables
 curr_symbol = st.session_state["curr_symbol"]
@@ -24,9 +24,6 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 ])
 
 with tab2:
-    with st.expander("ℹ️ Monthly Bill Payments"):
-        st.info("Tip: Estimations are fine.", icon="💡")
-
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
         df_bills = pd.DataFrame([
@@ -44,7 +41,7 @@ with tab2:
         for key in edited_df_bills["Amount"]:
             if not isnan(key):
                 monthly_bills += int(key)
-        st.write("Monthly bills:", "__" + str(curr_fmt(monthly_bills)) + "__")
+        st.info("Monthly bills: __" + curr_symbol + str(curr_fmt(monthly_bills)) + "__")
 
         if "monthly_bills" not in st.session_state:
             st.session_state["monthly_bills"] = monthly_bills
@@ -63,9 +60,6 @@ with tab2:
             st.pyplot(fig1)
 
 with tab3:
-    with st.expander("ℹ️ Monthly Transportation Costs"):
-        st.info("Tip: You can split any annual expenses in montly payments.", icon="💡")
-
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
         df_transp = pd.DataFrame([
@@ -80,7 +74,7 @@ with tab3:
         for key in edited_df_transp["Amount"]:
             if not isnan(key):
                 monthly_transportation += key
-        st.write("Estimated monthly transportation costs:", "__" + str(curr_fmt(monthly_transportation)) + "__")
+        st.info("Estimated monthly transportation costs: __" + curr_symbol + curr_fmt(monthly_transportation) + "__")
 
         if "monthly_transportation" not in st.session_state:
             st.session_state["monthly_transportation"] = monthly_transportation
@@ -99,10 +93,6 @@ with tab3:
             st.pyplot(fig1)
 
 with tab4:
-    with st.expander("ℹ️ Monthly Debt Payments"):
-        st.info("Tip: Low interest payments are ok.", icon="💡")
-        st.info("Tip:  Try to eliminate higher interest debt.", icon="💡")
-
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
         df_debt = pd.DataFrame([
@@ -127,7 +117,7 @@ with tab4:
         for key in edited_df_debt["Amount"]:
             if not isnan(key):
                 monthly_debt += key
-        st.write("Monthly debt payments total:", "__" + str(curr_fmt(monthly_debt)) + "__")
+        st.info("Monthly debt payments total: __" + curr_symbol + curr_fmt(monthly_debt) + "__")
         st.session_state["monthly_debt"] = monthly_debt
 
     with col2:
@@ -144,9 +134,6 @@ with tab4:
             st.pyplot(fig1)
 
 with tab5:
-    with st.expander("ℹ️ Monthly Savings"):
-        st.info("Tip:  Add savings for any purpose not covered by the monthly budget.\n\nCan be for medium or long-term saving goals.", icon="💡")
-
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
         df_savings = pd.DataFrame([
@@ -159,7 +146,7 @@ with tab5:
         for key in edited_df_savings["Amount"]:
             if not isnan(key):
                 monthly_savings += key
-        st.write("Monthly savings:", "__" + str(curr_fmt(monthly_savings)) + "__")
+        st.info("Monthly savings: __" + curr_symbol + str(monthly_savings) + "__")
         st.session_state["monthly_savings"] = monthly_savings
 
     with col2:
@@ -176,9 +163,6 @@ with tab5:
             st.pyplot(fig1)
 
 with tab6:
-    with st.expander("ℹ️ Monthly Investments (DCA)"):
-        st.info("Tip:  Automate funding your accounts.", icon="💡")
-
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
         df_invest = pd.DataFrame([
@@ -191,8 +175,9 @@ with tab6:
         for key in edited_df_invest["Amount"]:
             if not isnan(key):
                 monthly_investments += key
-        st.write("Monthly investments:", "__" + str(curr_fmt(monthly_investments)) + "__")
+        st.info("Monthly investments: __" + curr_symbol + curr_fmt(monthly_investments) + "__")
         st.session_state["monthly_investments"] = monthly_investments
+
     with col2:
         if len(edited_df_invest["Amount"]) > 1 and monthly_investments > 0 and edited_df_invest["Amount"].isnull().values.any() == False:
             fig1, ax1 = plt.subplots()
@@ -207,10 +192,9 @@ with tab6:
             st.pyplot(fig1)
 
 with tab1:
-    st.write("Income:", "__" + str(curr_fmt(last_net_income)) + "__")
-
     col1, col2 = st.columns([1, 1], gap="medium")
     with col1:
+        st.info("Income: __" + curr_symbol + curr_fmt(last_net_income) + "__")
         df = pd.DataFrame([
             {"Purpose": "Rent", "Amount": 1000, "Necessary": True},
             {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
@@ -229,7 +213,7 @@ with tab1:
         for item in range(len(edited_df)):
             if edited_df.iloc[item]["Necessary"]:
                 total_necessary += edited_df.iloc[item]["Amount"]
-        st.write("Necessary:", "__" + str(curr_fmt(total_necessary)) + "__")
+        st.info("Necessary: __" + curr_symbol + str(curr_fmt(total_necessary)) + "__")
         st.session_state["necessary_expenses"] = total_necessary
 
         total = 0
@@ -238,9 +222,7 @@ with tab1:
                 total += key
             except:
                 print("Nothing")
-        st.write("All outflows:", "__" + str(curr_fmt(total)) + "__")
-        if total > last_net_income:
-            st.warning(body="Your expenses are higher than your income.", icon="⚠️")
+        st.info("All outflows: __" + curr_symbol + curr_fmt(total) + "__")
     
     with col2:
         if len(edited_df["Amount"]) > 1:
@@ -254,3 +236,6 @@ with tab1:
                 startangle=90,
             )
             st.pyplot(fig1)
+
+    if total > last_net_income:
+        st.warning(body="Your expenses are higher than your income.", icon="⚠️")

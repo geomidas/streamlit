@@ -1,6 +1,9 @@
 import streamlit as st
+import locale
 
-st.set_page_config(layout="centered")
+locale.setlocale( locale.LC_ALL, '' )
+def curr_fmt(val):
+    return locale.currency(val, symbol=False, grouping=True)
 
 # Load variables
 curr_symbol = st.session_state["curr_symbol"]
@@ -10,6 +13,7 @@ assets_crypto_net = st.session_state["assets_crypto_net"]
 assets_net_worth = st.session_state["assets_net_worth"]
 necessary_expenses = st.session_state["necessary_expenses"]
 monthly_debt = st.session_state["monthly_debt"]
+net_investments = assets_shares_net + assets_crypto_net
 
 st.markdown("### Financial Independence")
 
@@ -29,10 +33,8 @@ with tab1:
         retire_cgt = st.number_input("CGT in retirement", min_value=0.0, value=0.33)
     st.write("\n\n\n\n")
     retire_yearly_income = retire_monthly_sal * 12
-    st.write("You can retire when your Net investments reach", curr_symbol, int(retire_yearly_income*(1/retire_wr)))
-    with st.expander("If you retired now"):
-        st.write('Yearly budget:', curr_symbol, int(assets_net_worth*retire_wr))
-        st.write('Monthly budget:', curr_symbol, int(assets_net_worth*retire_wr/12))
+    st.info("You can retire when your Net investments reach __" + curr_symbol + curr_fmt(retire_yearly_income*(1/retire_wr)) + "__")
+    # st.info("Your budget if you retired now:\n\n > Yearly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr) + "__\n\n > Monthly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr/12) + "__")
 
     st.write("#### Projected Net Worth of Investments")
     st.write("__`charty chart`__")
@@ -41,46 +43,33 @@ with tab1:
     st.write("Υears of necessary expenses covered:", "__1234__")
 
     st.write("#### Current status")
-    st.write("Net Worth:", curr_symbol, assets_net_worth)
-    net_investments = assets_shares_net + assets_crypto_net
-    st.write("Net Investments:", curr_symbol, net_investments)
-    st.write("Yearly added investments:", curr_symbol, 1234)
-    # st.column_config.ProgressColumn("Financial progress")
+    col1, col2, = st.columns([1,1], gap="medium")
+    with col1:
+        st.info("Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__")
 
-    if net_investments >= retire_monthly_sal * 840:
-        st.write("Financial Status: __Financial Abundance__")
-    elif net_investments >= retire_monthly_sal * 600:
-       st.write("Financial Status: __Financial Freedom__")
-    elif net_investments >= retire_monthly_sal * 480:
-       st.write("Financial Status: __Financial Independency__")
-    elif net_investments >= retire_monthly_sal * 360:
-       st.write("Financial Status: __Financial Flexibility__")
-    elif net_investments >= retire_monthly_sal * 240:
-       st.write("Financial Status: __Financial Security__")
-    elif net_investments >= retire_monthly_sal * 120:
-       st.write("Financial Status: __Barista FI__")
-    elif int(monthly_debt) == 0:
-        st.write("Financial Status: __Debt Freedom__")
-    elif assets_cash >= int(6 * necessary_expenses):
-        st.write("Financial Status: __Financial Stability__")
-    elif assets_cash >= 0:
-        st.write("Financial Status: __Financial Solvancy__")
-    else:
-        st.write("Financial Status: __Financial Dependence__")
-
-    with st.expander("All financial statuses"):
-        st.write({
-            "Financial Dependence": 0,
-            "Financial Solvancy": 0,
-            "Financial Stability": int(6 * necessary_expenses),
-            "Debt Freedom": 0,
-            "Barista FI": retire_monthly_sal * 120,
-            "Financial Security": retire_monthly_sal * 240,
-            "Financial Flexibility": retire_monthly_sal * 360,
-            "Financial Independency": retire_monthly_sal * 480,
-            "Financial Freedom": retire_monthly_sal * 600,
-            "Financial Abundance": retire_monthly_sal * 840,
-        })
+        if net_investments >= retire_monthly_sal * 840:
+            st.info("Financial Status: __Financial Abundance__")
+        elif net_investments >= retire_monthly_sal * 600:
+            st.info("Financial Status: __Financial Freedom__")
+        elif net_investments >= retire_monthly_sal * 480:
+            st.info("Financial Status: __Financial Independency__")
+        elif net_investments >= retire_monthly_sal * 360:
+            st.info("Financial Status: __Financial Flexibility__")
+        elif net_investments >= retire_monthly_sal * 240:
+            st.info("Financial Status: __Financial Security__")
+        elif net_investments >= retire_monthly_sal * 120:
+            st.info("Financial Status: __Barista FI__")
+        elif int(monthly_debt) == 0:
+            st.info("Financial Status: __Debt Freedom__")
+        elif assets_cash >= int(6 * necessary_expenses):
+            st.info("Financial Status: __Financial Stability__")
+        elif assets_cash >= 0:
+            st.info("Financial Status: __Financial Solvancy__")
+        else:
+            st.info("Financial Status: __Financial Dependence__")
+    with col2:
+        st.info("Net Investments: __" + curr_symbol + curr_fmt(net_investments) + "__")
+        st.info("Yearly added investments: __" + curr_symbol + curr_fmt(1234) + "__")
 
     st.write("#### Useful resources")
-    st.write("Evaluate your plan:\n", "- Rich, broke or dead?\n", "https://engaging-data.com/will-money-last-retire-early")
+    st.write("Evaluate your plan:\n\n", "- Rich, broke or dead? https://engaging-data.com/will-money-last-retire-early")
