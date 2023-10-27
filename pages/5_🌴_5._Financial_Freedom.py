@@ -56,7 +56,7 @@ with tab1:
         for row in range(len(future_nw)):
             year_counter += 1
             future_nw.T[row]["Year"] = str(year_counter)
-            net_investments_compounder += net_investments_compounder
+            net_investments_compounder = net_investments_compounder * (1.0 + retire_rr)
             future_nw.T[row]["Projected Net Investments"] = curr_fmt(net_investments_compounder)
         st.dataframe(future_nw, hide_index=True)
 
