@@ -139,7 +139,7 @@ with tab2:
 
     def add_df_form():
         row = pd.DataFrame({
-            "Date": [st.session_state.input_income_date],
+            "Date": [st.session_state.input_spend_date],
             "Rent + Bills": [st.session_state.input_spend_rent],
             "Pension": [st.session_state.input_spend_pension],
             "Transportation": [st.session_state.input_spend_transp],
