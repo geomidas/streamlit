@@ -54,21 +54,23 @@ with tab1:
         )
         year_counter = year
         net_investments_compounder = net_investments
-        target_hit_date = "never"
+        target_hit_date = "Never"
         for row in range(len(future_nw)):
             year_counter += 1
             future_nw.T[row]["Year"] = str(year_counter)
             net_investments_compounder = net_investments_compounder * (1.0 + retire_rr)
             future_nw.T[row]["Projected Net Investments"] = curr_fmt(net_investments_compounder)
-            if target_hit_date is "never":
-                if net_investments_compounder >= retire_target:
-                    target_hit_date = str(year_counter)
+            if net_investments_compounder >= retire_target:
+                target_hit_date = str(year_counter)
+                break
         st.dataframe(future_nw, hide_index=True)
 
     with col1:
-        st.write("Results:")
-        st.info("Year of retirement: __" + target_hit_date + "__")
-        st.info("Years until retirement: __" + str(int(target_hit_date) - year) + "__")
+        if target_hit_date != "Never":
+            st.info("Year of retirement: __" + target_hit_date + "__")
+            st.info("Years until retirement: __" + str(int(target_hit_date) - year) + "__")
+        else:
+            st.warning("🍆 You won't have enough investments in " + str(years_to_project) + " years")
 
     st.write("#### Current Financial Status")
 
