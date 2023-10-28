@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 
 st.set_page_config("PerFin", page_icon="💎")
@@ -23,7 +24,7 @@ with tab1:
 
     def add_df_form():
         row = pd.DataFrame({
-            'Date': [st.session_state.input_incume_date],
+            'Date': [st.session_state.input_income_date],
             'Net income': [st.session_state.input_income_net],
             'Health insurance': [st.session_state.input_income_health],
             'Pension': [st.session_state.input_income_pension],
@@ -36,7 +37,7 @@ with tab1:
         st.write("#### Add income data")
         df_form_columns = st.columns(5)
         with df_form_columns[0]:
-            st.date_input("Date", format="YYYY-MM-DD", key="input_incume_date")
+            st.date_input("Date", format="YYYY-MM-DD", key="input_income_date")
         with df_form_columns[1]:
             st.number_input("Net income", min_value=0, step=1, key="input_income_net")
         with df_form_columns[2]:
@@ -49,10 +50,23 @@ with tab1:
         submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
         if submitted:
            st.toast("Updated Income table 💰", icon="🎉")
+    st.divider()
 
-    with st.expander("All data"):
+    if len(st.session_state.income_data["Date"]) > 1:
+        income_chart_data = pd.DataFrame(
+            st.session_state.income_data,
+            columns=["Date", "Net income", "Health insurance", "Pension", "Bonus"]
+        )
+        st.area_chart(
+            income_chart_data,
+            x="Date",
+            color=["#ff0033", "#0d70d7", "#70d70d", "#d7740d"]
+        )
+
+    with st.expander("All income data"):
         st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
 
+    # Store last income for use in budgeting
     if st.session_state.income_data.tail(1)["Net income"].any():
         last_net_income = int(st.session_state.income_data.tail(1)["Net income"].item())
         st.session_state.last_net_income = last_net_income
@@ -102,7 +116,7 @@ with tab2:
 
     def add_df_form():
         row = pd.DataFrame({
-            "Date": [st.session_state.input_incume_date],
+            "Date": [st.session_state.input_income_date],
             "Rent + Bills": [st.session_state.input_spend_rent],
             "Pension": [st.session_state.input_spend_pension],
             "Transportation": [st.session_state.input_spend_transp],
@@ -137,8 +151,20 @@ with tab2:
         submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
         if submitted:
            st.toast("Updated Spending 💸", icon="🎉")
+    st.divider()
 
-    with st.expander("All data"):
+    if len(st.session_state.spend_data["Date"]) > 1:
+        spend_chart_data = pd.DataFrame(
+            st.session_state.spend_data,
+            columns=["Date", "Rent+Bills", "Pension", "Transport", "Food+Fun", "Invested", "Shopping", "Travel"]
+        )
+        st.area_chart(
+            spend_chart_data,
+            x="Date",
+            color=["#ff0033", "#0d70d7", "#70d70d", "#d77401", "#ff0032", "#0d70d1", "#70d704"]
+        )
+
+    with st.expander("All spending data"):
         st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
 
     with st.expander("Monthly Average"):
