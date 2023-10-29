@@ -63,7 +63,7 @@ with tab1:
             if assets_net_investments_compounder >= retire_target:
                 target_hit_date = str(year_counter)
                 break
-        st.dataframe(future_nw, hide_index=True)
+        st.dataframe(future_nw.dropna(), hide_index=True)
 
     with col1:
         if target_hit_date != "Never":
