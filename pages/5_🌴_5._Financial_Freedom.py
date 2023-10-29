@@ -16,7 +16,7 @@ assets_cash = st.session_state["assets_cash"]
 assets_shares_net = st.session_state["assets_shares_net"]
 assets_crypto_net = st.session_state["assets_crypto_net"]
 assets_net_worth = st.session_state["assets_net_worth"]
-assets_assets_net_investments = st.session_state["assets_assets_net_investments"]
+assets_net_investments = st.session_state["assets_net_investments"]
 necessary_expenses = st.session_state["necessary_expenses"]
 monthly_debt = st.session_state["monthly_debt"]
 
