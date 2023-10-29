@@ -156,8 +156,11 @@ with tab1:
             st.pyplot(fig1)
 
     st.write("##### Net Worth")
-    assets_net_worth = int(assets_cash + assets_shares_net + assets_crypto_net)
-    st.info("Current Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__")
+    assets_net_investments = int(assets_shares_net + assets_crypto_net)
+    st.session_state.assets_net_investments = assets_net_investments
+    assets_net_worth = int(assets_cash) + assets_net_investments
+    st.info("Current Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__" + "\n\n" + 
+            "Net Investments: __" + curr_symbol + curr_fmt(assets_net_investments) + "__")
     st.session_state["assets_net_worth"] = assets_net_worth
 
     st.markdown("##### Net Worth over time")

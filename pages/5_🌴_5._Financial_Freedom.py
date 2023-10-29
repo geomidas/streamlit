@@ -16,9 +16,9 @@ assets_cash = st.session_state["assets_cash"]
 assets_shares_net = st.session_state["assets_shares_net"]
 assets_crypto_net = st.session_state["assets_crypto_net"]
 assets_net_worth = st.session_state["assets_net_worth"]
+assets_assets_net_investments = st.session_state["assets_assets_net_investments"]
 necessary_expenses = st.session_state["necessary_expenses"]
 monthly_debt = st.session_state["monthly_debt"]
-net_investments = assets_shares_net + assets_crypto_net
 
 st.markdown("### Financial Freedom")
 
@@ -29,7 +29,7 @@ tab1, = st.tabs([
 with tab1:
     col1, col2 = st.columns([1,1], gap="medium")
     with col1:
-        retire_monthly_sal = st.number_input("Monthly budget (in " + curr_symbol + ")", min_value=0, value=1000)
+        retire_monthly_sal = st.number_input("Monthly budget (in " + curr_symbol + ")", min_value=0, value=2000)
     with col2:
         retire_wr_perc = st.number_input("Withrawal rate (%)", min_value=0.0, value=3.5)
         retire_wr = retire_wr_perc / 100
@@ -53,14 +53,14 @@ with tab1:
             columns=["Year", "Projected Net Investments"]
         )
         year_counter = year
-        net_investments_compounder = net_investments
+        assets_net_investments_compounder = assets_net_investments
         target_hit_date = "Never"
         for row in range(len(future_nw)):
             year_counter += 1
             future_nw.T[row]["Year"] = str(year_counter)
-            net_investments_compounder = net_investments_compounder * (1.0 + retire_rr)
-            future_nw.T[row]["Projected Net Investments"] = curr_fmt(net_investments_compounder)
-            if net_investments_compounder >= retire_target:
+            assets_net_investments_compounder = assets_net_investments_compounder * (1.0 + retire_rr)
+            future_nw.T[row]["Projected Net Investments"] = curr_fmt(assets_net_investments_compounder)
+            if assets_net_investments_compounder >= retire_target:
                 target_hit_date = str(year_counter)
                 break
         st.dataframe(future_nw, hide_index=True)
@@ -74,18 +74,18 @@ with tab1:
 
     st.write("#### Current Financial Status")
 
-    # st.info("Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__" + "\n\n" + "Net Investments: __" + curr_symbol + curr_fmt(net_investments) + "__" + "\n\n" + "Yearly added investments: __" + curr_symbol + curr_fmt(1234) + "__")
+    # st.info("Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__" + "\n\n" + "Net Investments: __" + curr_symbol + curr_fmt(assets_net_investments) + "__" + "\n\n" + "Yearly added investments: __" + curr_symbol + curr_fmt(1234) + "__")
 
-    if net_investments >= retire_monthly_sal * 600:
+    if assets_net_investments >= retire_monthly_sal * 600:
         st.info("__Financial Freedom__" + "\n\n" + "You have more money than you'll ever need.\n\nYou don't have to worry about money, even in economic downturns.")
         st.progress(100)
-    elif net_investments >= retire_monthly_sal * 480:
+    elif assets_net_investments >= retire_monthly_sal * 480:
         st.info("__Financial Independence__" + "\n\n" + "Your investment income or passive income is enough to cover your basic needs, you've achieved financial independence.\n\nA financially independent person can retire at any time without worrying about how to cover their costs of living, even if they may have to downsize their lifestyle a bit.")
         st.progress(90)
-    elif net_investments >= retire_monthly_sal * 240:
+    elif assets_net_investments >= retire_monthly_sal * 240:
         st.info("__Financial Security__" + "\n\n" + "You have eliminated your debt (or have enough assets to pay off all your debt) and could weather a period of unemployment without worry.\n\nAt this point, money is not just a safety net, but also a tool you can use to build the future you've been planning.\n\nAt this point, you may consider investing in other assets besides retirement accounts — a taxable account, rental real estate, or even your own small business.")
         st.progress(60)
-    elif net_investments >= retire_monthly_sal * 120:
+    elif assets_net_investments >= retire_monthly_sal * 120:
         st.info("__Barista FI__" + "\n\n" + "You are able to meet your financial obligations on your own.")
         st.progress(40)
     elif assets_cash >= int(6 * necessary_expenses):
