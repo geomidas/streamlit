@@ -63,14 +63,14 @@ with tab1:
             if assets_net_investments_compounder >= retire_target:
                 target_hit_date = str(year_counter)
                 break
-        st.dataframe(future_nw.dropna(), hide_index=True)
+        st.dataframe(future_nw.dropna(), hide_index=True, height=296, use_container_width=True)
 
     with col1:
         if target_hit_date != "Never":
             st.info("Year of retirement: __" + target_hit_date + "__")
             st.info("Years until retirement: __" + str(int(target_hit_date) - year) + "__")
         else:
-            st.warning("🍆 You won't have enough investments in " + str(years_to_project) + " years")
+            st.warning("You won't have enough investments in " + str(years_to_project) + " years")
 
     st.write("#### Current Financial Status")
 
