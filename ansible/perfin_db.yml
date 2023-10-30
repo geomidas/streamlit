@@ -1,0 +1,5 @@
+---
+- hosts:
+    - localhost
+  roles:
+    - perfin_db

@@ -1,0 +1,17 @@
+---
+- name: create a instance
+  google.cloud.gcp_filestore_instance:
+    name: perfin_db
+    zone: europe-west2
+    tier: TIER_UNSPECIFIED
+    file_shares:
+    - capacity_gb: 1
+      name: perfin_db
+    networks:
+    - network: default
+      modes:
+      - MODE_IPV4
+    project: Django
+    auth_kind: serviceaccount
+    service_account_file: "{{ ansible_env.HOME }}/Downloads/numeric-pilot-305413-a1ac0fffa869.json"
+    state: present
