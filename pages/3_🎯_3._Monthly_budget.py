@@ -21,22 +21,26 @@ else:
     else:
         last_net_income = 0
 
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-        "__🎯 Monthly budget__",
-        "__⚡ Bills &nbsp;__",
-        "__🚌 Transportation__",
-        "__🏦 Debt &nbsp;__",
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
+        "__🎯 Budget__",
+        "__⚡ Bills__",
+        "__🚌 Transp__",
+        "__🏦 Debt__",
         "__🐷 Savings__",
-        "__🚀 Investments__",
+        "__🚀 Invest__",
+        "__🍕 Food + Fun__",
+        "__🛍️ Shop__",
+        "__✈️ Travel__",
     ])
 
     with tab2:
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             df_bills = pd.DataFrame([
+               {"Title": "Rent", "Amount": 900},
                {"Title": "Mobile Phone", "Amount": 20},
                {"Title": "Internet", "Amount": 30},
-               {"Title": "Electricity", "Amount": 38},
+               {"Title": "Electricity", "Amount": 40},
                {"Title": "Gas", "Amount": 30},
                {"Title": "iCloud", "Amount": 2},
                {"Title": "Netflix", "Amount": 6},
@@ -201,18 +205,45 @@ else:
                     startangle=90,
                 )
                 st.pyplot(fig1)
+    with tab7:
+        col1, col2 = st.columns([1, 1], gap="medium")
+        with col1:
+            df_food = pd.DataFrame([
+                {"Title": "Groceries", "Amount": 400,},
+                {"Title": "Drinks", "Amount": 100,},
+                {"Title": "Other", "Amount": 100,},
+            ])
+            edited_df_food = st.data_editor(df_food, num_rows="dynamic", use_container_width=True)
+            monthly_food = 0
+            for key in edited_df_food["Amount"]:
+                if not isnan(key):
+                    monthly_food += key
+            st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_food) + "__")
+            st.session_state["monthly_food"] = monthly_food
+
+        with col2:
+            if len(edited_df_food["Amount"]) > 1 and monthly_food > 0 and edited_df_food["Amount"].isnull().values.any() == False:
+                fig1, ax1 = plt.subplots()
+                ax1.pie(
+                    edited_df_food["Amount"],
+                    labels=edited_df_food["Title"],
+                    autopct='%.0d%%',
+                    pctdistance=0.83,
+                    counterclock=False,
+                    startangle=90,
+                )
+                st.pyplot(fig1)
 
     with tab1:
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             df = pd.DataFrame([
-                {"Purpose": "Rent", "Amount": 1000, "Necessary": True},
                 {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
                 {"Purpose": "Transportation", "Amount": monthly_transportation, "Necessary": True},
                 {"Purpose": "Debt", "Amount": monthly_debt, "Necessary": True},
                 {"Purpose": "Savings", "Amount": monthly_savings, "Necessary": False},
                 {"Purpose": "Investments", "Amount": monthly_investments, "Necessary": False},
-                {"Purpose": "Food & fun", "Amount": 500, "Necessary": True},
+                {"Purpose": "Food & fun", "Amount": monthly_food, "Necessary": True},
                 {"Purpose": "Shopping", "Amount": 250, "Necessary": False},
                 {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
             ])
@@ -220,7 +251,7 @@ else:
                 df,
                 num_rows="dynamic",
                 use_container_width=True,
-                disabled=["Bills"],
+                disabled=["Purpose", "Amount"],
             )
 
             total_necessary = 0
