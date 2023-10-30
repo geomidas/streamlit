@@ -1,16 +1,12 @@
 import streamlit as st
-# import streamlit_authenticator as stauth
 
 st.set_page_config("PerFin", page_icon="💎")
-
 st.markdown("### PerFin")
 
 import streamlit as st
 import auth_functions
 
-## -------------------------------------------------------------------------------------------------
-## Not logged in -----------------------------------------------------------------------------------
-## -------------------------------------------------------------------------------------------------
+# Not logged in -----------------------------------------------------------------------------------
 if 'user_info' not in st.session_state:
     col1,col2,col3 = st.columns([1,2,1])
 
@@ -44,28 +40,13 @@ if 'user_info' not in st.session_state:
         auth_notification.warning(st.session_state.auth_warning)
         del st.session_state.auth_warning
 
-## -------------------------------------------------------------------------------------------------
-## Logged in --------------------------------------------------------------------------------------
-## -------------------------------------------------------------------------------------------------
+# Logged in --------------------------------------------------------------------------------------
 else:
-    # Show user information
-    st.header('User information:')
-    st.write(st.session_state.user_info)
-
-    # Sign out
-    st.header('Sign out:')
-    st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
-
-    # Delete Account
-    st.header('Delete account:')
-    password = st.text_input(label='Confirm your password',type='password')
-    st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
-
     tab1, tab2 = st.tabs([
         "__🏠 Home__",
-        "__⚙️ Settings__",
+        "__⚙️ Account__",
     ])
-    
+
     with tab1:
         st.write("### Personal Finance")
         st.write("""
@@ -75,9 +56,10 @@ else:
             - Estimating Financial Freedom
         """)
         st.image("https://www.theglobeandmail.com/files/dev/www/cache-long/arc-site-team/for-you-package/banner-desktop-900.png")
-    
+
     with tab2:
-        col1, col2 = st.columns([1,2], gap="medium")
+        st.write("#### Settings")
+        col1, col2 = st.columns([1,1], gap="medium")
         with col1:
             selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
             if "selected_currency" not in st.session_state:
@@ -92,7 +74,7 @@ else:
                 curr_symbol = selected_currency
             if "curr_symbol" not in st.session_state:
                 st.session_state["curr_symbol"] = curr_symbol
-    
+        with col2:
             cgt_base=st.number_input(
                 "Capital Gains Tax (%):",
                 min_value = 0,
@@ -103,3 +85,15 @@ else:
             cgt = cgt_base/100
             if "cgt" not in st.session_state:
                 st.session_state["cgt"] = cgt
+        st.divider()
+        st.write("#### Account")
+        col1, col2 = st.columns([1,1], gap="medium")
+        with col1:
+            # Sign out
+            st.write("Sign out:")
+            st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
+        with col2:
+            # Delete Account
+            st.write('Delete account:')
+            password = st.text_input(label='Confirm your password',type='password')
+            st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
