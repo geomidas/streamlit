@@ -129,9 +129,11 @@ def reset_password(email:str) -> None:
         if error_message in {"MISSING_EMAIL","INVALID_EMAIL","EMAIL_NOT_FOUND"}:
             st.session_state.auth_warning = 'Error: Use a valid email'
         else:
+            print(error)
             st.session_state.auth_warning = 'Error: Please try again later'    
     
     except Exception:
+        print(error)
         st.session_state.auth_warning = 'Error: Please try again later'
 
 
