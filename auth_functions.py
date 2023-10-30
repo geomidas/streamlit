@@ -83,15 +83,15 @@ def sign_in(email:str, password:str) -> None:
             st.experimental_rerun()
 
     except requests.exceptions.HTTPError as error:
+        print("Error:", error)
         error_message = json.loads(error.args[1])['error']['message']
         if error_message in {"INVALID_EMAIL","EMAIL_NOT_FOUND","INVALID_PASSWORD","MISSING_PASSWORD"}:
             st.session_state.auth_warning = 'Error: Use a valid email and password'
         else:
-            print(error)
             st.session_state.auth_warning = 'Error: Please try again later'
 
     except Exception as error:
-        print(error)
+        print("Error:", error)
         st.session_state.auth_warning = 'Error: Please try again later'
 
 
@@ -105,17 +105,16 @@ def create_account(email:str, password:str) -> None:
         st.session_state.auth_success = 'Check your inbox to verify your email'
     
     except requests.exceptions.HTTPError as error:
+        print(error)
         error_message = json.loads(error.args[1])['error']['message']
         if error_message == "EMAIL_EXISTS":
             st.session_state.auth_warning = 'Error: Email belongs to existing account'
         elif error_message in {"INVALID_EMAIL","INVALID_PASSWORD","MISSING_PASSWORD","MISSING_EMAIL","WEAK_PASSWORD"}:
             st.session_state.auth_warning = 'Error: Use a valid email and password'
         else:
-            print(error)
             st.session_state.auth_warning = 'Error: Please try again later'
     
     except Exception as error:
-        print(error)
         st.session_state.auth_warning = 'Error: Please try again later'
 
 
@@ -125,15 +124,14 @@ def reset_password(email:str) -> None:
         st.session_state.auth_success = 'Password reset link sent to your email'
     
     except requests.exceptions.HTTPError as error:
+        print("Error:", error)
         error_message = json.loads(error.args[1])['error']['message']
         if error_message in {"MISSING_EMAIL","INVALID_EMAIL","EMAIL_NOT_FOUND"}:
             st.session_state.auth_warning = 'Error: Use a valid email'
         else:
-            print(error)
             st.session_state.auth_warning = 'Error: Please try again later'    
     
     except Exception:
-        print(error)
         st.session_state.auth_warning = 'Error: Please try again later'
 
 
@@ -153,8 +151,9 @@ def delete_account(password:str) -> None:
         st.session_state.auth_success = 'You have successfully deleted your account'
 
     except requests.exceptions.HTTPError as error:
+        print("Error:", error)
         error_message = json.loads(error.args[1])['error']['message']
-        print(error_message)
+        print("Error message:", error_message)
 
     except Exception as error:
-        print(error)
+        print("Error:", error)
