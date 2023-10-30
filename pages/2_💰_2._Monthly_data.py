@@ -173,7 +173,7 @@ else:
             with df_form_columns[7]:
                 st.number_input("Travel", min_value=0, step=1, key="input_spend_travel")
 
-            submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form)
+            submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form, type='primary')
             if submitted:
                 st.toast("Updated Spending 💸", icon="🎉")
 
