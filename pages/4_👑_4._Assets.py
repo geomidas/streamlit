@@ -10,7 +10,7 @@ st.markdown("### Assets")
 
 if "user_info" not in st.session_state:
     st.write("Please login: https://perfin.streamlit.app")
-elif "assets_cash" not in st.session_state:
+elif "necessary_expenses" not in st.session_state:
     st.write("Please follow the page order, so variables can get initialized.")
 else:
     locale.setlocale( locale.LC_ALL, 'en_US' )
