@@ -6,13 +6,15 @@ import locale
 st.set_page_config("PerFin", page_icon="💎")
 st.markdown("### Financial Freedom")
 
-if 'user_info' not in st.session_state:
+if "user_info" not in st.session_state:
     st.write("Please login: https://perfin.streamlit.app")
+elif "assets_cash" not in st.session_state:
+    st.write("Please follow the page order, so variables can get initialized.")
 else:
     locale.setlocale( locale.LC_ALL, 'en_US' )
     def curr_fmt(val):
         return locale.currency(val, symbol=False, grouping=True)
-    
+
     # Load variables
     curr_symbol = st.session_state["curr_symbol"]
     assets_cash = st.session_state["assets_cash"]
@@ -22,11 +24,11 @@ else:
     assets_net_investments = st.session_state["assets_net_investments"]
     necessary_expenses = st.session_state["necessary_expenses"]
     monthly_debt = st.session_state["monthly_debt"]
-    
+
     tab1, = st.tabs([
         "__🏖️ Retirement__",
         ])
-    
+
     with tab1:
         col1, col2 = st.columns([1,1], gap="medium")
         with col1:
@@ -38,7 +40,7 @@ else:
         retire_target = retire_yearly_income*(1/retire_wr)
         st.info("You can retire when your Net investments reach __" + curr_symbol + curr_fmt(retire_target) + "__")
         # st.info("Your budget if you retired now:\n\n > Yearly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr) + "__\n\n > Monthly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr/12) + "__")
-    
+
         st.write("#### Projected Net Worth of Investments")
         col1, col2 = st.columns([1,1], gap="medium")
         with col1:
@@ -48,7 +50,7 @@ else:
         with col2:
             today = datetime.date.today()
             year = int(today.year)
-    
+
             future_nw = pd.DataFrame(
                 index=range(years_to_project),
                 columns=["Year", "Projected Net Investments"]
@@ -65,18 +67,18 @@ else:
                     target_hit_date = str(year_counter)
                     break
             st.dataframe(future_nw.dropna(), hide_index=True, height=296, use_container_width=True)
-    
+
         with col1:
             if target_hit_date != "Never":
                 st.info("Year of retirement: __" + target_hit_date + "__")
                 st.info("Years until retirement: __" + str(int(target_hit_date) - year) + "__")
             else:
                 st.warning("You won't have enough investments in " + str(years_to_project) + " years")
-    
+
         st.write("#### Current Financial Status")
-    
+
         # st.info("Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__" + "\n\n" + "Net Investments: __" + curr_symbol + curr_fmt(assets_net_investments) + "__" + "\n\n" + "Yearly added investments: __" + curr_symbol + curr_fmt(1234) + "__")
-    
+
         if assets_net_investments >= retire_monthly_sal * 600:
             st.info("__Financial Freedom__" + "\n\n" + "You have more money than you'll ever need.\n\nYou don't have to worry about money, even in economic downturns.")
             st.progress(100)
@@ -98,6 +100,6 @@ else:
         else:
             st.progress(0)
             st.info("__Financial Dependence__" + "\n\n" + "If you rely on a parent, a significant other, or someone else to pay your living expenses.\n\nThis stage starts from childhood.")
-    
+
         st.write("#### Useful resources")
         st.write("Evaluate your plan:\n\n", "- Rich, broke or dead? https://engaging-data.com/will-money-last-retire-early")

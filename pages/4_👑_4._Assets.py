@@ -8,8 +8,10 @@ import locale
 st.set_page_config("PerFin", page_icon="💎")
 st.markdown("### Assets")
 
-if 'user_info' not in st.session_state:
+if "user_info" not in st.session_state:
     st.write("Please login: https://perfin.streamlit.app")
+elif "assets_cash" not in st.session_state:
+    st.write("Please follow the page order, so variables can get initialized.")
 else:
     locale.setlocale( locale.LC_ALL, 'en_US' )
     def curr_fmt(val):
@@ -35,7 +37,7 @@ else:
     ])
 
     with tab2:
-        st.markdown("Cash and cash equivalent:")
+        st.markdown("Cash and cash equivalents:")
         df_cash = pd.DataFrame([
             {"Cash": "Under the mattress", "Net": 0},
             {"Cash": "Savings", "Net": 1000},
