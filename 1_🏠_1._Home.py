@@ -1,10 +1,9 @@
 import streamlit as st
+import auth_functions
+
 
 st.set_page_config("PerFin", page_icon="💎")
 st.markdown("### PerFin")
-
-import streamlit as st
-import auth_functions
 
 # Not logged in -----------------------------------------------------------------------------------
 if 'user_info' not in st.session_state:
