@@ -57,7 +57,7 @@ else:
 
     with tab3:
         st.markdown("Add any shares you own:")
-        df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [10.0], "Avg Cost": [200.0]})
+        df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [100.0], "Avg Cost": [200.0]})
         edited_df_shares = st.data_editor(df_shares, use_container_width=True, num_rows="dynamic")
 
         assets_shares_net = 0
