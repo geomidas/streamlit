@@ -73,11 +73,11 @@ else:
                 columns=["Date", "Net income", "Health insurance", "Pension", "Bonus"]
             )
             with st.expander("Income Chart", expanded=True):
-                # st.divider()
                 st.area_chart(
                     income_chart_data,
                     x="Date",
-                    color=["#ff0033", "#0d70d7", "#70d70d", "#d7740d"]
+                    # y=["Pension", "Net income", "Health insurance", "Bonus"],
+                    # color=["#8ec127", "#00aedb", "#a200ff", "#f47835"]
                 )
 
             with st.expander("All income data"):
@@ -126,9 +126,8 @@ else:
         def init_spend_data():
             spend_data=pd.DataFrame({
                 "Date": [],
-                "Rent + Bills": [],
+                "Bills": [],
                 "Pension": [],
-                "Transportation": [],
                 "Food + Fun": [],
                 "Investments": [],
                 "Shopping": [],
@@ -142,9 +141,8 @@ else:
         def add_df_form():
             row = pd.DataFrame({
                 "Date": [st.session_state.input_spend_date],
-                "Rent + Bills": [st.session_state.input_spend_rent],
+                "Bills": [st.session_state.input_spend_bills],
                 "Pension": [st.session_state.input_spend_pension],
-                "Transportation": [st.session_state.input_spend_transp],
                 "Food + Fun": [st.session_state.input_spend_food],
                 "Investments": [st.session_state.input_spend_invest],
                 "Shopping": [st.session_state.input_spend_shop],
@@ -155,22 +153,20 @@ else:
         new_spend = st.form(key="new_spend", clear_on_submit=False)
         with new_spend:
             st.write("#### Add spending data")
-            df_form_columns = st.columns(8)
+            df_form_columns = st.columns(7)
             with df_form_columns[0]:
                 st.date_input("Date", format="YYYY-MM-DD", key="input_spend_date")
             with df_form_columns[1]:
-                st.number_input("Rent + Bills", min_value=0, step=1, key="input_spend_rent")
+                st.number_input("Bills", min_value=0, step=1, key="input_spend_bills")
             with df_form_columns[2]:
                 st.number_input("Pension", min_value=0, step=1, key="input_spend_pension")
             with df_form_columns[3]:
-                st.number_input("Transport", min_value=0, step=1, key="input_spend_transp")
-            with df_form_columns[4]:
                 st.number_input("Food + Fun", min_value=0, step=1, key="input_spend_food")
+            with df_form_columns[4]:
+                st.number_input("Investments", min_value=0, step=1, key="input_spend_invest")
             with df_form_columns[5]:
-                st.number_input("Invested", min_value=0, step=1, key="input_spend_invest")
-            with df_form_columns[6]:
                 st.number_input("Shopping", min_value=0, step=1, key="input_spend_shop")
-            with df_form_columns[7]:
+            with df_form_columns[6]:
                 st.number_input("Travel", min_value=0, step=1, key="input_spend_travel")
 
             submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form, type='primary')
@@ -182,9 +178,8 @@ else:
             if add_sample_spend_data:
                 st.session_state.spend_data = pd.DataFrame({
                     "Date": ["2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01"],
-                    "Rent + Bills": [800,800,800,800,800,900,900,900,900],
+                    "Bills": [800,800,800,800,800,900,900,900,900],
                     "Pension": [100,100,100,100,100,120,120,120,120],
-                    "Transportation": [100,180,150,120,120,130,140,100,80],
                     "Food + Fun": [400,430,542,610,490,580,550,520,500],
                     "Investments": [0,0,100,100,150,100,130,100,100],
                     "Shopping": [50,80,100,10,250,30,130,40,0],
@@ -194,15 +189,15 @@ else:
         else:
             spend_chart_data = pd.DataFrame(
                 st.session_state.spend_data,
-                columns=["Date", "Rent+Bills", "Pension", "Transport", "Food+Fun", "Invested", "Shopping", "Travel",],
+                columns=["Date", "Bills", "Pension", "Food+Fun", "Investments", "Shopping", "Travel",],
             )
             with st.expander(label="Spending Chart", expanded=True):
-                st.divider()
                 st.area_chart(
                     spend_chart_data,
+                    use_container_width=True,
                     x="Date",
-                    y=["Rent+Bills", "Pension", "Transport", "Food+Fun", "Invested", "Shopping", "Travel"],
-                    color=["#ff6961", "#ffb480", "#f8f38d", "#42d6a4", "#08cad1", "#59adf6", "#c780e8"],
+                    # y=["Pension", "Bills", "Food+Fun", "Investments", "Shopping", "Travel"],
+                    # color=["#ff6961", "#f10ff8", "#f1aff8", "#d7740d", "#08cad1", "#0d70d7"],
                 )
 
             with st.expander("All spending data"):
@@ -218,15 +213,12 @@ else:
                     for key in st.session_state.spend_data:
                         if key in "Date":
                             pass
-                        elif key in "Rent + Bills":
+                        elif key in "Bills":
                             values_list = st.session_state.spend_data[key]
-                            avg_spend_rent = sum(values_list)/len(values_list)
+                            avg_spend_bills = sum(values_list)/len(values_list)
                         elif key in "Pension":
                             values_list = st.session_state.spend_data[key]
                             avg_spend_pension = sum(values_list)/len(values_list)
-                        elif key in "Transportation":
-                            values_list = st.session_state.spend_data[key]
-                            avg_spend_transp = sum(values_list)/len(values_list)
                         elif key in "Food + Fun":
                             values_list = st.session_state.spend_data[key]
                             avg_spend_food = sum(values_list)/len(values_list)
@@ -242,9 +234,8 @@ else:
                         else:
                             pass
                     spend_averages = pd.DataFrame({
-                        "Rent + Bills": [avg_spend_rent],
+                        "Bills": [avg_spend_bills],
                         "Pension": [avg_spend_pension],
-                        "Transportation": [avg_spend_transp],
                         "Food + Fun": [avg_spend_food],
                         "Investments": [avg_spend_invest],
                         "Shopping": [avg_spend_shop],

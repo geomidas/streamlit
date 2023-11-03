@@ -21,15 +21,14 @@ else:
     else:
         last_net_income = 0
 
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
         "__🎯 Budget__",
         "__⚡ Bills__",
-        "__🚌 Transp__",
         "__🏦 Debt__",
         "__🐷 Savings__",
-        "__🚀 Invest__",
+        "__🚀 Investments__",
         "__🍕 Food + Fun__",
-        "__🛍️ Shop__",
+        "__🛍️ Shopping__",
         "__✈️ Travel__",
     ])
 
@@ -46,11 +45,7 @@ else:
                {"Title": "Netflix", "Amount": 6},
                {"Title": "Bins", "Amount": 10},
            ])
-            edited_df_bills = st.data_editor(
-                df_bills,
-                num_rows="dynamic",
-                use_container_width=True,
-            )
+            edited_df_bills = st.data_editor(df_bills, num_rows="dynamic", use_container_width=True)
 
             monthly_bills = 0
             for key in edited_df_bills["Amount"]:
@@ -75,39 +70,6 @@ else:
                 st.pyplot(fig1)
 
     with tab3:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df_transp = pd.DataFrame([
-               {"Title": "Bus", "Amount": 12},
-               {"Title": "Taxi", "Amount": 25},
-               {"Title": "Car Insurance", "Amount": 3},
-               {"Title": "Dublin Bike", "Amount": 3},
-           ])
-            edited_df_transp = st.data_editor(df_transp, num_rows="dynamic", width=400,)
-
-            monthly_transportation = 0
-            for key in edited_df_transp["Amount"]:
-                if not isnan(key):
-                    monthly_transportation += key
-            st.info("Monthly transportation costs: __" + curr_symbol + curr_fmt(monthly_transportation) + "__")
-
-            if "monthly_transportation" not in st.session_state:
-                st.session_state["monthly_transportation"] = monthly_transportation
-
-        with col2:
-            if len(edited_df_transp["Amount"]) > 1 and monthly_transportation > 0 and edited_df_transp["Amount"].isnull().values.any() == False:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df_transp["Amount"],
-                    labels=edited_df_transp["Title"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-
-    with tab4:
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             df_debt = pd.DataFrame([
@@ -148,7 +110,7 @@ else:
                 )
                 st.pyplot(fig1)
 
-    with tab5:
+    with tab4:
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             df_savings = pd.DataFrame([
@@ -177,7 +139,7 @@ else:
                 )
                 st.pyplot(fig1)
 
-    with tab6:
+    with tab5:
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             df_invest = pd.DataFrame([
@@ -205,7 +167,7 @@ else:
                     startangle=90,
                 )
                 st.pyplot(fig1)
-    with tab7:
+    with tab6:
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             df_food = pd.DataFrame([
@@ -234,12 +196,69 @@ else:
                 )
                 st.pyplot(fig1)
 
+    with tab7:
+        col1, col2 = st.columns([1, 1], gap="medium")
+        with col1:
+            df_shop = pd.DataFrame([
+                {"Title": "Clothes", "Amount": 50,},
+                {"Title": "Gifts", "Amount": 50,},
+                {"Title": "Electronics", "Amount": 100,},
+                {"Title": "Other", "Amount": 100,},
+            ])
+            edited_df_shop = st.data_editor(df_shop, num_rows="dynamic", use_container_width=True)
+            monthly_shop = 0
+            for key in edited_df_shop["Amount"]:
+                if not isnan(key):
+                    monthly_shop += key
+            st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_shop) + "__")
+            st.session_state["monthly_shop"] = monthly_shop
+
+        with col2:
+            if len(edited_df_shop["Amount"]) > 1 and monthly_shop > 0 and edited_df_shop["Amount"].isnull().values.any() == False:
+                fig1, ax1 = plt.subplots()
+                ax1.pie(
+                    edited_df_shop["Amount"],
+                    labels=edited_df_shop["Title"],
+                    autopct='%.0d%%',
+                    pctdistance=0.83,
+                    counterclock=False,
+                    startangle=90,
+                )
+                st.pyplot(fig1)
+
+    with tab8:
+        col1, col2 = st.columns([1, 1], gap="medium")
+        with col1:
+            df_travel = pd.DataFrame([
+                {"Title": "Flights", "Amount": 100,},
+                {"Title": "Accomodation", "Amount": 100,},
+            ])
+            edited_df_travel = st.data_editor(df_travel, num_rows="dynamic", use_container_width=True)
+            monthly_travel = 0
+            for key in edited_df_travel["Amount"]:
+                if not isnan(key):
+                    monthly_travel += key
+            st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_travel) + "__")
+            st.session_state["monthly_travel"] = monthly_travel
+
+        with col2:
+            if len(edited_df_travel["Amount"]) > 1 and monthly_travel > 0 and edited_df_travel["Amount"].isnull().values.any() == False:
+                fig1, ax1 = plt.subplots()
+                ax1.pie(
+                    edited_df_travel["Amount"],
+                    labels=edited_df_travel["Title"],
+                    autopct='%.0d%%',
+                    pctdistance=0.83,
+                    counterclock=False,
+                    startangle=90,
+                )
+                st.pyplot(fig1)
+
     with tab1:
         col1, col2 = st.columns([1, 1], gap="medium")
         with col1:
             df = pd.DataFrame([
                 {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
-                {"Purpose": "Transportation", "Amount": monthly_transportation, "Necessary": True},
                 {"Purpose": "Debt", "Amount": monthly_debt, "Necessary": True},
                 {"Purpose": "Savings", "Amount": monthly_savings, "Necessary": False},
                 {"Purpose": "Investments", "Amount": monthly_investments, "Necessary": False},
