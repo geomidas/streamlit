@@ -62,11 +62,12 @@ else:
                 year_counter += 1
                 future_nw.T[row]["Year"] = str(year_counter)
                 assets_net_investments_compounder = assets_net_investments_compounder * (1.0 + retire_rr)
-                future_nw.T[row]["Projected Net Investments"] = curr_fmt(assets_net_investments_compounder)
+                future_nw.T[row]["Projected Net Investments"] = int(assets_net_investments_compounder)
                 if assets_net_investments_compounder >= retire_target:
                     target_hit_date = str(year_counter)
                     break
-            st.dataframe(future_nw.dropna(), hide_index=True, height=296, use_container_width=True)
+            future_nw = future_nw.dropna()
+            st.dataframe(future_nw, hide_index=True, height=296, use_container_width=True)
 
         with col1:
             if target_hit_date != "Never":
@@ -75,9 +76,9 @@ else:
             else:
                 st.warning("You won't have enough investments in " + str(years_to_project) + " years")
 
-        st.write("#### Current Financial Status")
+        st.area_chart(future_nw, x="Year", y="Projected Net Investments", height=320)
 
-        # st.info("Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__" + "\n\n" + "Net Investments: __" + curr_symbol + curr_fmt(assets_net_investments) + "__" + "\n\n" + "Yearly added investments: __" + curr_symbol + curr_fmt(1234) + "__")
+        st.write("#### Current Financial Status")
 
         if assets_net_investments >= retire_monthly_sal * 600:
             st.info("__Financial Freedom__" + "\n\n" + "You have more money than you'll ever need.\n\nYou don't have to worry about money, even in economic downturns.")

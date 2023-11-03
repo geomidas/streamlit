@@ -139,17 +139,23 @@ else:
         st.session_state["assets_crypto_net"] = assets_crypto_net
 
     with tab1:
+
         if assets_cash != 0 and assets_shares_net != 0:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2, col3 = st.columns([3, 3, 4], gap="medium")
             with col1:
-                st.markdown("##### Allocation")
-                st.dataframe(
-                    {
-                        "Cash": [assets_cash], "Shares": [assets_shares_net], "Crypto": [assets_crypto_net]
-                    },
-                    use_container_width=True
-                )
+                st.write("##### Net Worth")
+                assets_net_investments = int(assets_shares_net + assets_crypto_net)
+                st.session_state.assets_net_investments = assets_net_investments
+                assets_net_worth = int(assets_cash) + assets_net_investments
+                st.info("Current Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__")
+                st.info("Net Investments: __" + curr_symbol + curr_fmt(assets_net_investments) + "__")
+                st.session_state["assets_net_worth"] = assets_net_worth
             with col2:
+                st.markdown("##### Allocation")
+                st.info("Cash: __" + curr_symbol + curr_fmt(assets_cash) + "__")
+                st.info("Net Shares: __" + curr_symbol + curr_fmt(assets_shares_net) + "__")
+                st.info("Net Crypto: __" + curr_symbol + curr_fmt(assets_crypto_net) + "__")
+            with col3:
                 fig1, ax1 = plt.subplots()
                 ax1.pie(
                     [assets_cash, assets_shares_net, assets_crypto_net],
@@ -157,35 +163,25 @@ else:
                     autopct='%.0d%%',
                     pctdistance=0.83,
                     counterclock=False,
-                    startangle=90,
+                    startangle=45,
                 )
                 st.pyplot(fig1)
 
-        st.write("##### Net Worth")
-        assets_net_investments = int(assets_shares_net + assets_crypto_net)
-        st.session_state.assets_net_investments = assets_net_investments
-        assets_net_worth = int(assets_cash) + assets_net_investments
-        st.info("Current Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__" + "\n\n" + 
-                "Net Investments: __" + curr_symbol + curr_fmt(assets_net_investments) + "__")
-        st.session_state["assets_net_worth"] = assets_net_worth
-
-        st.markdown("##### Net Worth over time")
-        col1, col2 = st.columns([1, 2], gap="medium")
-        with col1:
-            df_net_worth = pd.DataFrame([
-                {"Month": "2023-01", "Net Worth": 100},
-                {"Month": "2023-02", "Net Worth": 150},
-                {"Month": "2023-03", "Net Worth": 200},
-                {"Month": "2023-04", "Net Worth": 200},
-                {"Month": "2023-05", "Net Worth": 250},
-                {"Month": "2023-06", "Net Worth": 400},
-                {"Month": "2023-07", "Net Worth": 350},
-                {"Month": "2023-08", "Net Worth": 500},
-                {"Month": "2023-09", "Net Worth": 500},
-                {"Month": "2023-10", "Net Worth": 600},
-                {"Month": "2023-11", "Net Worth": 500},
-                {"Month": "2023-12", "Net Worth": 700},
-            ])
+        st.write("##### Net Worth over time")
+        df_net_worth = pd.DataFrame([
+            {"Month": "2023-01", "Net Worth": 100, "Net Investments": 50, "Net Shares": 50, "Net Crypto": 30},
+            {"Month": "2023-02", "Net Worth": 150, "Net Investments": 50, "Net Shares": 50, "Net Crypto": 30},
+            {"Month": "2023-03", "Net Worth": 200, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
+            {"Month": "2023-04", "Net Worth": 200, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
+            {"Month": "2023-05", "Net Worth": 250, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
+            {"Month": "2023-06", "Net Worth": 400, "Net Investments": 250, "Net Shares": 150, "Net Crypto": 30},
+            {"Month": "2023-07", "Net Worth": 350, "Net Investments": 150, "Net Shares": 150, "Net Crypto": 30},
+            {"Month": "2023-08", "Net Worth": 500, "Net Investments": 350, "Net Shares": 150, "Net Crypto": 30},
+            {"Month": "2023-09", "Net Worth": 500, "Net Investments": 350, "Net Shares": 150, "Net Crypto": 30},
+            {"Month": "2023-10", "Net Worth": 600, "Net Investments": 450, "Net Shares": 200, "Net Crypto": 30},
+            {"Month": "2023-11", "Net Worth": 500, "Net Investments": 350, "Net Shares": 100, "Net Crypto": 30},
+            {"Month": "2023-12", "Net Worth": 700, "Net Investments": 450, "Net Shares": 200, "Net Crypto": 30},
+        ])
+        with st.expander(label="Net Worth Data", expanded=False):
             edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
-        with col2:
-            st.line_chart(edited_df, x="Month", y="Net Worth", height=420)
+        st.line_chart(df_net_worth, x="Month", height=420, use_container_width=True)
