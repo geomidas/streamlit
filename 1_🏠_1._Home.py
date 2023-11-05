@@ -10,7 +10,7 @@ if 'user_info' not in st.session_state:
     col1,col2,col3 = st.columns([1,2,1])
 
     # Authentication form layout
-    do_you_have_an_account = col2.selectbox(label='Do you have an account?',options=('Yes','No','I forgot my password'))
+    do_you_have_an_account = col2.radio(label='Do you have an account?',options=('Yes','No','I forgot my password'), horizontal=True)
     auth_form = col2.form(key='Authentication form',clear_on_submit=False)
     email = auth_form.text_input(label='Email')
     password = auth_form.text_input(label='Password',type='password') if do_you_have_an_account in {'Yes','No'} else auth_form.empty()
