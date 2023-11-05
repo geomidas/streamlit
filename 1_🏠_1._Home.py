@@ -41,8 +41,9 @@ if 'user_info' not in st.session_state:
 
 # Logged in --------------------------------------------------------------------------------------
 else:
-    tab1, tab2 = st.tabs([
+    tab1, tab2, tab3 = st.tabs([
         "__🏠 Home__",
+        "__🎯 Priorities__",
         "__⚙️ Account__",
     ])
 
@@ -57,6 +58,20 @@ else:
         st.image("https://www.theglobeandmail.com/files/dev/www/cache-long/arc-site-team/for-you-package/banner-desktop-900.png")
 
     with tab2:
+        st.write("### Priorities")
+        st.graphviz_chart("""
+            digraph {
+                "Track Expenses" -> "Emergency Fund"
+                "Emergency Fund" -> "Pay bad debt"
+                "Pay bad debt" -> "Save"
+                "Pay bad debt" -> "Pension"
+                "Pay bad debt" -> "Invest"
+            }
+            """,
+            use_container_width=True
+        )
+
+    with tab3:
         st.write("#### Settings")
         col1, col2 = st.columns([1,1], gap="medium")
         with col1:

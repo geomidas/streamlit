@@ -3,7 +3,7 @@ import pandas as pd
 
 
 st.set_page_config("PerFin", page_icon="💎")
-st.markdown("### Monthly Data")
+st.markdown("### Monthly Inflows and Outflows")
 
 if 'user_info' not in st.session_state:
     st.write("Please login: https://perfin.streamlit.app")

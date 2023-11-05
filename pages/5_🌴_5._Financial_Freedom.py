@@ -32,7 +32,7 @@ else:
     with tab1:
         col1, col2 = st.columns([1,1], gap="medium")
         with col1:
-            retire_monthly_sal = st.number_input("Monthly budget (in " + curr_symbol + ")", min_value=0, value=2000)
+            retire_monthly_sal = st.number_input("Monthly budget in retirement (in " + curr_symbol + ")", min_value=0, value=2000)
         with col2:
             retire_wr_perc = st.number_input("Withrawal rate (%)", min_value=0.0, value=3.5)
             retire_wr = retire_wr_perc / 100
@@ -78,31 +78,28 @@ else:
 
         st.area_chart(future_nw, x="Year", y="Projected Net Investments", height=320)
 
-        st.write("#### Retirement Progress")
-
-        retirement_progress = assets_net_investments/retire_target
-        st.progress(
-            retirement_progress,
-            text = "__" + curr_fmt(retirement_progress*100) + "%__ of " + curr_symbol + curr_fmt(retire_target)
-        )
-
         st.write("#### Current Financial Status")
-
-        if assets_net_investments >= retire_monthly_sal * 600:
-            st.info("__Financial Freedom__" + "\n\n" + "You have more money than you'll ever need.\n\nYou don't have to worry about money, even in economic downturns.")
-        elif assets_net_investments >= retire_monthly_sal * 480:
-            st.info("__Financial Independence__" + "\n\n" + "Your investment income or passive income is enough to cover your basic needs, you've achieved financial independence.\n\nA financially independent person can retire at any time without worrying about how to cover their costs of living, even if they may have to downsize their lifestyle a bit.")
-        elif assets_net_investments >= retire_monthly_sal * 240:
-            st.info("__Financial Security__" + "\n\n" + "You have eliminated your debt (or have enough assets to pay off all your debt) and could weather a period of unemployment without worry.\n\nAt this point, money is not just a safety net, but also a tool you can use to build the future you've been planning.\n\nAt this point, you may consider investing in other assets besides retirement accounts — a taxable account, rental real estate, or even your own small business.")
-        elif assets_net_investments >= retire_monthly_sal * 120:
-            st.info("__Barista FI__" + "\n\n" + "You are able to meet your financial obligations on your own.")
-        elif assets_cash >= int(6 * necessary_expenses):
-            st.info("__Financial Stability__" + "\n\n" + "You have an emergency fund of a few months expenses, repaid high-interest debt and are continuing to live within your means.\n\nWhile stability does not require you to be debt-free—as you may still have a mortgage, student loans, or even credit card debt, you'll have a savings buffer to ensure that you won't go into debt if you encounter an emergency or unexpected expense.")
-        elif assets_cash >= 0:
-            st.info("__Financial Solvency__" + "\n\n" + "You are able to meet your financial obligations on your own.")
-        else:
-            st.progress(0)
-            st.info("__Financial Dependence__" + "\n\n" + "If you rely on a parent, a significant other, or someone else to pay your living expenses.\n\nThis stage starts from childhood.")
+        col1, col2 = st.columns([1,1], gap="medium")
+        with col1:
+            if assets_net_investments >= retire_monthly_sal * 600:
+                st.info("__Financial Freedom__" + "\n\n" + "You have more money than you'll ever need.\n\nYou don't have to worry about money, even in economic downturns.")
+            elif assets_net_investments >= retire_monthly_sal * 480:
+                st.info("__Financial Independence__" + "\n\n" + "Your investment income or passive income is enough to cover your basic needs, you've achieved financial independence.\n\nA financially independent person can retire at any time without worrying about how to cover their costs of living, even if they may have to downsize their lifestyle a bit.")
+            elif assets_net_investments >= retire_monthly_sal * 240:
+                st.info("__Financial Security__" + "\n\n" + "You have eliminated your debt (or have enough assets to pay off all your debt) and could weather a period of unemployment without worry.\n\nAt this point, money is not just a safety net, but also a tool you can use to build the future you've been planning.\n\nAt this point, you may consider investing in other assets besides retirement accounts — a taxable account, rental real estate, or even your own small business.")
+            elif assets_net_investments >= retire_monthly_sal * 120:
+                st.info("__Barista FI__" + "\n\n" + "You are able to meet your financial obligations on your own.")
+            elif assets_cash >= int(6 * necessary_expenses):
+                st.info("__Financial Stability__" + "\n\n" + "You have an emergency fund of a few months expenses, repaid high-interest debt and are continuing to live within your means.\n\nWhile stability does not require you to be debt-free—as you may still have a mortgage, student loans, or even credit card debt, you'll have a savings buffer to ensure that you won't go into debt if you encounter an emergency or unexpected expense.")
+            elif assets_cash >= 0:
+                st.info("__Financial Solvency__" + "\n\n" + "You are able to meet your financial obligations on your own.")
+            else:
+                st.progress(0)
+                st.info("__Financial Dependence__" + "\n\n" + "If you rely on a parent, a significant other, or someone else to pay your living expenses.\n\nThis stage starts from childhood.")
+        with col2:
+            retirement_progress = assets_net_investments/retire_target
+            st.progress(retirement_progress, text="Retirement Progress")
+            st.info("__" + curr_fmt(retirement_progress*100) + "%__ of the " + curr_symbol + curr_fmt(retire_target) + " needed.")
 
         st.write("#### Useful resources")
         st.write("Evaluate your plan:\n\n", "- Rich, broke or dead? https://engaging-data.com/will-money-last-retire-early")
