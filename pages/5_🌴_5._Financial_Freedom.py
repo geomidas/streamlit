@@ -83,7 +83,7 @@ else:
         retirement_progress = assets_net_investments/retire_target
         st.progress(
             retirement_progress,
-            text = curr_fmt(retirement_progress*100) + "% of " + curr_symbol + curr_fmt(retire_target)
+            text = "__" + curr_fmt(retirement_progress*100) + "%__ of " + curr_symbol + curr_fmt(retire_target)
         )
 
         st.write("#### Current Financial Status")
