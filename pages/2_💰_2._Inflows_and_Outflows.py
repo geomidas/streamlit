@@ -8,6 +8,8 @@ st.markdown("### Monthly Inflows and Outflows")
 
 if 'user_info' not in st.session_state:
     sf.login_box()
+elif "selected_currency" not in st.session_state:
+    st.write("Please follow the page order, so variables can get initialized.")
 else:
     tab1, tab2 = st.tabs([
         "__💰 Income__",
