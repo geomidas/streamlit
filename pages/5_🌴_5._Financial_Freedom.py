@@ -78,25 +78,27 @@ else:
 
         st.area_chart(future_nw, x="Year", y="Projected Net Investments", height=320)
 
+        st.write("#### Retirement Progress")
+
+        retirement_progress = assets_net_investments/retire_target
+        st.progress(
+            retirement_progress,
+            text = curr_fmt(retirement_progress*100) + "% of " + curr_symbol + curr_fmt(retire_target)
+        )
+
         st.write("#### Current Financial Status")
 
         if assets_net_investments >= retire_monthly_sal * 600:
             st.info("__Financial Freedom__" + "\n\n" + "You have more money than you'll ever need.\n\nYou don't have to worry about money, even in economic downturns.")
-            st.progress(100)
         elif assets_net_investments >= retire_monthly_sal * 480:
             st.info("__Financial Independence__" + "\n\n" + "Your investment income or passive income is enough to cover your basic needs, you've achieved financial independence.\n\nA financially independent person can retire at any time without worrying about how to cover their costs of living, even if they may have to downsize their lifestyle a bit.")
-            st.progress(90)
         elif assets_net_investments >= retire_monthly_sal * 240:
             st.info("__Financial Security__" + "\n\n" + "You have eliminated your debt (or have enough assets to pay off all your debt) and could weather a period of unemployment without worry.\n\nAt this point, money is not just a safety net, but also a tool you can use to build the future you've been planning.\n\nAt this point, you may consider investing in other assets besides retirement accounts — a taxable account, rental real estate, or even your own small business.")
-            st.progress(60)
         elif assets_net_investments >= retire_monthly_sal * 120:
             st.info("__Barista FI__" + "\n\n" + "You are able to meet your financial obligations on your own.")
-            st.progress(40)
         elif assets_cash >= int(6 * necessary_expenses):
-            st.progress(20)
             st.info("__Financial Stability__" + "\n\n" + "You have an emergency fund of a few months expenses, repaid high-interest debt and are continuing to live within your means.\n\nWhile stability does not require you to be debt-free—as you may still have a mortgage, student loans, or even credit card debt, you'll have a savings buffer to ensure that you won't go into debt if you encounter an emergency or unexpected expense.")
         elif assets_cash >= 0:
-            st.progress(10)
             st.info("__Financial Solvency__" + "\n\n" + "You are able to meet your financial obligations on your own.")
         else:
             st.progress(0)
