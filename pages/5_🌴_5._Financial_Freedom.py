@@ -2,12 +2,14 @@ import streamlit as st
 import pandas as pd
 import datetime
 import locale
+import pages.shared.functions as sf
+
 
 st.set_page_config("PerFin", page_icon="💎")
 st.markdown("### Financial Freedom")
 
 if "user_info" not in st.session_state:
-    st.write("Please login: https://perfin.streamlit.app")
+    sf.login_box()
 elif "assets_cash" not in st.session_state:
     st.write("Please follow the page order, so variables can get initialized.")
 else:

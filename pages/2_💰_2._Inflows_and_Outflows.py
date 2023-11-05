@@ -1,12 +1,13 @@
 import streamlit as st
 import pandas as pd
+import pages.shared.functions as sf
 
 
 st.set_page_config("PerFin", page_icon="💎")
 st.markdown("### Monthly Inflows and Outflows")
 
 if 'user_info' not in st.session_state:
-    st.write("Please login: https://perfin.streamlit.app")
+    sf.login_box()
 else:
     tab1, tab2 = st.tabs([
         "__💰 Income__",

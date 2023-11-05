@@ -3,12 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from numpy import isnan
 import locale
+import pages.shared.functions as sf
+
 
 st.set_page_config("PerFin", page_icon="💎")
 st.markdown("### Monthly budget")
 
 if 'user_info' not in st.session_state:
-    st.write("Please login: https://perfin.streamlit.app")
+    sf.login_box()
 else:
     locale.setlocale( locale.LC_ALL, 'en_US' )
     def curr_fmt(val):

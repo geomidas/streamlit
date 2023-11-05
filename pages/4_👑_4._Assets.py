@@ -3,13 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import yfinance as yf
 import locale
+import pages.shared.functions as sf
 
 
 st.set_page_config("PerFin", page_icon="💎")
 st.markdown("### Assets")
 
 if "user_info" not in st.session_state:
-    st.write("Please login: https://perfin.streamlit.app")
+    sf.login_box()
 elif "necessary_expenses" not in st.session_state:
     st.write("Please follow the page order, so variables can get initialized.")
 else:
