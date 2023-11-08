@@ -7,13 +7,14 @@ st.set_page_config("PerFin", page_icon="💎")
 st.markdown("### Monthly Inflows and Outflows")
 
 if 'user_info' not in st.session_state:
-    sf.login_box()
+    # sf.login_box()
+    st.write("Not logged in")
 elif "selected_currency" not in st.session_state:
     st.write("Please follow the page order, so variables can get initialized.")
 else:
     tab1, tab2 = st.tabs([
-        "__💰 Income__",
-        "__💸 Spending__",
+        "__💰 Inflows__",
+        "__💸 Outflows__",
     ])
 
     with tab1:
