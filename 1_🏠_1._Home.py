@@ -5,10 +5,10 @@ import json
 import pages.shared.functions as sf
 
 
-cred = firebase_admin.credentials.Certificate("perfin-db-firebase-adminsdk.json")
-ref = firebase_admin.db.reference("/", url=st.secrets['FIREBASE_WEB_API_KEY'])
-data = {"UserID": {"testkey": "value2"}}
-ref.set(data)
+# cred = firebase_admin.credentials.Certificate("perfin-db-firebase-adminsdk.json")
+# ref = firebase_admin.db.reference("/", url=st.secrets['DB_URL'])
+# data = {"UserID": {"testkey": "value"}}
+# ref.set(data)
 
 st.set_page_config("PerFin", page_icon="💰")
 st.markdown("### Personal Finance")
