@@ -14,7 +14,7 @@ import pages.shared.functions as sf
 # ref.set(data)
 
 st.set_page_config("PerFin", page_icon="💰")
-st.markdown("### PerFin")
+st.markdown("### Personal Finance")
 
 # Not logged in -----------------------------------------------------------------------------------
 if 'user_info' not in st.session_state:
@@ -28,7 +28,6 @@ else:
     ])
 
     with tab1:
-        st.write("### Personal Finance")
         st.write("""
             - Tracking Income & Expenses
             - Budgeting
@@ -37,7 +36,7 @@ else:
         """)
         st.image("https://www.theglobeandmail.com/files/dev/www/cache-long/arc-site-team/for-you-package/banner-desktop-900.png")
         st.divider()
-        
+
         st.write("### Path to Financial Independence")
         st.graphviz_chart("""
             digraph {
