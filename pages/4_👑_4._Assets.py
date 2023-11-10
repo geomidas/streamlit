@@ -6,7 +6,7 @@ import locale
 import pages.shared.functions as sf
 
 
-st.set_page_config("PerFin", page_icon="💎")
+st.set_page_config("PerFin", page_icon="💰")
 st.markdown("### Assets")
 
 if "user_info" not in st.session_state:
