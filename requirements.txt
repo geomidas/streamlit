@@ -4,3 +4,4 @@ numpy
 matplotlib
 yfinance
 google-cloud-firestore
+firebase_admin
