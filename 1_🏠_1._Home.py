@@ -86,8 +86,7 @@ else:
         with col1:
             st.info(
                 "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
-                "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`\n\n" +
-                "__User ID:__ `" + st.session_state.user_info["localId"] + "`"
+                "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
             )
         with col2:
             # Sign out
