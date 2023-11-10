@@ -11,6 +11,8 @@ st.markdown("### Monthly budget")
 
 if 'user_info' not in st.session_state:
     sf.login_box()
+elif "selected_currency" not in st.session_state:
+    st.write("Please follow the page order, so variables can get initialized.")
 else:
     locale.setlocale( locale.LC_ALL, 'en_US' )
     def curr_fmt(val):

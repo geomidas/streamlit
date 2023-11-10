@@ -2,7 +2,7 @@ import streamlit as st
 import auth_functions
 import pages.shared.functions as sf
 
-st.set_page_config("PerFin", page_icon="💎")
+st.set_page_config("PerFin", page_icon="💰")
 st.markdown("### PerFin")
 
 # Not logged in -----------------------------------------------------------------------------------
@@ -73,10 +73,15 @@ else:
         st.write("#### Account")
         col1, col2 = st.columns([1,1], gap="medium")
         with col1:
+            st.info(
+                "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
+                "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`\n\n" +
+                "__User ID:__ `" + st.session_state.user_info["localId"] + "`")
+        with col2:
             # Sign out
             st.write("Sign out:")
             st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
-        with col2:
+            st.divider()
             # Delete Account
             st.write('Delete account:')
             password = st.text_input(label='Confirm your password',type='password')
