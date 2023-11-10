@@ -4,7 +4,7 @@ import pages.shared.functions as sf
 
 
 st.set_page_config("PerFin", page_icon="💰")
-st.markdown("### Monthly Inflows and Outflows")
+st.markdown("### Monthly inflows and outflows")
 
 if 'user_info' not in st.session_state:
     sf.login_box()
