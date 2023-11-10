@@ -1,2 +1,2 @@
-*.secrets.toml
-perfin-db-*
+.streamlit/.secrets.toml
+perfin-db-firebase-*
