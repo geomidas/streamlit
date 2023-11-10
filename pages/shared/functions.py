@@ -3,14 +3,14 @@ import auth_functions
 
 
 def login_box():
-    col1,col2,col3 = st.columns([1,2,1])
+    col1,col2 = st.columns([2,2])
 
     # Authentication form layout
-    do_you_have_an_account = col2.radio(label='Do you have an account?',options=('Yes','No','I forgot my password'), horizontal=True)
-    auth_form = col2.form(key='Authentication form',clear_on_submit=False)
+    do_you_have_an_account = col1.radio(label='Do you have an account?',options=('Yes','No','I forgot my password'), horizontal=True)
+    auth_form = col1.form(key='Authentication form',clear_on_submit=False)
     email = auth_form.text_input(label='Email')
     password = auth_form.text_input(label='Password',type='password') if do_you_have_an_account in {'Yes','No'} else auth_form.empty()
-    auth_notification = col2.empty()
+    auth_notification = col1.empty()
 
     # Sign In
     if do_you_have_an_account == 'Yes' and auth_form.form_submit_button(label='Sign In',use_container_width=True,type='primary'):
