@@ -1,3 +1,4 @@
 */secrets.toml
 perfin-db-firebase-*
 .vscode
+__pycache__
