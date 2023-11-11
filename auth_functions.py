@@ -109,10 +109,12 @@ def create_account(email:str, password:str) -> None:
         error_message = json.loads(error.args[1])['error']['message']
         if error_message == "EMAIL_EXISTS":
             st.session_state.auth_warning = 'Error: Email belongs to existing account'
-        elif error_message in {"INVALID_EMAIL","INVALID_PASSWORD","MISSING_PASSWORD","MISSING_EMAIL","WEAK_PASSWORD"}:
-            st.session_state.auth_warning = 'Error: Use a valid email and password'
+        elif error_message in {"INVALID_EMAIL","MISSING_EMAIL"}:
+            st.session_state.auth_warning = 'Error: Use a valid email'
+        elif error_message in {"INVALID_PASSWORD","MISSING_PASSWORD","WEAK_PASSWORD"}:
+            st.session_state.auth_warning = 'Error: Use a stronger password'
         else:
-            st.session_state.auth_warning = 'Error: Please try again later'
+            st.session_state.auth_warning = 'Error: Invalid email or weak password'
     
     except Exception as error:
         st.session_state.auth_warning = 'Error: Please try again later'
