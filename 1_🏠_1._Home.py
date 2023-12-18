@@ -19,10 +19,6 @@ if 'user_info' not in st.session_state:
 
 # Logged in --------------------------------------------------------------------------------------
 else:
-    # Delete all data. Users do not yet have personal data stored in a db.
-    for key in st.session_state.keys():
-        del st.session_state[key]
-
     tab1, tab2 = st.tabs([
         "__🏠 Home__",
         "__⚙️ Account__",
