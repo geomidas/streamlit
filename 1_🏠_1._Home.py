@@ -27,22 +27,30 @@ if 'user_info' not in st.session_state:
 
 # Logged in --------------------------------------------------------------------------------------
 else:
-    tab1, tab2, tab3 = st.tabs([
-        "__🏠 Home__",
+    tab1, tab2 = st.tabs([
         "__⚙️ Account__",
         "__ℹ️ Info__",
     ])
 
     with tab1:
-        st.write("""
-            - Tracking Income & Expenses
-            - Budgeting
-            - Tracking Asset Value
-            - Estimating Financial Freedom
-        """)
-        st.image("https://www.theglobeandmail.com/files/dev/www/cache-long/arc-site-team/for-you-package/banner-desktop-900.png")
+        st.write("#### Account")
+        col1, col2, col3 = st.columns([4,2,4], gap="medium")
+        with col1:
+            st.info(
+                "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
+                "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
+            )
+        with col2:
+            # Sign out
+            st.write("Sign out:")
+            st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
+        with col3:
+            # Delete Account
+            st.write('Delete account:')
+            password = st.text_input(label='Confirm your password',type='password')
+            st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
 
-    with tab2:
+        st.divider()
         st.write("#### Settings")
         col1, col2 = st.columns([1,1], gap="medium")
         with col1:
@@ -70,25 +78,16 @@ else:
             cgt = cgt_base/100
             if "cgt" not in st.session_state:
                 st.session_state["cgt"] = cgt
-        st.divider()
-        st.write("#### Account")
-        col1, col2 = st.columns([1,1], gap="medium")
-        with col1:
-            st.info(
-                "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
-                "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
-            )
-        with col2:
-            # Sign out
-            st.write("Sign out:")
-            st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
-            st.divider()
-            # Delete Account
-            st.write('Delete account:')
-            password = st.text_input(label='Confirm your password',type='password')
-            st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
 
-    with tab3:
+    with tab2:
+        st.write("""
+            - Tracking Income & Expenses
+            - Budgeting
+            - Tracking Asset Value
+            - Estimating Financial Freedom
+        """)
+        st.image("https://www.theglobeandmail.com/files/dev/www/cache-long/arc-site-team/for-you-package/banner-desktop-900.png")
+
         st.write("### Path to Financial Independence")
         st.graphviz_chart("""
             digraph {
@@ -103,6 +102,8 @@ else:
             """,
             use_container_width=True
         )
+        st.write("#### Useful resources")
+        st.write("Evaluate your plan:\n\n", "- Rich, broke or dead? https://engaging-data.com/will-money-last-retire-early")
 
 
     st.divider()
@@ -909,6 +910,3 @@ else:
             retirement_progress = assets_net_investments/retire_target
             st.progress(retirement_progress, text="Retirement Progress")
             st.info("__" + curr_fmt(retirement_progress*100) + "%__ of the " + curr_symbol + curr_fmt(retire_target) + " needed.")
-
-        st.write("#### Useful resources")
-        st.write("Evaluate your plan:\n\n", "- Rich, broke or dead? https://engaging-data.com/will-money-last-retire-early")
