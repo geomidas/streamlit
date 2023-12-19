@@ -75,6 +75,7 @@ else:
                 st.session_state["cgt"] = cgt
 
 
+    st.write("\n")
     st.markdown("## Monthly inflows and outflows")
 
     tab1, tab2 = st.tabs([
@@ -314,6 +315,7 @@ else:
                     st.dataframe(spend_averages, hide_index=True, use_container_width=True)
 
 
+    st.write("\n")
     st.markdown("## Monthly budget")
 
     def curr_fmt(val):
@@ -611,6 +613,7 @@ else:
             st.warning(body="Your outflows are higher than your income.\n\nLast income: __" + curr_symbol + curr_fmt(last_net_income) + "__", icon="⚠️")
 
 
+    st.write("\n")
     st.markdown("## Assets")
 
     def curr_fmt(val):
@@ -786,6 +789,7 @@ else:
         st.line_chart(df_net_worth, x="Month", height=420, use_container_width=True)
 
 
+    st.write("\n")
     st.markdown("## Financial Freedom / Retirement")
 
     def curr_fmt(val):
