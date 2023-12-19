@@ -242,6 +242,7 @@ else:
                 st.number_input("Travel", min_value=0, step=1, key="input_spend_travel")
 
             submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form, type='primary')
+            st.write("Current bug with the above button. Double-click it.")
             if submitted:
                 st.toast("Updated Spending 💸", icon="🎉")
 
