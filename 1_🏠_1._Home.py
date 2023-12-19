@@ -29,12 +29,11 @@ if 'user_info' not in st.session_state:
 else:
     tab1, tab2 = st.tabs([
         "__⚙️ Account__",
-        "__ℹ️ Info__",
+        "__⚙️ Settings__",
     ])
 
     with tab1:
-        st.write("#### Account")
-        col1, col2, col3 = st.columns([4,3,4], gap="medium")
+        col1, col2 = st.columns([1,1], gap="medium")
         with col1:
             st.info(
                 "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
@@ -44,12 +43,11 @@ else:
             # Sign out
             st.write("Sign out:")
             st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
-        with col3:
             # Delete Account
             st.write('Delete account:')
             password = st.text_input(label='Confirm your password',type='password')
             st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
-
+    with tab2:
         st.write("#### Settings")
         col1, col2 = st.columns([1,1], gap="medium")
         with col1:
@@ -78,34 +76,8 @@ else:
             if "cgt" not in st.session_state:
                 st.session_state["cgt"] = cgt
 
-    with tab2:
-        st.write("""
-            - Tracking Income & Expenses
-            - Budgeting
-            - Tracking Asset Value
-            - Estimating Financial Freedom
-        """)
-        st.image("https://www.theglobeandmail.com/files/dev/www/cache-long/arc-site-team/for-you-package/banner-desktop-900.png")
 
-        st.write("### Path to Financial Independence")
-        st.graphviz_chart("""
-            digraph {
-                "Track Expenses" -> "Emergency Fund"
-                "Emergency Fund" -> "Pay bad debt"
-                "Pay bad debt" -> "Save"
-                "Pay bad debt" -> "Pension"
-                "Pay bad debt" -> "Extra Investments"
-                "Pension" -> "FI"
-                "Extra Investments" -> "FI"
-            }
-            """,
-            use_container_width=True
-        )
-        st.write("#### Useful resources")
-        st.write("Evaluate your plan:\n\n", "- Rich, broke or dead? https://engaging-data.com/will-money-last-retire-early")
-
-
-    st.markdown("# Monthly inflows and outflows")
+    st.markdown("## Monthly inflows and outflows")
 
     tab1, tab2 = st.tabs([
         "__💰 Inflows__",
@@ -344,7 +316,7 @@ else:
                     st.dataframe(spend_averages, hide_index=True, use_container_width=True)
 
 
-    st.markdown("# Monthly budget")
+    st.markdown("## Monthly budget")
 
     def curr_fmt(val):
         return locale.currency(val, symbol=False, grouping=True)
@@ -641,7 +613,7 @@ else:
             st.warning(body="Your outflows are higher than your income.\n\nLast income: __" + curr_symbol + curr_fmt(last_net_income) + "__", icon="⚠️")
 
 
-    st.markdown("# Assets")
+    st.markdown("## Assets")
 
     def curr_fmt(val):
         return locale.currency(val, symbol=False, grouping=True)
@@ -816,7 +788,7 @@ else:
         st.line_chart(df_net_worth, x="Month", height=420, use_container_width=True)
 
 
-    st.markdown("# Financial Freedom / Retirement")
+    st.markdown("## Financial Freedom / Retirement")
 
     def curr_fmt(val):
         return locale.currency(val, symbol=False, grouping=True)
