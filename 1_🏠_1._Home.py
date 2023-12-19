@@ -34,7 +34,7 @@ else:
 
     with tab1:
         st.write("#### Account")
-        col1, col2, col3 = st.columns([4,2,4], gap="medium")
+        col1, col2, col3 = st.columns([4,3,4], gap="medium")
         with col1:
             st.info(
                 "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
