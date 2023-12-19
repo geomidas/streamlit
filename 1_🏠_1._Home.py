@@ -144,7 +144,7 @@ else:
                     last_net_income = int(st.session_state.income_data.tail(1)["Net income"].item())
                     st.session_state.last_net_income = last_net_income
 
-                st.write("#### Monthly Average")
+                st.write("##### Monthly Average")
                 if len(st.session_state.income_data) > 1:
                     for key in st.session_state.income_data:
                         if key in "Date":
@@ -256,7 +256,7 @@ else:
                     # color=["#ff6961", "#f10ff8", "#f1aff8", "#d7740d", "#08cad1", "#0d70d7"],
                 )
 
-                st.write("#### Monthly Average")
+                st.write("##### Monthly Average")
                 if len(st.session_state.spend_data) > 1:
                     for key in st.session_state.spend_data:
                         if key in "Date":
