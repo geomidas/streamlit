@@ -99,6 +99,7 @@ else:
             new_income = st.form(key="new_income", clear_on_submit=False)
             with new_income:
                 st.write("#### Add income data")
+                # Note: If the date already exists, replace the old values!!
                 df_form_columns = st.columns(5)
                 with df_form_columns[0]:
                     st.date_input("Date", format="YYYY-MM-DD", key="input_income_date")
@@ -196,6 +197,7 @@ else:
             new_spend = st.form(key="new_spend", clear_on_submit=False)
             with new_spend:
                 st.write("#### Add spending data")
+                # Note: If the date already exists, replace the old values!!
                 df_form_columns = st.columns(7)
                 with df_form_columns[0]:
                     st.date_input("Date", format="YYYY-MM-DD", key="input_spend_date")
