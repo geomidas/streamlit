@@ -39,7 +39,7 @@ else:
                 "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
                 "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
             )
-        st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
+            st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
         with col2:
             # Delete Account
             st.write('Delete account:')
