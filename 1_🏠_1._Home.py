@@ -324,7 +324,7 @@ else:
         ])
 
         with tab2:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2 = st.columns([1, 1], gap="small")
             with col1:
                 df_bills = pd.DataFrame([
                    {"Title": "Rent", "Amount": 900},
@@ -361,7 +361,7 @@ else:
                     st.pyplot(fig1)
 
         with tab3:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2 = st.columns([1, 1], gap="small")
             with col1:
                 df_debt = pd.DataFrame([
                    {"Title": "Mortgage", "Amount": 2},
@@ -402,7 +402,7 @@ else:
                     st.pyplot(fig1)
 
         with tab4:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2 = st.columns([1, 1], gap="small")
             with col1:
                 df_savings = pd.DataFrame([
                     {"Title": "Emergency Fund", "Amount": 0,},
@@ -431,7 +431,7 @@ else:
                     st.pyplot(fig1)
 
         with tab5:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2 = st.columns([1, 1], gap="small")
             with col1:
                 df_invest = pd.DataFrame([
                     {"Title": "Pension", "Amount": 200,},
@@ -459,7 +459,7 @@ else:
                     )
                     st.pyplot(fig1)
         with tab6:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2 = st.columns([1, 1], gap="small")
             with col1:
                 df_food = pd.DataFrame([
                     {"Title": "Groceries", "Amount": 400,},
@@ -488,7 +488,7 @@ else:
                     st.pyplot(fig1)
 
         with tab7:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2 = st.columns([1, 1], gap="small")
             with col1:
                 df_shop = pd.DataFrame([
                     {"Title": "Clothes", "Amount": 50,},
@@ -518,7 +518,7 @@ else:
                     st.pyplot(fig1)
 
         with tab8:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2 = st.columns([1, 1], gap="small")
             with col1:
                 df_travel = pd.DataFrame([
                     {"Title": "Flights", "Amount": 100,},
@@ -546,7 +546,7 @@ else:
                     st.pyplot(fig1)
 
         with tab1:
-            col1, col2 = st.columns([1, 1], gap="medium")
+            col1, col2 = st.columns([1, 1], gap="small")
             with col1:
                 df = pd.DataFrame([
                     {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
@@ -725,7 +725,7 @@ else:
         with tab1:
 
             if assets_cash != 0 and assets_shares_net != 0:
-                col1, col2, col3 = st.columns([3, 3, 4], gap="medium")
+                col1, col2, col3 = st.columns([3, 3, 4], gap="small")
                 with col1:
                     st.write("##### Net Worth")
                     assets_net_investments = int(assets_shares_net + assets_crypto_net)
@@ -784,7 +784,7 @@ else:
         necessary_expenses = st.session_state["necessary_expenses"]
         monthly_debt = st.session_state["monthly_debt"]
 
-        col1, col2 = st.columns([1,1], gap="medium")
+        col1, col2 = st.columns([1,1], gap="small")
         with col1:
             retire_monthly_sal = st.number_input("Monthly budget in retirement (in " + curr_symbol + ")", min_value=0, value=2000)
         with col2:
@@ -795,7 +795,7 @@ else:
         st.info("You can retire when your Net investments reach __" + curr_symbol + curr_fmt(retire_target) + "__")
         # st.info("Your budget if you retired now:\n\n > Yearly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr) + "__\n\n > Monthly: __" + curr_symbol + curr_fmt(assets_net_worth*retire_wr/12) + "__")
         st.write("#### Projected Net Worth of Investments")
-        col1, col2 = st.columns([1,1], gap="medium")
+        col1, col2 = st.columns([1,1], gap="small")
         with col1:
             retire_rr_perc = st.number_input("Expected return rate (%)", min_value=0.0, value=8.0)
             retire_rr = retire_rr_perc / 100
@@ -828,7 +828,7 @@ else:
                 st.warning("You won't have enough investments in " + str(years_to_project) + " years")
         st.area_chart(future_nw, x="Year", y="Projected Net Investments", height=320)
         st.write("#### Current Financial Status")
-        col1, col2 = st.columns([1,1], gap="medium")
+        col1, col2 = st.columns([1,1], gap="small")
         with col1:
             if assets_net_investments >= retire_monthly_sal * 600:
                 st.info("__Financial Freedom__" + "\n\n" + "You have more money than you'll ever need.\n\nYou don't have to worry about money, even in economic downturns.")
