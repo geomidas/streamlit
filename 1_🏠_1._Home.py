@@ -789,8 +789,7 @@ else:
                 {"Month": "2023-11", "Net Worth": 500, "Net Investments": 350, "Net Shares": 100, "Net Crypto": 30},
                 {"Month": "2023-12", "Net Worth": 700, "Net Investments": 450, "Net Shares": 200, "Net Crypto": 30},
             ])
-            clicked_net_worth_data = st.form_submit_button("Show Net Worth Data", type='primary')
-            if clicked_net_worth_data:
+            if st.button("Show Net Worth Data", type='primary')
                 edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
             st.line_chart(df_net_worth, x="Month", height=420, use_container_width=True)
         st.write("\n")
