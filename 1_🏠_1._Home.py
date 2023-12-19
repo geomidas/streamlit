@@ -140,8 +140,8 @@ else:
                     # color=["#8ec127", "#00aedb", "#a200ff", "#f47835"]
                 )
 
-                st.write("#### All income data")
-                st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
+                if st.toggle("Show all income data"):
+                    st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
                 delete_income_data = st.button("Delete income data", help="Delete all income data.")
                 if delete_income_data:
                     init_income_data()
@@ -258,9 +258,8 @@ else:
                     # y=["Pension", "Bills", "Food+Fun", "Investments", "Shopping", "Travel"],
                     # color=["#ff6961", "#f10ff8", "#f1aff8", "#d7740d", "#08cad1", "#0d70d7"],
                 )
-
-                st.write("#### All spending data")
-                st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
+                if st.toggle("Show all spending data"):
+                    st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
                 delete_spend_data = st.button("Delete spending data", help="Delete all spending data.")
                 if delete_spend_data:
                     init_spend_data()
