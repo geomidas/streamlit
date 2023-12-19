@@ -178,7 +178,7 @@ else:
                         'Bonus': [avg_income_bonus],
                     })
                     st.dataframe(income_averages, hide_index=True, use_container_width=True)
-                st.write("This acts as a guide for setting more accurate values in Monthly Outflows.")
+                st.write("_This acts as a guide for setting more accurate values in Monthly Outflows._")
         with tab2:
             def init_spend_data():
                 spend_data=pd.DataFrame({
