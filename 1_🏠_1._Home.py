@@ -73,7 +73,7 @@ else:
             cgt = cgt_base/100
             if "cgt" not in st.session_state:
                 st.session_state["cgt"] = cgt
-
+        st.write("\n")
 
     st.write("\n")
     st.markdown("## Monthly inflows and outflows")
