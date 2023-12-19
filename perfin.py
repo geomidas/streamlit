@@ -30,6 +30,16 @@ if 'user_info' not in st.session_state:
 else:
     col1, col2 = st.columns([1,1], gap="small")
     with col1:
+        with st.expander("🏠 Account", expanded=False):
+            st.info(
+                "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
+                "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
+            )
+            st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
+            st.divider()
+            password = st.text_input(label='Confirm your password',type='password')
+            st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
+    with col2:
         with st.expander("⚙️ Settings", expanded=False):
             selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
             if "selected_currency" not in st.session_state:
@@ -54,16 +64,6 @@ else:
             cgt = cgt_base/100
             if "cgt" not in st.session_state:
                 st.session_state["cgt"] = cgt
-    with col2:
-        with st.expander("🏠 Account", expanded=False):
-            st.info(
-                "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
-                "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
-            )
-            st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
-            st.divider()
-            password = st.text_input(label='Confirm your password',type='password')
-            st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
     
 
     with st.expander("💸 Monthly inflows and outflows", expanded=False):
