@@ -68,8 +68,8 @@ else:
 
     with st.expander("💸 Monthly inflows and outflows", expanded=False):
         tab1, tab2 = st.tabs([
-            "__💰 Inflows__",
-            "__💸 Outflows__",
+            "__⬇️ Inflows__",
+            "__⬆️ Outflows__",
         ])
 
         with tab1:
