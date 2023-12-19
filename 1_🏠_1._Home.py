@@ -139,13 +139,6 @@ else:
                     # color=["#8ec127", "#00aedb", "#a200ff", "#f47835"]
                 )
 
-                if st.toggle("Show all income data"):
-                    st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
-                delete_income_data = st.button("Delete income data", help="Delete all income data.")
-                if delete_income_data:
-                    init_income_data()
-                    st.toast("Deleted income data", icon="🎉")
-
                 # Store last income for use in budgeting
                 if st.session_state.income_data.tail(1)["Net income"].any():
                     last_net_income = int(st.session_state.income_data.tail(1)["Net income"].item())
@@ -178,6 +171,13 @@ else:
                     })
                     st.dataframe(income_averages, hide_index=True, use_container_width=True)
                 st.write("_The monthly average is a guide for setting accurate values in Monthly Outflows._")
+
+                if st.toggle("Show all income data"):
+                    st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
+                delete_income_data = st.button("Delete income data", help="Delete all income data.")
+                if delete_income_data:
+                    init_income_data()
+                    st.toast("Deleted income data", icon="🎉")
         with tab2:
             def init_spend_data():
                 spend_data=pd.DataFrame({
@@ -255,12 +255,6 @@ else:
                     # y=["Pension", "Bills", "Food+Fun", "Investments", "Shopping", "Travel"],
                     # color=["#ff6961", "#f10ff8", "#f1aff8", "#d7740d", "#08cad1", "#0d70d7"],
                 )
-                if st.toggle("Show all spending data"):
-                    st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
-                delete_spend_data = st.button("Delete spending data", help="Delete all spending data.")
-                if delete_spend_data:
-                    init_spend_data()
-                    st.toast("Deleted spending data", icon="🎉")
 
                 st.write("#### Monthly Average")
                 if len(st.session_state.spend_data) > 1:
@@ -296,6 +290,12 @@ else:
                         "Travel": [avg_spend_travel],
                     })
                     st.dataframe(spend_averages, hide_index=True, use_container_width=True)
+                if st.toggle("Show all spending data"):
+                    st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
+                delete_spend_data = st.button("Delete spending data", help="Delete all spending data.")
+                if delete_spend_data:
+                    init_spend_data()
+                    st.toast("Deleted spending data", icon="🎉")
 
 
     with st.expander("🎯 Monthly budget", expanded=False):
