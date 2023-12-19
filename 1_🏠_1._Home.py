@@ -153,9 +153,7 @@ else:
                     st.session_state.last_net_income = last_net_income
 
                 st.write("#### Monthly Average")
-                st.write("This acts as a guide for setting more accurate values in Monthly Outflows.")
                 if len(st.session_state.income_data) > 1:
-                    st.write("##### Average")
                     for key in st.session_state.income_data:
                         if key in "Date":
                             pass
@@ -180,6 +178,7 @@ else:
                         'Bonus': [avg_income_bonus],
                     })
                     st.dataframe(income_averages, hide_index=True, use_container_width=True)
+                st.write("This acts as a guide for setting more accurate values in Monthly Outflows.")
         with tab2:
             def init_spend_data():
                 spend_data=pd.DataFrame({
