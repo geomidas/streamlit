@@ -132,7 +132,7 @@ else:
                     st.session_state.income_data,
                     columns=["Date", "Net income", "Health insurance", "Pension", "Bonus"]
                 )
-                st.write("#### Income Chart")
+                st.write("#### Income over time")
                 st.area_chart(
                     income_chart_data,
                     x="Date",
@@ -249,7 +249,7 @@ else:
                     st.session_state.spend_data,
                     columns=["Date", "Bills", "Pension", "Food+Fun", "Investments", "Shopping", "Travel",],
                 )
-                st.write("#### Spending Chart")
+                st.write("#### Spending over time")
                 st.area_chart(
                     spend_chart_data,
                     use_container_width=True,
