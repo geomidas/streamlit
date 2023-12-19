@@ -316,483 +316,485 @@ else:
                         "Travel": [avg_spend_travel],
                     })
                     st.dataframe(spend_averages, hide_index=True, use_container_width=True)
-
-
     st.write("\n")
-    st.markdown("## Monthly budget")
-
-    def curr_fmt(val):
-        return locale.currency(val, symbol=False, grouping=True)
-
-    # Load variables
-    curr_symbol = st.session_state["curr_symbol"]
-    if "last_net_income" in st.session_state:
-        last_net_income = st.session_state.last_net_income
-    else:
-        last_net_income = 0
-
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
-        "__🎯 Budget__",
-        "__⚡ Bills__",
-        "__🏦 Debt__",
-        "__🐷 Savings__",
-        "__🚀 Investments__",
-        "__🍕 Food + Fun__",
-        "__🛍️ Shopping__",
-        "__✈️ Travel__",
-    ])
-
-    with tab2:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df_bills = pd.DataFrame([
-               {"Title": "Rent", "Amount": 900},
-               {"Title": "Mobile Phone", "Amount": 20},
-               {"Title": "Internet", "Amount": 30},
-               {"Title": "Electricity", "Amount": 40},
-               {"Title": "Gas", "Amount": 30},
-               {"Title": "iCloud", "Amount": 2},
-               {"Title": "Netflix", "Amount": 6},
-               {"Title": "Bins", "Amount": 10},
-           ])
-            edited_df_bills = st.data_editor(df_bills, num_rows="dynamic", use_container_width=True)
-
-            monthly_bills = 0
-            for key in edited_df_bills["Amount"]:
-                if not isnan(key):
-                    monthly_bills += int(key)
-            st.info("Monthly bills: __" + curr_symbol + str(curr_fmt(monthly_bills)) + "__")
-
-            if "monthly_bills" not in st.session_state:
-                st.session_state["monthly_bills"] = monthly_bills
-
-        with col2:
-            if len(edited_df_bills["Amount"]) > 1 and monthly_bills > 0 and edited_df_bills["Amount"].isnull().values.any() == False:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df_bills["Amount"],
-                    labels=edited_df_bills["Title"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-
-    with tab3:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df_debt = pd.DataFrame([
-               {"Title": "Mortgage", "Amount": 2},
-               {"Title": "Car loan", "Amount": 1},
-               {"Title": "Loan", "Amount": 1},
-               {"Title": "Credit card", "Amount": 1},
-           ])
-            edited_df_debt = st.data_editor(
-                df_debt,
-                use_container_width=True,
-                num_rows="dynamic",
-                column_config={
-                    "Amount": st.column_config.NumberColumn(
-                        format=curr_symbol + "%d",
-                        min_value=0,
-                    ),
-                }
-            )
-
-            monthly_debt = 0
-            for key in edited_df_debt["Amount"]:
-                if not isnan(key):
-                    monthly_debt += key
-            st.info("Monthly debt payments: __" + curr_symbol + curr_fmt(monthly_debt) + "__")
-            st.session_state["monthly_debt"] = monthly_debt
-
-        with col2:
-            if len(edited_df_debt["Amount"]) > 1 and monthly_debt > 0 and edited_df_debt["Amount"].isnull().values.any() == False:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df_debt["Amount"],
-                    labels=edited_df_debt["Title"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-
-    with tab4:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df_savings = pd.DataFrame([
-                {"Title": "Emergency Fund", "Amount": 0,},
-                {"Title": "House Deposit", "Amount": 100,},
-                {"Title": "Car", "Amount": 20,},
-            ])
-            edited_df_savings = st.data_editor(df_savings, num_rows="dynamic", use_container_width=True)
-            monthly_savings = 0
-            for key in edited_df_savings["Amount"]:
-                if not isnan(key):
-                    monthly_savings += key
-            st.info("Monthly savings: __" + curr_symbol + str(monthly_savings) + "__")
-            st.session_state["monthly_savings"] = monthly_savings
-
-        with col2:
-            if len(edited_df_savings["Amount"]) > 1 and monthly_savings > 0 and edited_df_savings["Amount"].isnull().values.any() == False:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df_savings["Amount"],
-                    labels=edited_df_savings["Title"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-
-    with tab5:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df_invest = pd.DataFrame([
-                {"Title": "Pension", "Amount": 200,},
-                {"Title": "Shares", "Amount": 100,},
-                {"Title": "Crypto", "Amount": 20,},
-            ])
-            edited_df_invest = st.data_editor(df_invest, num_rows="dynamic", use_container_width=True)
-            monthly_investments = 0
-            for key in edited_df_invest["Amount"]:
-                if not isnan(key):
-                    monthly_investments += key
-            st.info("Monthly investments: __" + curr_symbol + curr_fmt(monthly_investments) + "__")
-            st.session_state["monthly_investments"] = monthly_investments
-
-        with col2:
-            if len(edited_df_invest["Amount"]) > 1 and monthly_investments > 0 and edited_df_invest["Amount"].isnull().values.any() == False:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df_invest["Amount"],
-                    labels=edited_df_invest["Title"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-    with tab6:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df_food = pd.DataFrame([
-                {"Title": "Groceries", "Amount": 400,},
-                {"Title": "Drinks", "Amount": 100,},
-                {"Title": "Other", "Amount": 100,},
-            ])
-            edited_df_food = st.data_editor(df_food, num_rows="dynamic", use_container_width=True)
-            monthly_food = 0
-            for key in edited_df_food["Amount"]:
-                if not isnan(key):
-                    monthly_food += key
-            st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_food) + "__")
-            st.session_state["monthly_food"] = monthly_food
-
-        with col2:
-            if len(edited_df_food["Amount"]) > 1 and monthly_food > 0 and edited_df_food["Amount"].isnull().values.any() == False:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df_food["Amount"],
-                    labels=edited_df_food["Title"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-
-    with tab7:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df_shop = pd.DataFrame([
-                {"Title": "Clothes", "Amount": 50,},
-                {"Title": "Gifts", "Amount": 50,},
-                {"Title": "Electronics", "Amount": 100,},
-                {"Title": "Other", "Amount": 100,},
-            ])
-            edited_df_shop = st.data_editor(df_shop, num_rows="dynamic", use_container_width=True)
-            monthly_shop = 0
-            for key in edited_df_shop["Amount"]:
-                if not isnan(key):
-                    monthly_shop += key
-            st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_shop) + "__")
-            st.session_state["monthly_shop"] = monthly_shop
-
-        with col2:
-            if len(edited_df_shop["Amount"]) > 1 and monthly_shop > 0 and edited_df_shop["Amount"].isnull().values.any() == False:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df_shop["Amount"],
-                    labels=edited_df_shop["Title"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-
-    with tab8:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df_travel = pd.DataFrame([
-                {"Title": "Flights", "Amount": 100,},
-                {"Title": "Accomodation", "Amount": 100,},
-            ])
-            edited_df_travel = st.data_editor(df_travel, num_rows="dynamic", use_container_width=True)
-            monthly_travel = 0
-            for key in edited_df_travel["Amount"]:
-                if not isnan(key):
-                    monthly_travel += key
-            st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_travel) + "__")
-            st.session_state["monthly_travel"] = monthly_travel
-
-        with col2:
-            if len(edited_df_travel["Amount"]) > 1 and monthly_travel > 0 and edited_df_travel["Amount"].isnull().values.any() == False:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df_travel["Amount"],
-                    labels=edited_df_travel["Title"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-
-    with tab1:
-        col1, col2 = st.columns([1, 1], gap="medium")
-        with col1:
-            df = pd.DataFrame([
-                {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
-                {"Purpose": "Debt", "Amount": monthly_debt, "Necessary": True},
-                {"Purpose": "Savings", "Amount": monthly_savings, "Necessary": False},
-                {"Purpose": "Investments", "Amount": monthly_investments, "Necessary": False},
-                {"Purpose": "Food & fun", "Amount": monthly_food, "Necessary": True},
-                {"Purpose": "Shopping", "Amount": 250, "Necessary": False},
-                {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
-            ])
-            edited_df = st.data_editor(
-                df,
-                num_rows="dynamic",
-                use_container_width=True,
-                disabled=["Purpose", "Amount"],
-            )
-
-            total_necessary = 0
-            account_funding = {}
-            for item in range(len(edited_df)):
-                if edited_df.iloc[item]["Necessary"]:
-                    total_necessary += edited_df.iloc[item]["Amount"]
-            st.info("Necessary outflows: __" + curr_symbol + str(curr_fmt(total_necessary)) + "__")
-            st.session_state["necessary_expenses"] = total_necessary
-
-            total = 0
-            for key in edited_df["Amount"]:
-                try: 
-                    total += key
-                except:
-                    print("Nothing")
-            st.info("All outflows: __" + curr_symbol + curr_fmt(total) + "__")
-
-        with col2:
-            if len(edited_df["Amount"]) > 1:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    edited_df["Amount"],
-                    labels=edited_df["Purpose"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=90,
-                )
-                st.pyplot(fig1)
-
-        if total > last_net_income:
-            st.warning(body="Your outflows are higher than your income.\n\nLast income: __" + curr_symbol + curr_fmt(last_net_income) + "__", icon="⚠️")
 
 
-    st.write("\n")
-    st.markdown("## Assets")
+    with st.expander("Monthly budget", expanded=True):
+        st.markdown("## Monthly budget")
 
-    def curr_fmt(val):
-        return locale.currency(val, symbol=False, grouping=True)
+        def curr_fmt(val):
+            return locale.currency(val, symbol=False, grouping=True)
 
-    def get_share_price(ticker):
-        return yf.Ticker(ticker).basic_info["lastPrice"]
+        # Load variables
+        curr_symbol = st.session_state["curr_symbol"]
+        if "last_net_income" in st.session_state:
+            last_net_income = st.session_state.last_net_income
+        else:
+            last_net_income = 0
 
-    def get_crypto_price(ticker, selected_currency):
-        return yf.Ticker(ticker + "-" + selected_currency).basic_info["lastPrice"]
-
-    # Load Settings
-    selected_currency = st.session_state["selected_currency"]
-    curr_symbol = st.session_state["curr_symbol"]
-    cgt = st.session_state["cgt"]
-    necessary_expenses = st.session_state["necessary_expenses"]
-
-    tab1, tab2, tab3, tab4 = st.tabs([
-        "__⚙️ Dashboard__",
-        "__💵 Cash &nbsp; &nbsp;__",
-        "__🏛️ Shares &nbsp;__",
-        "__🪙 Cryptocurrency__",
-    ])
-
-    with tab2:
-        st.markdown("Cash and cash equivalents:")
-        df_cash = pd.DataFrame([
-            {"Cash": "Under the mattress", "Net": 0},
-            {"Cash": "Savings", "Net": 1000},
+        tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
+            "__🎯 Budget__",
+            "__⚡ Bills__",
+            "__🏦 Debt__",
+            "__🐷 Savings__",
+            "__🚀 Investments__",
+            "__🍕 Food + Fun__",
+            "__🛍️ Shopping__",
+            "__✈️ Travel__",
         ])
-        edited_df_cash = st.data_editor(df_cash, width=380, num_rows="dynamic")
-        assets_cash = 0
-        for key in edited_df_cash["Net"]:
-            try:
-                assets_cash += key
-            except:
-                print("Assets: No cash")
-        st.info('Cash Sum: __' + curr_symbol + curr_fmt(assets_cash) + "__")
-        st.session_state["assets_cash"] = assets_cash
 
-        st.write("#### Emergency Fund")
-        st.info("Months of all necessary expenses covered: __" + str(int(assets_cash / necessary_expenses)) + "__")
-
-    with tab3:
-        st.markdown("Add any shares you own:")
-        df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [100.0], "Avg Cost": [200.0]})
-        edited_df_shares = st.data_editor(df_shares, use_container_width=True, num_rows="dynamic")
-
-        assets_shares_net = 0
-        if sum(edited_df_shares["Count"]) > 0 and not edited_df_shares.isnull().values.any():
-            st.write("##### Value")
-            df_shares_value = pd.DataFrame({"Title": [], "Net": [], "Gross": [], "Tax": [], "Price": [], "Total Cost": []})
-            for row in range(len(edited_df_shares)):
-                row_title = edited_df_shares.T[row]["Title"]
-                row_ticker = edited_df_shares.T[row]["Ticker"]
-                row_count = edited_df_shares.T[row]["Count"]
-                row_avg_cost = edited_df_shares.T[row]["Avg Cost"]
-                row_cost = row_count * row_avg_cost
-                row_price = get_share_price(row_ticker)
-                row_gross = int(row_count * row_price)
-                row_profit = int(row_gross - row_cost)
-                row_tax = int(row_gross * cgt)
-                row_net = int(row_gross - row_tax)
-
-                new_row = pd.DataFrame({
-                    "Title": [row_title],
-                    "Net": [row_net],
-                    "Gross": [row_gross],
-                    "Tax": [row_tax],
-                    "Price": [row_price],
-                    "Total Cost": [row_cost],
-                })
-                df_shares_value = pd.concat([df_shares_value, new_row])
-
-            st.dataframe(df_shares_value, hide_index=True, use_container_width=True)
-            for key in df_shares_value["Net"]:
-                try:
-                    assets_shares_net += key
-                except:
-                    print("Assets: No shares")
-            st.info('Shares Net Sum: __' + curr_symbol + curr_fmt(assets_shares_net) + "__")
-
-        st.session_state["assets_shares_net"] = assets_shares_net
-
-    with tab4:
-        ticker_btc = "BTC-" + selected_currency
-        st.markdown("Crypto you hodl:")
-        df_crypto = pd.DataFrame({"Title": ["Bitcoin"], "Ticker": ["BTC"], "Count": [0.1], "Avg Cost": [1000.0]})
-        edited_df_crypto = st.data_editor(df_crypto, use_container_width=True, num_rows="dynamic")
-
-        assets_crypto_net = 0
-        if sum(edited_df_crypto["Count"]) > 0 and not edited_df_crypto.isnull().values.any():
-            st.write("##### Value")
-            df_crypto_value = pd.DataFrame({"Title": [], "Net": [], "Gross": [], "Tax": [], "Price": [], "Total Cost": []})
-            for row in range(len(edited_df_crypto)):
-                row_title = edited_df_crypto.T[row]["Title"]
-                row_ticker = edited_df_crypto.T[row]["Ticker"]
-                row_count = edited_df_crypto.T[row]["Count"]
-                row_avg_cost = edited_df_crypto.T[row]["Avg Cost"]
-                row_cost = row_count * row_avg_cost
-                row_price = get_crypto_price(row_ticker, selected_currency)
-                row_gross = int(row_count * row_price)
-                row_profit = int(row_gross - row_cost)
-                row_tax = int(row_profit * cgt)
-                row_net = int(row_gross - row_tax)
-
-                new_row = pd.DataFrame({
-                    "Title": [row_title],
-                    "Net": [row_net],
-                    "Gross": [row_gross],
-                    "Tax": [row_tax],
-                    "Price": [row_price],
-                    "Total Cost": [row_cost],
-                })
-                df_crypto_value = pd.concat([df_crypto_value, new_row])
-
-            st.dataframe(df_crypto_value, hide_index=True, use_container_width=True)
-            for key in df_crypto_value["Net"]:
-                try:
-                    assets_crypto_net += key
-                except:
-                    print("Assets > Crypto > Value calc error")
-            st.info("Crypto Net Sum: __" + curr_symbol + curr_fmt(assets_crypto_net) + "__")
-
-        st.session_state["assets_crypto_net"] = assets_crypto_net
-
-    with tab1:
-
-        if assets_cash != 0 and assets_shares_net != 0:
-            col1, col2, col3 = st.columns([3, 3, 4], gap="medium")
+        with tab2:
+            col1, col2 = st.columns([1, 1], gap="medium")
             with col1:
-                st.write("##### Net Worth")
-                assets_net_investments = int(assets_shares_net + assets_crypto_net)
-                st.session_state.assets_net_investments = assets_net_investments
-                assets_net_worth = int(assets_cash) + assets_net_investments
-                st.info("Current Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__")
-                st.info("Net Investments: __" + curr_symbol + curr_fmt(assets_net_investments) + "__")
-                st.session_state["assets_net_worth"] = assets_net_worth
+                df_bills = pd.DataFrame([
+                   {"Title": "Rent", "Amount": 900},
+                   {"Title": "Mobile Phone", "Amount": 20},
+                   {"Title": "Internet", "Amount": 30},
+                   {"Title": "Electricity", "Amount": 40},
+                   {"Title": "Gas", "Amount": 30},
+                   {"Title": "iCloud", "Amount": 2},
+                   {"Title": "Netflix", "Amount": 6},
+                   {"Title": "Bins", "Amount": 10},
+               ])
+                edited_df_bills = st.data_editor(df_bills, num_rows="dynamic", use_container_width=True)
+
+                monthly_bills = 0
+                for key in edited_df_bills["Amount"]:
+                    if not isnan(key):
+                        monthly_bills += int(key)
+                st.info("Monthly bills: __" + curr_symbol + str(curr_fmt(monthly_bills)) + "__")
+
+                if "monthly_bills" not in st.session_state:
+                    st.session_state["monthly_bills"] = monthly_bills
+
             with col2:
-                st.markdown("##### Allocation")
-                st.info("Cash: __" + curr_symbol + curr_fmt(assets_cash) + "__")
-                st.info("Net Shares: __" + curr_symbol + curr_fmt(assets_shares_net) + "__")
-                st.info("Net Crypto: __" + curr_symbol + curr_fmt(assets_crypto_net) + "__")
-            with col3:
-                fig1, ax1 = plt.subplots()
-                ax1.pie(
-                    [assets_cash, assets_shares_net, assets_crypto_net],
-                    labels=["Cash", "Shares", "Crypto"],
-                    autopct='%.0d%%',
-                    pctdistance=0.83,
-                    counterclock=False,
-                    startangle=45,
+                if len(edited_df_bills["Amount"]) > 1 and monthly_bills > 0 and edited_df_bills["Amount"].isnull().values.any() == False:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        edited_df_bills["Amount"],
+                        labels=edited_df_bills["Title"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=90,
+                    )
+                    st.pyplot(fig1)
+
+        with tab3:
+            col1, col2 = st.columns([1, 1], gap="medium")
+            with col1:
+                df_debt = pd.DataFrame([
+                   {"Title": "Mortgage", "Amount": 2},
+                   {"Title": "Car loan", "Amount": 1},
+                   {"Title": "Loan", "Amount": 1},
+                   {"Title": "Credit card", "Amount": 1},
+               ])
+                edited_df_debt = st.data_editor(
+                    df_debt,
+                    use_container_width=True,
+                    num_rows="dynamic",
+                    column_config={
+                        "Amount": st.column_config.NumberColumn(
+                            format=curr_symbol + "%d",
+                            min_value=0,
+                        ),
+                    }
                 )
-                st.pyplot(fig1)
 
-        st.write("##### Net Worth over time")
-        df_net_worth = pd.DataFrame([
-            {"Month": "2023-01", "Net Worth": 100, "Net Investments": 50, "Net Shares": 50, "Net Crypto": 30},
-            {"Month": "2023-02", "Net Worth": 150, "Net Investments": 50, "Net Shares": 50, "Net Crypto": 30},
-            {"Month": "2023-03", "Net Worth": 200, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
-            {"Month": "2023-04", "Net Worth": 200, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
-            {"Month": "2023-05", "Net Worth": 250, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
-            {"Month": "2023-06", "Net Worth": 400, "Net Investments": 250, "Net Shares": 150, "Net Crypto": 30},
-            {"Month": "2023-07", "Net Worth": 350, "Net Investments": 150, "Net Shares": 150, "Net Crypto": 30},
-            {"Month": "2023-08", "Net Worth": 500, "Net Investments": 350, "Net Shares": 150, "Net Crypto": 30},
-            {"Month": "2023-09", "Net Worth": 500, "Net Investments": 350, "Net Shares": 150, "Net Crypto": 30},
-            {"Month": "2023-10", "Net Worth": 600, "Net Investments": 450, "Net Shares": 200, "Net Crypto": 30},
-            {"Month": "2023-11", "Net Worth": 500, "Net Investments": 350, "Net Shares": 100, "Net Crypto": 30},
-            {"Month": "2023-12", "Net Worth": 700, "Net Investments": 450, "Net Shares": 200, "Net Crypto": 30},
-        ])
-        with st.expander(label="Net Worth Data", expanded=False):
-            edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
-        st.line_chart(df_net_worth, x="Month", height=420, use_container_width=True)
+                monthly_debt = 0
+                for key in edited_df_debt["Amount"]:
+                    if not isnan(key):
+                        monthly_debt += key
+                st.info("Monthly debt payments: __" + curr_symbol + curr_fmt(monthly_debt) + "__")
+                st.session_state["monthly_debt"] = monthly_debt
 
+            with col2:
+                if len(edited_df_debt["Amount"]) > 1 and monthly_debt > 0 and edited_df_debt["Amount"].isnull().values.any() == False:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        edited_df_debt["Amount"],
+                        labels=edited_df_debt["Title"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=90,
+                    )
+                    st.pyplot(fig1)
 
+        with tab4:
+            col1, col2 = st.columns([1, 1], gap="medium")
+            with col1:
+                df_savings = pd.DataFrame([
+                    {"Title": "Emergency Fund", "Amount": 0,},
+                    {"Title": "House Deposit", "Amount": 100,},
+                    {"Title": "Car", "Amount": 20,},
+                ])
+                edited_df_savings = st.data_editor(df_savings, num_rows="dynamic", use_container_width=True)
+                monthly_savings = 0
+                for key in edited_df_savings["Amount"]:
+                    if not isnan(key):
+                        monthly_savings += key
+                st.info("Monthly savings: __" + curr_symbol + str(monthly_savings) + "__")
+                st.session_state["monthly_savings"] = monthly_savings
+
+            with col2:
+                if len(edited_df_savings["Amount"]) > 1 and monthly_savings > 0 and edited_df_savings["Amount"].isnull().values.any() == False:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        edited_df_savings["Amount"],
+                        labels=edited_df_savings["Title"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=90,
+                    )
+                    st.pyplot(fig1)
+
+        with tab5:
+            col1, col2 = st.columns([1, 1], gap="medium")
+            with col1:
+                df_invest = pd.DataFrame([
+                    {"Title": "Pension", "Amount": 200,},
+                    {"Title": "Shares", "Amount": 100,},
+                    {"Title": "Crypto", "Amount": 20,},
+                ])
+                edited_df_invest = st.data_editor(df_invest, num_rows="dynamic", use_container_width=True)
+                monthly_investments = 0
+                for key in edited_df_invest["Amount"]:
+                    if not isnan(key):
+                        monthly_investments += key
+                st.info("Monthly investments: __" + curr_symbol + curr_fmt(monthly_investments) + "__")
+                st.session_state["monthly_investments"] = monthly_investments
+
+            with col2:
+                if len(edited_df_invest["Amount"]) > 1 and monthly_investments > 0 and edited_df_invest["Amount"].isnull().values.any() == False:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        edited_df_invest["Amount"],
+                        labels=edited_df_invest["Title"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=90,
+                    )
+                    st.pyplot(fig1)
+        with tab6:
+            col1, col2 = st.columns([1, 1], gap="medium")
+            with col1:
+                df_food = pd.DataFrame([
+                    {"Title": "Groceries", "Amount": 400,},
+                    {"Title": "Drinks", "Amount": 100,},
+                    {"Title": "Other", "Amount": 100,},
+                ])
+                edited_df_food = st.data_editor(df_food, num_rows="dynamic", use_container_width=True)
+                monthly_food = 0
+                for key in edited_df_food["Amount"]:
+                    if not isnan(key):
+                        monthly_food += key
+                st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_food) + "__")
+                st.session_state["monthly_food"] = monthly_food
+
+            with col2:
+                if len(edited_df_food["Amount"]) > 1 and monthly_food > 0 and edited_df_food["Amount"].isnull().values.any() == False:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        edited_df_food["Amount"],
+                        labels=edited_df_food["Title"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=90,
+                    )
+                    st.pyplot(fig1)
+
+        with tab7:
+            col1, col2 = st.columns([1, 1], gap="medium")
+            with col1:
+                df_shop = pd.DataFrame([
+                    {"Title": "Clothes", "Amount": 50,},
+                    {"Title": "Gifts", "Amount": 50,},
+                    {"Title": "Electronics", "Amount": 100,},
+                    {"Title": "Other", "Amount": 100,},
+                ])
+                edited_df_shop = st.data_editor(df_shop, num_rows="dynamic", use_container_width=True)
+                monthly_shop = 0
+                for key in edited_df_shop["Amount"]:
+                    if not isnan(key):
+                        monthly_shop += key
+                st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_shop) + "__")
+                st.session_state["monthly_shop"] = monthly_shop
+
+            with col2:
+                if len(edited_df_shop["Amount"]) > 1 and monthly_shop > 0 and edited_df_shop["Amount"].isnull().values.any() == False:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        edited_df_shop["Amount"],
+                        labels=edited_df_shop["Title"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=90,
+                    )
+                    st.pyplot(fig1)
+
+        with tab8:
+            col1, col2 = st.columns([1, 1], gap="medium")
+            with col1:
+                df_travel = pd.DataFrame([
+                    {"Title": "Flights", "Amount": 100,},
+                    {"Title": "Accomodation", "Amount": 100,},
+                ])
+                edited_df_travel = st.data_editor(df_travel, num_rows="dynamic", use_container_width=True)
+                monthly_travel = 0
+                for key in edited_df_travel["Amount"]:
+                    if not isnan(key):
+                        monthly_travel += key
+                st.info("Monthly: __" + curr_symbol + curr_fmt(monthly_travel) + "__")
+                st.session_state["monthly_travel"] = monthly_travel
+
+            with col2:
+                if len(edited_df_travel["Amount"]) > 1 and monthly_travel > 0 and edited_df_travel["Amount"].isnull().values.any() == False:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        edited_df_travel["Amount"],
+                        labels=edited_df_travel["Title"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=90,
+                    )
+                    st.pyplot(fig1)
+
+        with tab1:
+            col1, col2 = st.columns([1, 1], gap="medium")
+            with col1:
+                df = pd.DataFrame([
+                    {"Purpose": "Bills", "Amount": monthly_bills, "Necessary": True},
+                    {"Purpose": "Debt", "Amount": monthly_debt, "Necessary": True},
+                    {"Purpose": "Savings", "Amount": monthly_savings, "Necessary": False},
+                    {"Purpose": "Investments", "Amount": monthly_investments, "Necessary": False},
+                    {"Purpose": "Food & fun", "Amount": monthly_food, "Necessary": True},
+                    {"Purpose": "Shopping", "Amount": 250, "Necessary": False},
+                    {"Purpose": "Traveling", "Amount": 250, "Necessary": False},
+                ])
+                edited_df = st.data_editor(
+                    df,
+                    num_rows="dynamic",
+                    use_container_width=True,
+                    disabled=["Purpose", "Amount"],
+                )
+
+                total_necessary = 0
+                account_funding = {}
+                for item in range(len(edited_df)):
+                    if edited_df.iloc[item]["Necessary"]:
+                        total_necessary += edited_df.iloc[item]["Amount"]
+                st.info("Necessary outflows: __" + curr_symbol + str(curr_fmt(total_necessary)) + "__")
+                st.session_state["necessary_expenses"] = total_necessary
+
+                total = 0
+                for key in edited_df["Amount"]:
+                    try: 
+                        total += key
+                    except:
+                        print("Nothing")
+                st.info("All outflows: __" + curr_symbol + curr_fmt(total) + "__")
+
+            with col2:
+                if len(edited_df["Amount"]) > 1:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        edited_df["Amount"],
+                        labels=edited_df["Purpose"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=90,
+                    )
+                    st.pyplot(fig1)
+
+            if total > last_net_income:
+                st.warning(body="Your outflows are higher than your income.\n\nLast income: __" + curr_symbol + curr_fmt(last_net_income) + "__", icon="⚠️")
     st.write("\n")
+
+    
+    with st.expander("## Assets", expanded=True):
+        st.markdown("## Assets")
+
+        def curr_fmt(val):
+            return locale.currency(val, symbol=False, grouping=True)
+
+        def get_share_price(ticker):
+            return yf.Ticker(ticker).basic_info["lastPrice"]
+
+        def get_crypto_price(ticker, selected_currency):
+            return yf.Ticker(ticker + "-" + selected_currency).basic_info["lastPrice"]
+
+        # Load Settings
+        selected_currency = st.session_state["selected_currency"]
+        curr_symbol = st.session_state["curr_symbol"]
+        cgt = st.session_state["cgt"]
+        necessary_expenses = st.session_state["necessary_expenses"]
+
+        tab1, tab2, tab3, tab4 = st.tabs([
+            "__⚙️ Dashboard__",
+            "__💵 Cash &nbsp; &nbsp;__",
+            "__🏛️ Shares &nbsp;__",
+            "__🪙 Cryptocurrency__",
+        ])
+
+        with tab2:
+            st.markdown("Cash and cash equivalents:")
+            df_cash = pd.DataFrame([
+                {"Cash": "Under the mattress", "Net": 0},
+                {"Cash": "Savings", "Net": 1000},
+            ])
+            edited_df_cash = st.data_editor(df_cash, width=380, num_rows="dynamic")
+            assets_cash = 0
+            for key in edited_df_cash["Net"]:
+                try:
+                    assets_cash += key
+                except:
+                    print("Assets: No cash")
+            st.info('Cash Sum: __' + curr_symbol + curr_fmt(assets_cash) + "__")
+            st.session_state["assets_cash"] = assets_cash
+
+            st.write("#### Emergency Fund")
+            st.info("Months of all necessary expenses covered: __" + str(int(assets_cash / necessary_expenses)) + "__")
+
+        with tab3:
+            st.markdown("Add any shares you own:")
+            df_shares = pd.DataFrame({"Title": ["Tesla"], "Ticker": ["TSLA"], "Count": [100.0], "Avg Cost": [200.0]})
+            edited_df_shares = st.data_editor(df_shares, use_container_width=True, num_rows="dynamic")
+
+            assets_shares_net = 0
+            if sum(edited_df_shares["Count"]) > 0 and not edited_df_shares.isnull().values.any():
+                st.write("##### Value")
+                df_shares_value = pd.DataFrame({"Title": [], "Net": [], "Gross": [], "Tax": [], "Price": [], "Total Cost": []})
+                for row in range(len(edited_df_shares)):
+                    row_title = edited_df_shares.T[row]["Title"]
+                    row_ticker = edited_df_shares.T[row]["Ticker"]
+                    row_count = edited_df_shares.T[row]["Count"]
+                    row_avg_cost = edited_df_shares.T[row]["Avg Cost"]
+                    row_cost = row_count * row_avg_cost
+                    row_price = get_share_price(row_ticker)
+                    row_gross = int(row_count * row_price)
+                    row_profit = int(row_gross - row_cost)
+                    row_tax = int(row_gross * cgt)
+                    row_net = int(row_gross - row_tax)
+
+                    new_row = pd.DataFrame({
+                        "Title": [row_title],
+                        "Net": [row_net],
+                        "Gross": [row_gross],
+                        "Tax": [row_tax],
+                        "Price": [row_price],
+                        "Total Cost": [row_cost],
+                    })
+                    df_shares_value = pd.concat([df_shares_value, new_row])
+
+                st.dataframe(df_shares_value, hide_index=True, use_container_width=True)
+                for key in df_shares_value["Net"]:
+                    try:
+                        assets_shares_net += key
+                    except:
+                        print("Assets: No shares")
+                st.info('Shares Net Sum: __' + curr_symbol + curr_fmt(assets_shares_net) + "__")
+
+            st.session_state["assets_shares_net"] = assets_shares_net
+
+        with tab4:
+            ticker_btc = "BTC-" + selected_currency
+            st.markdown("Crypto you hodl:")
+            df_crypto = pd.DataFrame({"Title": ["Bitcoin"], "Ticker": ["BTC"], "Count": [0.1], "Avg Cost": [1000.0]})
+            edited_df_crypto = st.data_editor(df_crypto, use_container_width=True, num_rows="dynamic")
+
+            assets_crypto_net = 0
+            if sum(edited_df_crypto["Count"]) > 0 and not edited_df_crypto.isnull().values.any():
+                st.write("##### Value")
+                df_crypto_value = pd.DataFrame({"Title": [], "Net": [], "Gross": [], "Tax": [], "Price": [], "Total Cost": []})
+                for row in range(len(edited_df_crypto)):
+                    row_title = edited_df_crypto.T[row]["Title"]
+                    row_ticker = edited_df_crypto.T[row]["Ticker"]
+                    row_count = edited_df_crypto.T[row]["Count"]
+                    row_avg_cost = edited_df_crypto.T[row]["Avg Cost"]
+                    row_cost = row_count * row_avg_cost
+                    row_price = get_crypto_price(row_ticker, selected_currency)
+                    row_gross = int(row_count * row_price)
+                    row_profit = int(row_gross - row_cost)
+                    row_tax = int(row_profit * cgt)
+                    row_net = int(row_gross - row_tax)
+
+                    new_row = pd.DataFrame({
+                        "Title": [row_title],
+                        "Net": [row_net],
+                        "Gross": [row_gross],
+                        "Tax": [row_tax],
+                        "Price": [row_price],
+                        "Total Cost": [row_cost],
+                    })
+                    df_crypto_value = pd.concat([df_crypto_value, new_row])
+
+                st.dataframe(df_crypto_value, hide_index=True, use_container_width=True)
+                for key in df_crypto_value["Net"]:
+                    try:
+                        assets_crypto_net += key
+                    except:
+                        print("Assets > Crypto > Value calc error")
+                st.info("Crypto Net Sum: __" + curr_symbol + curr_fmt(assets_crypto_net) + "__")
+
+            st.session_state["assets_crypto_net"] = assets_crypto_net
+
+        with tab1:
+
+            if assets_cash != 0 and assets_shares_net != 0:
+                col1, col2, col3 = st.columns([3, 3, 4], gap="medium")
+                with col1:
+                    st.write("##### Net Worth")
+                    assets_net_investments = int(assets_shares_net + assets_crypto_net)
+                    st.session_state.assets_net_investments = assets_net_investments
+                    assets_net_worth = int(assets_cash) + assets_net_investments
+                    st.info("Current Net Worth: __" + curr_symbol + curr_fmt(assets_net_worth) + "__")
+                    st.info("Net Investments: __" + curr_symbol + curr_fmt(assets_net_investments) + "__")
+                    st.session_state["assets_net_worth"] = assets_net_worth
+                with col2:
+                    st.markdown("##### Allocation")
+                    st.info("Cash: __" + curr_symbol + curr_fmt(assets_cash) + "__")
+                    st.info("Net Shares: __" + curr_symbol + curr_fmt(assets_shares_net) + "__")
+                    st.info("Net Crypto: __" + curr_symbol + curr_fmt(assets_crypto_net) + "__")
+                with col3:
+                    fig1, ax1 = plt.subplots()
+                    ax1.pie(
+                        [assets_cash, assets_shares_net, assets_crypto_net],
+                        labels=["Cash", "Shares", "Crypto"],
+                        autopct='%.0d%%',
+                        pctdistance=0.83,
+                        counterclock=False,
+                        startangle=45,
+                    )
+                    st.pyplot(fig1)
+
+            st.write("##### Net Worth over time")
+            df_net_worth = pd.DataFrame([
+                {"Month": "2023-01", "Net Worth": 100, "Net Investments": 50, "Net Shares": 50, "Net Crypto": 30},
+                {"Month": "2023-02", "Net Worth": 150, "Net Investments": 50, "Net Shares": 50, "Net Crypto": 30},
+                {"Month": "2023-03", "Net Worth": 200, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
+                {"Month": "2023-04", "Net Worth": 200, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
+                {"Month": "2023-05", "Net Worth": 250, "Net Investments": 150, "Net Shares": 50, "Net Crypto": 30},
+                {"Month": "2023-06", "Net Worth": 400, "Net Investments": 250, "Net Shares": 150, "Net Crypto": 30},
+                {"Month": "2023-07", "Net Worth": 350, "Net Investments": 150, "Net Shares": 150, "Net Crypto": 30},
+                {"Month": "2023-08", "Net Worth": 500, "Net Investments": 350, "Net Shares": 150, "Net Crypto": 30},
+                {"Month": "2023-09", "Net Worth": 500, "Net Investments": 350, "Net Shares": 150, "Net Crypto": 30},
+                {"Month": "2023-10", "Net Worth": 600, "Net Investments": 450, "Net Shares": 200, "Net Crypto": 30},
+                {"Month": "2023-11", "Net Worth": 500, "Net Investments": 350, "Net Shares": 100, "Net Crypto": 30},
+                {"Month": "2023-12", "Net Worth": 700, "Net Investments": 450, "Net Shares": 200, "Net Crypto": 30},
+            ])
+            with st.expander(label="Net Worth Data", expanded=False):
+                edited_df = st.data_editor(df_net_worth, num_rows="dynamic")
+            st.line_chart(df_net_worth, x="Month", height=420, use_container_width=True)
+        st.write("\n")
+
+
     st.markdown("## Financial Freedom / Retirement")
 
     def curr_fmt(val):
