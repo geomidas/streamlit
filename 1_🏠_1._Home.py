@@ -29,7 +29,7 @@ if 'user_info' not in st.session_state:
 else:
     col1, col2 = st.columns([1,1], gap="medium")
     with col1:
-        with st.expander("🏠 Account", expanded=True):
+        with st.expander("🏠 Account", expanded=False):
             st.info(
                 "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
                 "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
@@ -39,7 +39,7 @@ else:
             password = st.text_input(label='Confirm your password',type='password')
             st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
     with col2:
-        with st.expander("⚙️ Settings", expanded=True):
+        with st.expander("⚙️ Settings", expanded=False):
             selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
             if "selected_currency" not in st.session_state:
                 st.session_state["selected_currency"] = selected_currency
@@ -133,7 +133,7 @@ else:
                 st.session_state.income_data,
                 columns=["Date", "Net income", "Health insurance", "Pension", "Bonus"]
             )
-            with st.expander("Income Chart", expanded=True):
+            with st.expander("Income Chart", expanded=False):
                 st.area_chart(
                     income_chart_data,
                     x="Date",
@@ -154,34 +154,34 @@ else:
                 last_net_income = int(st.session_state.income_data.tail(1)["Net income"].item())
                 st.session_state.last_net_income = last_net_income
 
-            with st.expander("Monthly Average"):
-                st.write("This acts as a guide for setting more accurate values in Monthly Outflows.")
-                if len(st.session_state.income_data) > 1:
-                    st.write("##### Average")
-                    for key in st.session_state.income_data:
-                        if key in "Date":
-                            pass
-                        elif key in "Net income":
-                            values_list = st.session_state.income_data[key]
-                            avg_net_income = sum(values_list)/len(values_list)
-                        elif key in "Health insurance":
-                            values_list = st.session_state.income_data[key]
-                            avg_health_ins = sum(values_list)/len(values_list)
-                        elif key in "Pension":
-                            values_list = st.session_state.income_data[key]
-                            avg_income_pension = sum(values_list)/len(values_list)
-                        elif key in "Bonus":
-                            values_list = st.session_state.income_data[key]
-                            avg_income_bonus = sum(values_list)/len(values_list)
-                        else:
-                            pass
-                    income_averages = pd.DataFrame({
-                        'Net income': [avg_net_income],
-                        'Health insurance': [avg_health_ins],
-                        'Pension': [avg_income_pension],
-                        'Bonus': [avg_income_bonus],
-                    })
-                    st.dataframe(income_averages, hide_index=True, use_container_width=True)
+            st.write("#### Monthly Average")
+            st.write("This acts as a guide for setting more accurate values in Monthly Outflows.")
+            if len(st.session_state.income_data) > 1:
+                st.write("##### Average")
+                for key in st.session_state.income_data:
+                    if key in "Date":
+                        pass
+                    elif key in "Net income":
+                        values_list = st.session_state.income_data[key]
+                        avg_net_income = sum(values_list)/len(values_list)
+                    elif key in "Health insurance":
+                        values_list = st.session_state.income_data[key]
+                        avg_health_ins = sum(values_list)/len(values_list)
+                    elif key in "Pension":
+                        values_list = st.session_state.income_data[key]
+                        avg_income_pension = sum(values_list)/len(values_list)
+                    elif key in "Bonus":
+                        values_list = st.session_state.income_data[key]
+                        avg_income_bonus = sum(values_list)/len(values_list)
+                    else:
+                        pass
+                income_averages = pd.DataFrame({
+                    'Net income': [avg_net_income],
+                    'Health insurance': [avg_health_ins],
+                    'Pension': [avg_income_pension],
+                    'Bonus': [avg_income_bonus],
+                })
+                st.dataframe(income_averages, hide_index=True, use_container_width=True)
 
     with tab2:
         def init_spend_data():
@@ -253,61 +253,60 @@ else:
                 st.session_state.spend_data,
                 columns=["Date", "Bills", "Pension", "Food+Fun", "Investments", "Shopping", "Travel",],
             )
-            with st.expander(label="Spending Chart", expanded=True):
-                st.area_chart(
-                    spend_chart_data,
-                    use_container_width=True,
-                    x="Date",
-                    # y=["Pension", "Bills", "Food+Fun", "Investments", "Shopping", "Travel"],
-                    # color=["#ff6961", "#f10ff8", "#f1aff8", "#d7740d", "#08cad1", "#0d70d7"],
-                )
+            st.write("#### Spending Chart")
+            st.area_chart(
+                spend_chart_data,
+                use_container_width=True,
+                x="Date",
+                # y=["Pension", "Bills", "Food+Fun", "Investments", "Shopping", "Travel"],
+                # color=["#ff6961", "#f10ff8", "#f1aff8", "#d7740d", "#08cad1", "#0d70d7"],
+            )
 
-            with st.expander("All spending data"):
-                st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
+            st.write("#### All spending data")
+            st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
+            delete_spend_data = st.button("Delete spending data", help="Delete all spending data.")
+            if delete_spend_data:
+                init_spend_data()
+                st.toast("Deleted spending data", icon="🎉")
 
-                delete_spend_data = st.button("Delete spending data", help="Delete all spending data.")
-                if delete_spend_data:
-                    init_spend_data()
-                    st.toast("Deleted spending data", icon="🎉")
-
-            with st.expander("Monthly Average"):
-                if len(st.session_state.spend_data) > 1:
-                    for key in st.session_state.spend_data:
-                        if key in "Date":
-                            pass
-                        elif key in "Bills":
-                            values_list = st.session_state.spend_data[key]
-                            avg_spend_bills = sum(values_list)/len(values_list)
-                        elif key in "Pension":
-                            values_list = st.session_state.spend_data[key]
-                            avg_spend_pension = sum(values_list)/len(values_list)
-                        elif key in "Food + Fun":
-                            values_list = st.session_state.spend_data[key]
-                            avg_spend_food = sum(values_list)/len(values_list)
-                        elif key in "Investments":
-                            values_list = st.session_state.spend_data[key]
-                            avg_spend_invest = sum(values_list)/len(values_list)
-                        elif key in "Shopping":
-                            values_list = st.session_state.spend_data[key]
-                            avg_spend_shop = sum(values_list)/len(values_list)
-                        elif key in "Travel":
-                            values_list = st.session_state.spend_data[key]
-                            avg_spend_travel = sum(values_list)/len(values_list)
-                        else:
-                            pass
-                    spend_averages = pd.DataFrame({
-                        "Bills": [avg_spend_bills],
-                        "Pension": [avg_spend_pension],
-                        "Food + Fun": [avg_spend_food],
-                        "Investments": [avg_spend_invest],
-                        "Shopping": [avg_spend_shop],
-                        "Travel": [avg_spend_travel],
-                    })
-                    st.dataframe(spend_averages, hide_index=True, use_container_width=True)
+            st.write("#### Monthly Average")
+            if len(st.session_state.spend_data) > 1:
+                for key in st.session_state.spend_data:
+                    if key in "Date":
+                        pass
+                    elif key in "Bills":
+                        values_list = st.session_state.spend_data[key]
+                        avg_spend_bills = sum(values_list)/len(values_list)
+                    elif key in "Pension":
+                        values_list = st.session_state.spend_data[key]
+                        avg_spend_pension = sum(values_list)/len(values_list)
+                    elif key in "Food + Fun":
+                        values_list = st.session_state.spend_data[key]
+                        avg_spend_food = sum(values_list)/len(values_list)
+                    elif key in "Investments":
+                        values_list = st.session_state.spend_data[key]
+                        avg_spend_invest = sum(values_list)/len(values_list)
+                    elif key in "Shopping":
+                        values_list = st.session_state.spend_data[key]
+                        avg_spend_shop = sum(values_list)/len(values_list)
+                    elif key in "Travel":
+                        values_list = st.session_state.spend_data[key]
+                        avg_spend_travel = sum(values_list)/len(values_list)
+                    else:
+                        pass
+                spend_averages = pd.DataFrame({
+                    "Bills": [avg_spend_bills],
+                    "Pension": [avg_spend_pension],
+                    "Food + Fun": [avg_spend_food],
+                    "Investments": [avg_spend_invest],
+                    "Shopping": [avg_spend_shop],
+                    "Travel": [avg_spend_travel],
+                })
+                st.dataframe(spend_averages, hide_index=True, use_container_width=True)
     st.write("\n")
 
 
-    with st.expander("🎯 Monthly budget", expanded=True):
+    with st.expander("🎯 Monthly budget", expanded=False):
         def curr_fmt(val):
             return locale.currency(val, symbol=False, grouping=True)
         # Load variables
@@ -603,7 +602,7 @@ else:
     st.write("\n")
 
     
-    with st.expander("💰 Assets", expanded=True):
+    with st.expander("💰 Assets", expanded=False):
         def curr_fmt(val):
             return locale.currency(val, symbol=False, grouping=True)
 
