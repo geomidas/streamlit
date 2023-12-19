@@ -117,7 +117,6 @@ else:
 
             if len(st.session_state.income_data["Date"]) < 1:
                 add_sample_income_data = st.button("Add sample income data", help="Imports sample data. Removes any existing data.")
-                st.write("Current bug with the above button. Double-click it.")
                 if add_sample_income_data:
                     st.session_state.income_data = pd.DataFrame({
                         'Date': ["2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01"],
@@ -227,7 +226,6 @@ else:
                     st.number_input("Travel", min_value=0, step=1, key="input_spend_travel")
 
                 submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form, type='primary')
-                st.write("Current bug with the above button. Double-click it.")
                 if submitted:
                     st.toast("Updated Spending 💸", icon="🎉")
 
