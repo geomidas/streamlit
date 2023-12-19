@@ -71,7 +71,6 @@ else:
             "__⬇️ Inflows__",
             "__⬆️ Outflows__",
         ])
-
         with tab1:
             def init_income_data():
                 income_data=pd.DataFrame({
@@ -86,15 +85,25 @@ else:
             if 'income_data' not in st.session_state:
                 init_income_data()
 
-            def add_df_form():
+            def add_df_form_inflows():
+                # Convert date to yy-mm
+                datesplit = str(st.session_state.input_income_date).split("-")
+                month = datesplit[0] + "-" + datesplit[1]
+
                 row = pd.DataFrame({
-                    'Date': [st.session_state.input_income_date],
+                    'Date': [month],
                     'Net income': [st.session_state.input_income_net],
                     'Health insurance': [st.session_state.input_income_health],
                     'Pension': [st.session_state.input_income_pension],
                     'Bonus': [st.session_state.input_income_bonus],
                 })
-                st.session_state.income_data = pd.concat([st.session_state.income_data, row])
+                # Check if the month already exists in the df
+                df_inflows = pd.DataFrame(st.session_state.income_data)
+                if month in str(df_inflows["Date"].to_string(index=False)):
+                    st.toast('Month "' + month + '" already exists', icon="⛔")
+                else:
+                    st.session_state.income_data = pd.concat([st.session_state.income_data, row])
+                    st.toast("Updated Income table", icon="🎉")
 
             new_income = st.form(key="new_income", clear_on_submit=False)
             with new_income:
@@ -112,9 +121,8 @@ else:
                 with df_form_columns[4]:
                     st.number_input("Bonus", min_value=0, step=1, key="input_income_bonus")
 
-                submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form, type='primary')
-                if submitted:
-                    st.toast("Updated Income table 💰", icon="🎉")
+                df = pd.DataFrame(st.session_state.income_data)
+                submitted = st.form_submit_button("Submit", on_click=add_df_form_inflows, type='primary')
 
             if len(st.session_state.income_data["Date"]) > 1:
                 income_chart_data = pd.DataFrame(
@@ -182,9 +190,13 @@ else:
             if 'spend_data' not in st.session_state:
                 init_spend_data()
 
-            def add_df_form():
+            def add_df_form_outflows():
+                # Convert date to yy-mm
+                datesplit = str(st.session_state.input_spend_date).split("-")
+                month = datesplit[0] + "-" + datesplit[1]
+
                 row = pd.DataFrame({
-                    "Date": [st.session_state.input_spend_date],
+                    "Date": [month],
                     "Bills": [st.session_state.input_spend_bills],
                     "Pension": [st.session_state.input_spend_pension],
                     "Food + Fun": [st.session_state.input_spend_food],
@@ -192,8 +204,14 @@ else:
                     "Shopping": [st.session_state.input_spend_shop],
                     "Travel": [st.session_state.input_spend_travel],
                 })
-                st.session_state.spend_data = pd.concat([st.session_state.spend_data, row])
-
+                # Check if the month already exists in the df
+                df_outflows = pd.DataFrame(st.session_state.spend_data)
+                if month in str(df_outflows["Date"].to_string(index=False)):
+                    st.toast('Month "' + month + '" already exists', icon="⛔")
+                else:
+                    st.session_state.spend_data = pd.concat([st.session_state.spend_data, row])
+                    st.toast("Updated Spending", icon="🎉")
+                
             new_spend = st.form(key="new_spend", clear_on_submit=False)
             with new_spend:
                 st.write("#### Add spending data")
@@ -214,9 +232,7 @@ else:
                 with df_form_columns[6]:
                     st.number_input("Travel", min_value=0, step=1, key="input_spend_travel")
 
-                submitted = st.form_submit_button("Submit", help="Adds the data to the table below.", on_click=add_df_form, type='primary')
-                if submitted:
-                    st.toast("Updated Spending 💸", icon="🎉")
+                submitted = st.form_submit_button("Submit", on_click=add_df_form_outflows, type='primary')
 
             if len(st.session_state.spend_data["Date"]) > 1:
                 spend_chart_data = pd.DataFrame(
