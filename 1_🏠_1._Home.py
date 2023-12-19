@@ -105,7 +105,7 @@ else:
         st.write("Evaluate your plan:\n\n", "- Rich, broke or dead? https://engaging-data.com/will-money-last-retire-early")
 
 
-    st.markdown("## Monthly inflows and outflows")
+    st.markdown("# Monthly inflows and outflows")
 
     tab1, tab2 = st.tabs([
         "__💰 Inflows__",
@@ -344,7 +344,7 @@ else:
                     st.dataframe(spend_averages, hide_index=True, use_container_width=True)
 
 
-    st.markdown("## Monthly budget")
+    st.markdown("# Monthly budget")
 
     def curr_fmt(val):
         return locale.currency(val, symbol=False, grouping=True)
@@ -641,7 +641,7 @@ else:
             st.warning(body="Your outflows are higher than your income.\n\nLast income: __" + curr_symbol + curr_fmt(last_net_income) + "__", icon="⚠️")
 
 
-    st.markdown("## Assets")
+    st.markdown("# Assets")
 
     def curr_fmt(val):
         return locale.currency(val, symbol=False, grouping=True)
@@ -816,7 +816,7 @@ else:
         st.line_chart(df_net_worth, x="Month", height=420, use_container_width=True)
 
 
-    st.markdown("## Financial Freedom / Retirement")
+    st.markdown("# Financial Freedom / Retirement")
 
     def curr_fmt(val):
         return locale.currency(val, symbol=False, grouping=True)
