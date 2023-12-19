@@ -27,54 +27,44 @@ if 'user_info' not in st.session_state:
 
 # Logged in --------------------------------------------------------------------------------------
 else:
-    with st.expander("Account and Settings", expanded=True):
-        tab1, tab2 = st.tabs([
-            "__🏠 Account__",
-            "__⚙️ Settings__",
-        ])
-        with tab1:
-            col1, col2 = st.columns([3,2], gap="medium")
-            with col1:
-                st.info(
-                    "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
-                    "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
-                )
-                st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
-            with col2:
-                # Delete Account
-                st.write('Delete account:')
-                password = st.text_input(label='Confirm your password',type='password')
-                st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
-        with tab2:
+    col1, col2 = st.columns([1,1], gap="medium")
+    with col1:
+        with st.expander("🏠 Account", expanded=True):
+            st.info(
+                "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
+                "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
+            )
+            st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
+            # Delete Account
+            st.write('Delete account:')
+            password = st.text_input(label='Confirm your password',type='password')
+            st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
+    with col2:
+        with st.expander("⚙️ Settings", expanded=True):
             st.write("#### Settings")
-            col1, col2 = st.columns([1,1], gap="medium")
-            with col1:
-                selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
-                if "selected_currency" not in st.session_state:
-                    st.session_state["selected_currency"] = selected_currency
-                if selected_currency == "EUR":
-                    curr_symbol = "€"
-                elif selected_currency == "GBP":
-                    curr_symbol = "£"
-                elif selected_currency == "GBP":
-                    curr_symbol = "$"
-                else:
-                    curr_symbol = selected_currency
-                if "curr_symbol" not in st.session_state:
-                    st.session_state["curr_symbol"] = curr_symbol
-            with col2:
-                cgt_base=st.number_input(
-                    "Capital Gains Tax (%):",
-                    min_value = 0,
-                    max_value = 100,
-                    value = 33,
-                    format = "%d",
-                )
-                cgt = cgt_base/100
-                if "cgt" not in st.session_state:
-                    st.session_state["cgt"] = cgt
-            st.write("\n")
-            st.write("\n")
+            selected_currency=st.selectbox("Currency:", options=("EUR","GBP","USD"))
+            if "selected_currency" not in st.session_state:
+                st.session_state["selected_currency"] = selected_currency
+            if selected_currency == "EUR":
+                curr_symbol = "€"
+            elif selected_currency == "GBP":
+                curr_symbol = "£"
+            elif selected_currency == "GBP":
+                curr_symbol = "$"
+            else:
+                curr_symbol = selected_currency
+            if "curr_symbol" not in st.session_state:
+                st.session_state["curr_symbol"] = curr_symbol
+            cgt_base=st.number_input(
+                "Capital Gains Tax (%):",
+                min_value = 0,
+                max_value = 100,
+                value = 33,
+                format = "%d",
+            )
+            cgt = cgt_base/100
+            if "cgt" not in st.session_state:
+                st.session_state["cgt"] = cgt
     st.write("\n")
     
 
