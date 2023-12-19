@@ -33,7 +33,7 @@ else:
     ])
 
     with tab1:
-        col1, col2 = st.columns([2,1], gap="medium")
+        col1, col2 = st.columns([3,2], gap="medium")
         with col1:
             st.info(
                 "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
