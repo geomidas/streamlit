@@ -19,7 +19,8 @@ import json
 st.set_page_config("PerFin", page_icon="💰")
 locale.setlocale( locale.LC_ALL, 'en_US' )
 
-st.markdown("# Personal Finance")
+st.write("# Personal Finance")
+st.write("\n")
 
 # Not logged in -----------------------------------------------------------------------------------
 if 'user_info' not in st.session_state:
@@ -63,7 +64,6 @@ else:
             cgt = cgt_base/100
             if "cgt" not in st.session_state:
                 st.session_state["cgt"] = cgt
-    st.write("\n")
     
 
     with st.expander("💸 Monthly inflows and outflows", expanded=False):
