@@ -28,12 +28,12 @@ if 'user_info' not in st.session_state:
 # Logged in --------------------------------------------------------------------------------------
 else:
     tab1, tab2 = st.tabs([
-        "__⚙️ Account__",
+        "__🏠 Account__",
         "__⚙️ Settings__",
     ])
 
     with tab1:
-        col1, col2 = st.columns([1,1], gap="medium")
+        col1, col2, col3 = st.columns([1,1,1], gap="medium")
         with col1:
             st.info(
                 "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
@@ -43,6 +43,7 @@ else:
             # Sign out
             st.write("Sign out:")
             st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
+        with col3:
             # Delete Account
             st.write('Delete account:')
             password = st.text_input(label='Confirm your password',type='password')
