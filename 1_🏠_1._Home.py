@@ -170,7 +170,6 @@ else:
                         'Bonus': [avg_income_bonus],
                     })
                     st.dataframe(income_averages, hide_index=True, use_container_width=True)
-                st.write("_The monthly average is a guide for setting accurate values in Monthly Outflows._")
 
                 if st.toggle("Show all income data"):
                     st.dataframe(st.session_state.income_data, hide_index=True, use_container_width=True)
@@ -290,6 +289,8 @@ else:
                         "Travel": [avg_spend_travel],
                     })
                     st.dataframe(spend_averages, hide_index=True, use_container_width=True)
+                st.write("_The monthly average is a guide for setting accurate values in Monthly Outflows._")
+
                 if st.toggle("Show all spending data"):
                     st.dataframe(st.session_state.spend_data, hide_index=True, width=720)
                 delete_spend_data = st.button("Delete spending data", help="Delete all spending data.")
