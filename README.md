@@ -7,6 +7,7 @@ App: https://perfin.streamlit.app
 Prerequisites
 - Docker
 
+Start the app
 ```bash
 docker build . -t perfin
 docker run perfin
