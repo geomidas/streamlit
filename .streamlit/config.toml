@@ -2,6 +2,8 @@
 port=8501
 maxUploadSize = 200
 maxMessageSize = 200
+headless=true
+fileWatcherType="none"
 
 [browser]
 serverAddress = "localhost"
@@ -9,7 +11,7 @@ gatherUsageStats = false
 serverPort = 8501
 
 [logger]
-level = "info"
+level="info"
 messageFormat = "%(asctime)s %(message)s"
 
 [theme]
