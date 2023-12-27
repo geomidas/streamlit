@@ -1,6 +1,5 @@
 FROM python:3.11
 EXPOSE 8501
-# WORKDIR /app
 COPY . ./
 RUN apt update && DEBIAN_FRONTEND=noninteractive && apt install -y locales locales-all
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
