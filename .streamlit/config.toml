@@ -9,7 +9,6 @@ gatherUsageStats = false
 serverPort = 8501
 
 [logger]
-# Level of logging: 'error', 'warning', 'info', or 'debug'.
 level = "info"
 messageFormat = "%(asctime)s %(message)s"
 
