@@ -1,4 +1,4 @@
-FROM python:3.11slim
+FROM python:3.11-slim
 EXPOSE 8501
 COPY . ./
 RUN apt update && DEBIAN_FRONTEND=noninteractive && apt install -y locales locales-all

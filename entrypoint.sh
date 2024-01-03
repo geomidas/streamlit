@@ -18,8 +18,6 @@ stopRunningProcess() {
 
 trap stopRunningProcess EXIT TERM
 
-source ${VIRTUAL_ENV}/bin/activate
-
 streamlit run perfin.py &
 APP_ID=${!}
 
