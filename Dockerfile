@@ -7,6 +7,6 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 RUN python -m ensurepip --upgrade
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-ENTRYPOINT [ "streamlit", "run", "perfin.py"]
+ENTRYPOINT [ "./entrypoint.sh"]
