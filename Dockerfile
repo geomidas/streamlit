@@ -8,5 +8,5 @@ ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 RUN python -m ensurepip --upgrade
 RUN pip install -r requirements.txt
-ENTRYPOINT [ "streamlit", "run"]
-CMD ["perfin.py"]
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+ENTRYPOINT [ "streamlit", "run", "perfin.py"]

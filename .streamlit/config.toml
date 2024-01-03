@@ -6,7 +6,7 @@ headless=true
 fileWatcherType="none"
 
 [browser]
-serverAddress = "localhost"
+serverAddress = "0.0.0.0"
 gatherUsageStats = false
 serverPort = 8501
 
