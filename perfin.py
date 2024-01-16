@@ -17,7 +17,7 @@ import json
 # ref.set(data)
 
 st.set_page_config("PerFin", page_icon="💰")
-locale.setlocale( locale.LC_ALL, 'en_US' )
+locale.setlocale(locale.LC_ALL, "en_US")
 
 st.write("# Personal Finance")
 st.write("\n")
