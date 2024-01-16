@@ -37,7 +37,6 @@ else:
                 "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
             )
             st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
-            st.divider()
             st.write("#### Delete my account")
             password = st.text_input(label='Confirm your password',type='password')
             st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
