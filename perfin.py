@@ -31,12 +31,14 @@ else:
     col1, col2 = st.columns([1,1], gap="small")
     with col1:
         with st.expander("🏠 Account", expanded=False):
+            st.write("#### My account")
             st.info(
                 "__Email:__ `" + st.session_state.user_info["email"] + "`\n\n" + 
                 "__Verified:__ `" + str(st.session_state.user_info["emailVerified"]) + "`"
             )
             st.button(label='Sign Out',on_click=auth_functions.sign_out,type='primary')
             st.divider()
+            st.write("#### Delete my account")
             password = st.text_input(label='Confirm your password',type='password')
             st.button(label='Delete Account',on_click=auth_functions.delete_account,args=[password],type='primary')
     with col2:
@@ -838,4 +840,4 @@ else:
         with col2:
             retirement_progress = assets_net_investments/retire_target
             st.progress(retirement_progress, text="Retirement Progress")
-            st.info("__" + curr_fmt(retirement_progress*100) + "%__ of the " + curr_symbol + curr_fmt(retire_target) + " needed.")
+            st.info("__" + curr_fmt(retirement_progress*100) + "%__ of the " + "__" + curr_symbol + curr_fmt(retire_target) + "__" + " needed.")
